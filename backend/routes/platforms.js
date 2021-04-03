@@ -29,7 +29,7 @@ router.route('/add').post((req, res) => {
 
 router.route('/:id').delete((req, res) => {
   Platform.findByIdAndDelete(req.params.id)
-    .then(platform => res.json('Platform deleted'))
+    .then(() => res.json('Platform deleted'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
