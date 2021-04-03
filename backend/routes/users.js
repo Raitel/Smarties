@@ -38,7 +38,17 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
   User.findById(req.params.id)
     .then(user => {
+      user.username = req.body.username;
       user.email = req.body.email;
+      user.password = req.body.password;
+      user.coin = req.body.coin;
+      user.favorites = req.body.favorites;
+      user.upvoted = req.body.upvoted;
+      user.downvoted = req.body.downvoted;
+      user.ownedplatforms = req.body.ownedplatforms;
+      user.completedgames = req.body.completedgames;
+      user.inventory = req.body.inventory;
+
 
       user.save()
         .then(() => res.json('User updated'))
