@@ -7,7 +7,8 @@ const stageSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, default: "", trim: true},
   tags: [String],
-  stages: [{type: Schema.Types.ObjectId, ref: 'Stage'}]
+  stages: [{type: Schema.Types.ObjectId, ref: 'Stage'}],
+  cards: [{type: Schema.Types.ObjectId, ref: 'Card'}],
 }, {
   timestamps: true,
 });
