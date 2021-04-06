@@ -12,7 +12,8 @@ const userSchema = new Schema({
   downvoted: [Schema.Types.ObjectId],
   ownedplatforms: [Schema.Types.ObjectId],
   completedgames: [Schema.Types.ObjectId],
-  inventory: [Schema.Types.ObjectId]
+  inventory: [Schema.Types.ObjectId],
+  icon: {type: Number, default: 0}
 }, {
   timestamps: true,
 });
