@@ -36,25 +36,32 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
-  User.findById(req.params.id)
-    .then(user => {
-      user.username = req.body.username;
-      user.email = req.body.email;
-      user.password = req.body.password;
-      user.coin = req.body.coin;
-      user.favorites = req.body.favorites;
-      user.upvoted = req.body.upvoted;
-      user.downvoted = req.body.downvoted;
-      user.ownedplatforms = req.body.ownedplatforms;
-      user.completedgames = req.body.completedgames;
-      user.inventory = req.body.inventory;
-
-
-      user.save()
-        .then(() => res.json('User updated'))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err))
+  User.findById(req.params.id, function(err, retrievedUser){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedUser){res.status(404).send()} 
+      else{
+        if(req.body.username){retrievedUser.username = req.body.username}
+        if(req.body.password){retrievedUser.password = req.body.password}
+        if(req.body.email){retrievedUser.email = req.body.email}
+        if(req.body.coin){retrievedUser.coin = req.body.coin}
+        if(req.body.favorites){retrievedUser.favorites = req.body.favorites}
+        if(req.body.downvoted){retrievedUser.downvoted = req.body.downvoted}
+        if(req.body.ownedplatforms){retrievedUser.ownedplatforms = req.body.ownedplatforms}
+        if(req.body.completedgames){retrievedUser.completedgames = req.body.completedgames}
+        if(req.body.inventory){retrievedUser.inventory = req.body.inventory}
+        retrievedUser.save(function(err, updatedUser) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedUser)
+          }
+        })
+      }
+    }
+  })
 })
-
 module.exports = router;
