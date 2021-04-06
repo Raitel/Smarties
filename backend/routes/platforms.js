@@ -33,16 +33,168 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// router.route('/update/:id').post((req, res) => {
-//   Platform.findById(req.params.id)
-//     .then(platform => {
-//       platform.email = req.body.email;
+router.route('/set_public/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        retrievedPlatform.visibility = "PUBLIC";
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
 
-//       user.save()
-//         .then(() => res.json('User updated'))
-//         .catch(err => res.status(400).json('Error: ' + err));
-//     })
-//     .catch(err => res.status(400).json('Error: ' + err))
-// })
+router.route('/set_private/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        retrievedPlatform.visibility = "PRIVATE";
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
+
+router.route('/upvote/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        retrievedPlatform.upvotes = retrievedPlatform.upvotes + 1;
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
+
+router.route('/remove_upvote/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        if(retrievedPlatform.upvotes > 0){
+          retrievedPlatform.upvotes = retrievedPlatform.upvotes - 1;
+        }
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
+
+router.route('/downvote/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        retrievedPlatform.downvotes = retrievedPlatform.downvotes + 1;
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
+
+router.route('/remove_downvote/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        if(retrievedPlatform.downvotes > 0){
+          retrievedPlatform.downvotes = retrievedPlatform.downvotes - 1;
+        }
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+});
+
+router.route('/update/:id').post((req, res) => {
+  Platform.findById(req.params.id, function(err, retrievedPlatform){
+    if (err){
+      console.log(err);
+      res.status(500).send()
+    }else{
+      if(!retrievedPlatform){res.status(404).send()} 
+      else{
+        if(req.body.title){retrievedPlatform.title = req.body.title}
+        if(req.body.description){retrievedPlatform.description = req.body.description}
+        if(req.body.visibility){retrievedPlatform.visibility = req.body.visibility}
+        if(req.body.upvotes){retrievedPlatform.upvotes = req.body.upvotes}
+        if(req.body.downvotes){retrievedPlatform.downvotes = req.body.downvotes}
+        if(req.body.tags){retrievedPlatform.tags = req.body.tags}
+        if(req.body.games){retrievedPlatform.games = req.body.games}
+        retrievedPlatform.save(function(err, updatedPlatform) {
+          if (err){
+            console.log(err);
+            res.status(500).send()
+          }else{
+            res.send(updatedPlatform)
+          }
+        })
+      }
+    }
+  })
+})
 
 module.exports = router;

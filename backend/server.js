@@ -21,7 +21,7 @@ connection.once('open', () => {
 const usersRouter = require('./routes/users');
 const platformsRouter = require('./routes/platforms');
 
-// app.use('/platforms', platformsRouter);
+app.use('/platforms', platformsRouter);
 app.use('/users', usersRouter);
 
 app.listen(port, () => {
