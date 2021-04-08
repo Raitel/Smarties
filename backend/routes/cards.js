@@ -51,27 +51,29 @@ router.route('/:id').delete((req, res) => {
 
 router.route('/update/:id').post((req, res) => {
   Card.findById(req.params.id, function(err, retrievedCard){
-    if (err){
+    if(err){
       console.log(err);
       res.status(500).send()
     }else{
-      if(!retrievedCard){res.status(404).send()} 
+      if(!retrievedCard){
+        res.status(404).send()
+      } 
       else{
-        if(req.body.title){retrievedCard.type = req.body.type}
-        if(req.body.description){retrievedCard.price = req.body.price}
-        if(req.body.visibility){retrievedCard.path = req.body.path}
+        if(req.body.type){retrievedCard.type = req.body.type};
+        if(req.body.price){retrievedCard.price = req.body.price};
+        if(req.body.path){retrievedCard.path = req.body.path};
         retrievedCard.save(function(err, updatedCard) {
           if (err){
             console.log(err);
             res.status(500).send()
           }else{
             res.send(updatedCard)
-          }
-        })
-      }
-    }
-  })
-})
+          };
+        });
+      };
+    };
+  });
+});
 
 
 module.exports = router;

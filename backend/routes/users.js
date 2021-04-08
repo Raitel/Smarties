@@ -52,6 +52,7 @@ router.route('/update/:id').post((req, res) => {
         if(req.body.ownedplatforms){retrievedUser.ownedplatforms = req.body.ownedplatforms}
         if(req.body.completedgames){retrievedUser.completedgames = req.body.completedgames}
         if(req.body.inventory){retrievedUser.inventory = req.body.inventory}
+        if(req.body.icon){retrievedUser.icon = req.body.icon}
         retrievedUser.save(function(err, updatedUser) {
           if (err){
             console.log(err);
