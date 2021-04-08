@@ -21,10 +21,13 @@ connection.once('open', () => {
 const usersRouter = require('./routes/users');
 const platformsRouter = require('./routes/platforms');
 const cardsRouter = require('./routes/cards');
+const stagesRouter = require('./routes/stages');
 
 app.use('/platforms', platformsRouter);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
+app.use('/stages', stagesRouter);
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

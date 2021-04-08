@@ -35,20 +35,6 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// router.route('/update/:id').post((req, res) => {
-//   Card.findById(req.params.id)
-//     .then(card => {
-//       card.type = req.body.type;
-//       card.price = req.body.price;
-//       card.path = req.body.path;
-
-//       card.save()
-//         .then(() => res.json('Card updated'))
-//         .catch(err => res.status(400).json('Error: ' + err));
-//     })
-//     .catch(err => res.status(400).json('Error: ' + err))
-// })
-
 router.route('/update/:id').post((req, res) => {
   Card.findById(req.params.id, function(err, retrievedCard){
     if(err){
