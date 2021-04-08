@@ -7,7 +7,7 @@ const platformSchema = new Schema({
     ownerid: { type: Schema.Types.ObjectId, required: true},
     title: { type: String, required: true, trim: true, minlength: 3 },
     description: { type: String, default: "", trim: true},
-    visibility: { type: String, default: "PRIVATE"},
+    isPublic: { type: Boolean, default: true},
     upvotes: { type: Number, default: 0},
     downvotes: { type: Number, default: 0},
     tags: [String],
