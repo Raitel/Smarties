@@ -20,6 +20,13 @@ router.route('/getByEmail/:email').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//find user by username excluding email, password, coin, completegames, and inventory fields, returns null if not found.
+router.route('/getByUsername/:username').get((req, res) => {
+  User.findOne({'username': req.params.username}, '-email -password -coin -completedgames -inventory')
+    .then(user => res.json(user))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/add').post((req, res) => {
   const username = req.body.username;
   const email = req.body.email;
