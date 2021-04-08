@@ -10,6 +10,6 @@ const cardSchema = new Schema({
   timestamps: true,
 });
 
-const User = mongoose.model('User', cardSchema);
+const Card = mongoose.model('Card', cardSchema);
 
-module.exports = User;
+module.exports = Card;

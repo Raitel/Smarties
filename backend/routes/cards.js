@@ -18,7 +18,7 @@ router.route('/add').post((req, res) => {
   const price = req.body.price;
   const path = req.body.path;
 
-  const newCard = new User({
+  const newCard = new Card({
     type,
     price,
     path
