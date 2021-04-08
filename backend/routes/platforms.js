@@ -1,8 +1,9 @@
 const router = require('express').Router();
 let Platform = require('../models/platform.model');
 
-router.route('/').get((req, res) => {
-  Platform.find()
+//return all public platforms only
+router.route('/getPublicPlatforms').get((req, res) => {
+  Platform.find({'isPublic': true})
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
