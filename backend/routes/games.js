@@ -60,6 +60,7 @@ router.route('/update/:id').post((req, res) => {
         if(req.body.questionCard){retrievedGame.questionCard = req.body.questionCard};
         if(req.body.tipCard){retrievedGame.tipCard = req.body.tipCard};
         if(req.body.answerCard){retrievedGame.answerCard = req.body.answerCard};
+        if(req.body.nestedStages){retrievedGame.nestedStages = req.body.nestedStages};
         retrievedGame.save(function(err, updatedGame) {
           if (err){
             console.log(err);
@@ -72,43 +73,6 @@ router.route('/update/:id').post((req, res) => {
     };
   });
 });
-
-// router.route('/updateStages/:id').post((req, res) => {
-//   Game.findById(req.params.id, function(err, retrievedGame){
-//   if(err){
-//     console.log(err);
-//     res.status(500).send()
-//   }else{
-//     if(!retrievedGame){
-//       res.status(404).send()
-//     } 
-//     else{
-//       if(req.body.type){retrievedStage.type = req.body.type};
-//       if(req.body.question){retrievedStage.question = req.body.question};
-//       if(req.body.answer){retrievedStage.answer = req.body.answer};
-//       if(req.body.path){retrievedStage.path = req.body.path};
-//       if(req.body.tip1){retrievedStage.tip1 = req.body.tip1};
-//       if(req.body.tip2){retrievedStage.tip2 = req.body.tip2};
-//       if(req.body.choice1){retrievedStage.choice1 = req.body.choice1};
-//       if(req.body.choice2){retrievedStage.choice2 = req.body.choice2};
-//       if(req.body.choice3){retrievedStage.choice3 = req.body.choice3};
-//       if(req.body.choice4){retrievedStage.choice4 = req.body.choice4};
-//       if(req.body.choice5){retrievedStage.choice5 = req.body.choice5};
-//       if(req.body.letters){retrievedStage.letters = req.body.letters};
-
-//       retrievedGame.nestedStages.push({type: 'testNestedStage'});
-//       retrievedGame.save(function(err, updatedGame) {
-//         if (err){
-//           console.log(err);
-//           res.status(500).send()
-//         }else{
-//           res.send(updatedGame)
-//         };
-//       });
-//     };
-//   };
-// });
-// });
 
 router.route('/addStage/:id').post((req, res) => {
   Game.findById(req.params.id, function(err, retrievedGame){
@@ -145,4 +109,70 @@ router.route('/addStage/:id').post((req, res) => {
   };
 });
 });
+
+router.route('/updateStage/:id/:index').post((req, res) => {
+  Game.findById(req.params.id, function(err, retrievedGame){
+  if(err){
+    console.log(err);
+    res.status(500).send()
+  }else{
+    if(!retrievedGame){
+      res.status(404).send()
+    }
+    else if(retrievedGame.nestedStages.length <= req.params.index){
+      res.status(400).send()
+    } 
+    else{
+      if(req.body.type){retrievedGame.nestedStages[req.params.index].type = req.body.type};
+      if(req.body.question){retrievedGame.nestedStages[req.params.index].question = req.body.question};
+      if(req.body.answer){retrievedGame.nestedStages[req.params.index].answer = req.body.answer};
+      if(req.body.path){retrievedGame.nestedStages[req.params.index].path = req.body.path};
+      if(req.body.tip1){retrievedGame.nestedStages[req.params.index].tip1 = req.body.tip1};
+      if(req.body.tip2){retrievedGame.nestedStages[req.params.index].tip2 = req.body.tip2};
+      if(req.body.choice1){retrievedGame.nestedStages[req.params.index].choice1 = req.body.choice1};
+      if(req.body.choice2){retrievedGame.nestedStages[req.params.index].choice2 = req.body.choice2};
+      if(req.body.choice3){retrievedGame.nestedStages[req.params.index].choice3 = req.body.choice3};
+      if(req.body.choice4){retrievedGame.nestedStages[req.params.index].choice4 = req.body.choice4};
+      if(req.body.choice5){retrievedGame.nestedStages[req.params.index].choice5 = req.body.choice5};
+      if(req.body.letters){retrievedGame.nestedStages[req.params.index].letters = req.body.letters};
+      retrievedGame.save(function(err, updatedGame) {
+        if (err){
+          console.log(err);
+          res.status(500).send()
+        }else{
+          res.send(updatedGame)
+        };
+      });
+    };
+  };
+});
+});
+
+router.route('/deleteStage/:id/:index').delete((req, res) => {
+  Game.findById(req.params.id, function(err, retrievedGame){
+  if(err){
+    console.log(err);
+    res.status(500).send()
+  }else{
+    if(!retrievedGame){
+      res.status(404).send()
+    }
+    else if(retrievedGame.nestedStages.length <= req.params.index){
+      res.status(400).send()
+    } 
+    else{
+      retrievedGame.nestedStages[req.params.index].remove();
+      retrievedGame.save(function(err, updatedGame) {
+        if (err){
+          console.log(err);
+          res.status(500).send()
+        }else{
+          res.send(updatedGame)
+        };
+      });
+    };
+  };
+});
+});
+
 module.exports = router;
