@@ -16,8 +16,8 @@ const userSchema = new Schema({
   favorites: [{type: Schema.Types.ObjectId, ref: 'Plaftorm'}],
   upvoted: [{type: Schema.Types.ObjectId, ref: 'Plaftorm'}],
   downvoted: [{type: Schema.Types.ObjectId, ref: 'Plaftorm'}],
-  ownedplatforms: [{type: Schema.Types.ObjectId, ref: 'Plaftorm'}],
-  completedgames: [{type: Schema.Types.ObjectId, ref: 'Game'}],
+  ownedPlatforms: [{type: Schema.Types.ObjectId, ref: 'Plaftorm'}],
+  completedGames: [{type: Schema.Types.ObjectId, ref: 'Game'}],
   inventory: {type: [{type: Schema.Types.ObjectId, ref: 'Card'}], default: [defaultQuestionCard, defaultTipCard, defaultAnswerCard]},
   icon: {type: Number, default: 0}
 }, {

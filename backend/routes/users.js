@@ -63,8 +63,8 @@ router.route('/update/:id').post((req, res) => {
         if(req.body.coin){retrievedUser.coin = req.body.coin}
         if(req.body.favorites){retrievedUser.favorites = req.body.favorites}
         if(req.body.downvoted){retrievedUser.downvoted = req.body.downvoted}
-        if(req.body.ownedplatforms){retrievedUser.ownedplatforms = req.body.ownedplatforms}
-        if(req.body.completedgames){retrievedUser.completedgames = req.body.completedgames}
+        if(req.body.ownedPlatforms){retrievedUser.ownedPlatforms = req.body.ownedPlatforms}
+        if(req.body.completedGames){retrievedUser.completedGames = req.body.completedGames}
         if(req.body.inventory){retrievedUser.inventory = req.body.inventory}
         if(req.body.icon){retrievedUser.icon = req.body.icon}
         retrievedUser.save(function(err, updatedUser) {

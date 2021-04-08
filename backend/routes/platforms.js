@@ -179,7 +179,7 @@ router.route('/update/:id').post((req, res) => {
       else{
         if(req.body.title){retrievedPlatform.title = req.body.title}
         if(req.body.description){retrievedPlatform.description = req.body.description}
-        if(req.body.visibility){retrievedPlatform.visibility = req.body.visibility}
+        if(req.body.isPublic){retrievedPlatform.isPublic = req.body.isPublic}
         if(req.body.upvotes){retrievedPlatform.upvotes = req.body.upvotes}
         if(req.body.downvotes){retrievedPlatform.downvotes = req.body.downvotes}
         if(req.body.tags){retrievedPlatform.tags = req.body.tags}
