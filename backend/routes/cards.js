@@ -7,6 +7,22 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/questionCards').get((req, res) => {
+  Card.find({'type': "question"})
+    .then(cards => res.json(cards))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+router.route('/tipCards').get((req, res) => {
+  Card.find({'type': "tip"})
+    .then(cards => res.json(cards))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+router.route('/answerCards').get((req, res) => {
+  Card.find({'type': "answer"})
+    .then(cards => res.json(cards))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/:id').get((req, res) => {
   Card.findById(req.params.id)
     .then(card => res.json(card))
