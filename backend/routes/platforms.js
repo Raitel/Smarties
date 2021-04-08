@@ -23,7 +23,7 @@ router.route('/add').post((req, res) => {
   });
 
   newPlatform.save()
-    .then(() => res.json('Platform added!'))
+    .then(platform => res.json(`Platform ${platform.id} added!`))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

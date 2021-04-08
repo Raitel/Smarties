@@ -41,7 +41,7 @@ router.route('/add').post((req, res) => {
   });
 
   newStage.save()
-    .then(() => res.json('Stage added!'))
+    .then(stage => res.json(`Stage ${stage.id} added!`))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

@@ -33,7 +33,7 @@ router.route('/add').post((req, res) => {
   });
 
   newGame.save()
-    .then(() => res.json('Game added!'))
+    .then(game => res.json(`Game ${game.id} added!`))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
