@@ -59,7 +59,7 @@ router.route('/update/:id').post((req, res) => {
         if(req.body.stages){retrievedGame.stages = req.body.stages};
         if(req.body.questionCard){retrievedGame.questionCard = req.body.questionCard};
         if(req.body.tipCard){retrievedGame.tipCard = req.body.tipCard};
-        if(req.body.AnswerCard){retrievedGame.AnswerCard = req.body.AnswerCard};
+        if(req.body.answerCard){retrievedGame.AnswerCard = req.body.answerCard};
         retrievedGame.save(function(err, updatedGame) {
           if (err){
             console.log(err);

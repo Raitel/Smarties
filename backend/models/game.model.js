@@ -15,7 +15,7 @@ const gameSchema = new Schema({
   stages: [{type: Schema.Types.ObjectId, ref: 'Stage'}],
   questionCard: {type: Schema.Types.ObjectId, default: defaultQuestionCard, ref: 'Card'},
   tipCard: {type: Schema.Types.ObjectId, default: defaultTipCard, ref: 'Card'},
-  AnswerCard: {type: Schema.Types.ObjectId, default: defaultAnswerCard, ref: 'Card'},
+  answerCard: {type: Schema.Types.ObjectId, default: defaultAnswerCard, ref: 'Card'},
 }, {
   timestamps: true,
 });
