@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 let Card = require('../models/card.model');
 
 // get all cards
@@ -31,6 +32,9 @@ router.route('/answerCards').get((req, res) => {
 
 // get card by id
 router.route('/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Card.findById(req.params.id)
     .then(card => res.json(card))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -38,6 +42,15 @@ router.route('/:id').get((req, res) => {
 
 // add card
 router.route('/add').post((req, res) => {
+  if (!req.body.type){
+    res.status(406).send({status: false, message: "type parameter required"})
+  }
+  if (!req.body.price){
+    res.status(406).send({status: false, message: "price parameter required"})
+  }
+  if (!req.body.path){
+    res.status(406).send({status: false, message: "path parameter required"})
+  }
   const type = req.body.type;
   const price = req.body.price;
   const path = req.body.path;
@@ -55,6 +68,9 @@ router.route('/add').post((req, res) => {
 
 // delete card
 router.route('/:id').delete((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Card.findByIdAndDelete(req.params.id)
     .then(() => res.json('Card deleted'))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -62,6 +78,9 @@ router.route('/:id').delete((req, res) => {
 
 //update card
 router.route('/update/:id').patch((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Card.findById(req.params.id, function(err, retrievedCard){
     if(err){
       console.log(err);
