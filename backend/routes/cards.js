@@ -1,34 +1,42 @@
 const router = require('express').Router();
 let Card = require('../models/card.model');
 
+// get all cards
 router.route('/').get((req, res) => {
   Card.find()
     .then(cards => res.json(cards))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get all QUESTION cards
 router.route('/questionCards').get((req, res) => {
   Card.find({'type': "question"})
     .then(cards => res.json(cards))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+// get all TIP cards
 router.route('/tipCards').get((req, res) => {
   Card.find({'type': "tip"})
     .then(cards => res.json(cards))
     .catch(err => res.status(400).json('Error: ' + err));
 });
+
+// get all ANSWER cards
 router.route('/answerCards').get((req, res) => {
   Card.find({'type': "answer"})
     .then(cards => res.json(cards))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get card by id
 router.route('/:id').get((req, res) => {
   Card.findById(req.params.id)
     .then(card => res.json(card))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// add card
 router.route('/add').post((req, res) => {
   const type = req.body.type;
   const price = req.body.price;
@@ -45,12 +53,14 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// delete card
 router.route('/:id').delete((req, res) => {
   Card.findByIdAndDelete(req.params.id)
     .then(() => res.json('Card deleted'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//update card
 router.route('/update/:id').post((req, res) => {
   Card.findById(req.params.id, function(err, retrievedCard){
     if(err){

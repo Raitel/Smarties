@@ -1,5 +1,13 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 let Platform = require('../models/platform.model');
+
+// return all platforms
+router.route('/').get((req, res) => {
+  Platform.find()
+    .then(platforms => res.json(platforms))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //return all public platforms only
 router.route('/getPublicPlatforms').get((req, res) => {
@@ -8,13 +16,24 @@ router.route('/getPublicPlatforms').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get platform by id
 router.route('/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id)
     .then(platform => res.json(platform))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// add platform
 router.route('/add').post((req, res) => {
+  if (!req.body.ownerid){
+    res.status(406).send({status: false, message: "ownerid parameter required"})
+  }
+  if (!req.body.title){
+    res.status(406).send({status: false, message: "title parameter required"})
+  }
   const ownerid = req.body.ownerid;
   const title = req.body.title;
 
@@ -28,13 +47,11 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
-  Platform.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Platform deleted'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
+// set public
 router.route('/set_public/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -42,7 +59,7 @@ router.route('/set_public/:id').post((req, res) => {
     }else{
       if(!retrievedPlatform){res.status(404).send()} 
       else{
-        retrievedPlatform.visibility = "PUBLIC";
+        retrievedPlatform.isPublic = true;
         retrievedPlatform.save(function(err, updatedPlatform) {
           if (err){
             console.log(err);
@@ -56,7 +73,11 @@ router.route('/set_public/:id').post((req, res) => {
   })
 });
 
+// set private
 router.route('/set_private/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -64,7 +85,7 @@ router.route('/set_private/:id').post((req, res) => {
     }else{
       if(!retrievedPlatform){res.status(404).send()} 
       else{
-        retrievedPlatform.visibility = "PRIVATE";
+        retrievedPlatform.isPublic = false;
         retrievedPlatform.save(function(err, updatedPlatform) {
           if (err){
             console.log(err);
@@ -78,7 +99,11 @@ router.route('/set_private/:id').post((req, res) => {
   })
 });
 
+// upvote
 router.route('/upvote/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -100,7 +125,11 @@ router.route('/upvote/:id').post((req, res) => {
   })
 });
 
+// remove upvote
 router.route('/remove_upvote/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -124,7 +153,11 @@ router.route('/remove_upvote/:id').post((req, res) => {
   })
 });
 
+// downvote
 router.route('/downvote/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -146,7 +179,11 @@ router.route('/downvote/:id').post((req, res) => {
   })
 });
 
+// remove downvote
 router.route('/remove_downvote/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -170,7 +207,11 @@ router.route('/remove_downvote/:id').post((req, res) => {
   })
 });
 
+// update platform
 router.route('/update/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Platform.findById(req.params.id, function(err, retrievedPlatform){
     if (err){
       console.log(err);
@@ -197,5 +238,12 @@ router.route('/update/:id').post((req, res) => {
     }
   })
 })
+
+// delete platform
+router.route('/:id').delete((req, res) => {
+  Platform.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Platform deleted'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router;

@@ -1,19 +1,30 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 let Game = require('../models/game.model');
 
+// GAME API
+// get all games
 router.route('/').get((req, res) => {
     Game.find()
     .then(games => res.json(games))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get game by id
 router.route('/:id').get((req, res) => {
-    Game.findById(req.params.id)
-    .then(game => res.json(game))
-    .catch(err => res.status(400).json('Error: ' + err));
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
+  Game.findById(req.params.id)
+  .then(game => res.json(game))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// add game
 router.route('/add').post((req, res) => {
+  if (!req.body.title){
+    res.status(406).send({status: false, message: "title parameter required"})
+  }
   const title = req.body.title;
   const description = req.body.description;
   const tags = req.body.tags;
@@ -33,17 +44,15 @@ router.route('/add').post((req, res) => {
   });
 
   newGame.save()
-    .then(game => res.json(`Game ${game.id} added!`))
+    .then(game => res.send({status: true, game_id: game.id}))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
-    Game.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Game deleted'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
+// update game
 router.route('/update/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
     Game.findById(req.params.id, function(err, retrievedGame){
     if(err){
       console.log(err);
@@ -74,7 +83,22 @@ router.route('/update/:id').post((req, res) => {
   });
 });
 
-router.route('/addStage/:id').post((req, res) => {
+// delete game
+router.route('/:id').delete((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
+  Game.findByIdAndDelete(req.params.id)
+  .then(() => res.json('Game deleted'))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// STAGE API
+// add stage
+router.route('/:id/addStage').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Game.findById(req.params.id, function(err, retrievedGame){
   if(err){
     console.log(err);
@@ -82,7 +106,7 @@ router.route('/addStage/:id').post((req, res) => {
   }else{
     if(!retrievedGame){
       res.status(404).send()
-    } 
+    }
     else{
       retrievedGame.nestedStages.push({
         type: req.body.type,
@@ -97,30 +121,34 @@ router.route('/addStage/:id').post((req, res) => {
         choice5: req.body.choice5,
         letters: req.body.letters
     });
-      retrievedGame.save(function(err, updatedGame) {
-        if (err){
-          console.log(err);
-          res.status(500).send()
-        }else{
-          res.send(updatedGame)
-        };
-      });
+    retrievedGame.save(function(err, updatedGame) {
+      if (err){
+        console.log(err);
+        res.status(500).send()
+      }else{
+        res.send(updatedGame)
+      };
+    });
     };
   };
 });
 });
 
-router.route('/updateStage/:id/:index').post((req, res) => {
+// update stage
+router.route('/:id/updateStage/:index').patch((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Game.findById(req.params.id, function(err, retrievedGame){
   if(err){
     console.log(err);
     res.status(500).send()
   }else{
     if(!retrievedGame){
-      res.status(404).send()
+      res.status(404).send({status: false, message: "game not found"})
     }
     else if(retrievedGame.nestedStages.length <= req.params.index){
-      res.status(400).send()
+      res.status(400).send({status: false, message: "index out of bounds"})
     } 
     else{
       if(req.body.type){retrievedGame.nestedStages[req.params.index].type = req.body.type};
@@ -148,17 +176,21 @@ router.route('/updateStage/:id/:index').post((req, res) => {
 });
 });
 
-router.route('/deleteStage/:id/:index').delete((req, res) => {
+// delete stage
+router.route('/:id/deleteStage/:index').delete((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   Game.findById(req.params.id, function(err, retrievedGame){
   if(err){
     console.log(err);
     res.status(500).send()
   }else{
     if(!retrievedGame){
-      res.status(404).send()
+      res.status(404).send({status: false, message: "game not found"})
     }
     else if(retrievedGame.nestedStages.length <= req.params.index){
-      res.status(400).send()
+      res.status(400).send({status: false, message: "index out of bounds"})
     } 
     else{
       retrievedGame.nestedStages[req.params.index].remove();

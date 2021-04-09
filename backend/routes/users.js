@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
 let User = require('../models/user.model');
 
 router.route('/').get((req, res) => {
@@ -8,12 +9,15 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   User.findById(req.params.id)
     .then(user => res.json(user))
-    .catch(err => res.status(400).json('Error: ' + err));
+    .catch(err => res.status(400).send('Error: ' + err));
 });
 
-//find user by email, returns null if not found.
+//find user by email, returns null otherwise
 router.route('/getByEmail/:email').get((req, res) => {
   User.findOne({'email': req.params.email})
     .then(user => res.json(user))
@@ -28,6 +32,15 @@ router.route('/getByUsername/:username').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+  if (!req.body.username){
+    res.status(406).send({status: false, message: "username parameter required"})
+  }
+  if (!req.body.email){
+    res.status(406).send({status: false, message: "email parameter required"})
+  }
+  if (!req.body.password){
+    res.status(406).send({status: false, message: "password parameter required"})
+  }
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
@@ -50,6 +63,9 @@ router.route('/:id').delete((req, res) => {
 });
 
 router.route('/update/:id').post((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
   User.findById(req.params.id, function(err, retrievedUser){
     if (err){
       console.log(err);
