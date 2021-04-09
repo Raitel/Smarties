@@ -61,7 +61,7 @@ router.route('/:id').delete((req, res) => {
 });
 
 //update card
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').patch((req, res) => {
   Card.findById(req.params.id, function(err, retrievedCard){
     if(err){
       console.log(err);

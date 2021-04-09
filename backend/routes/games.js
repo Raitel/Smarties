@@ -49,7 +49,7 @@ router.route('/add').post((req, res) => {
 });
 
 // update game
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }

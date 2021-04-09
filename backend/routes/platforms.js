@@ -26,19 +26,39 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// get platform by gameId
+router.route('/getPlatformByGameId/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
+  Platform.findOne({'games': req.params.id})
+  .then(platform => res.json(platform))
+  .catch(err => res.status(400).json('Error: ' + err));;
+});
+
+// get platform by ownerId
+router.route('/getPlatformsByOwnerId/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
+  Platform.find({'ownerId': req.params.id})
+  .then(platform => res.json(platform))
+  .catch(err => res.status(400).json('Error: ' + err));;
+});
+
 // add platform
 router.route('/add').post((req, res) => {
-  if (!req.body.ownerid){
-    res.status(406).send({status: false, message: "ownerid parameter required"})
+  if (!req.body.ownerId){
+    res.status(406).send({status: false, message: "ownerId parameter required"})
   }
   if (!req.body.title){
     res.status(406).send({status: false, message: "title parameter required"})
   }
-  const ownerid = req.body.ownerid;
+  const ownerId = req.body.ownerId;
   const title = req.body.title;
 
   const newPlatform = new Platform({
-    ownerid,
+    ownerId,
     title
   });
 
@@ -48,7 +68,7 @@ router.route('/add').post((req, res) => {
 });
 
 // set public
-router.route('/set_public/:id').post((req, res) => {
+router.route('/set_public/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -74,7 +94,7 @@ router.route('/set_public/:id').post((req, res) => {
 });
 
 // set private
-router.route('/set_private/:id').post((req, res) => {
+router.route('/set_private/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -100,7 +120,7 @@ router.route('/set_private/:id').post((req, res) => {
 });
 
 // upvote
-router.route('/upvote/:id').post((req, res) => {
+router.route('/upvote/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -126,7 +146,7 @@ router.route('/upvote/:id').post((req, res) => {
 });
 
 // remove upvote
-router.route('/remove_upvote/:id').post((req, res) => {
+router.route('/remove_upvote/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -154,7 +174,7 @@ router.route('/remove_upvote/:id').post((req, res) => {
 });
 
 // downvote
-router.route('/downvote/:id').post((req, res) => {
+router.route('/downvote/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -180,7 +200,7 @@ router.route('/downvote/:id').post((req, res) => {
 });
 
 // remove downvote
-router.route('/remove_downvote/:id').post((req, res) => {
+router.route('/remove_downvote/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
@@ -208,7 +228,7 @@ router.route('/remove_downvote/:id').post((req, res) => {
 });
 
 // update platform
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }

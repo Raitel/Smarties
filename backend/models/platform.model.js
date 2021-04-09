@@ -4,7 +4,7 @@ let Game = require('./game.model');
 const Schema = mongoose.Schema;
 
 const platformSchema = new Schema({
-    ownerid: { type: Schema.Types.ObjectId, required: true},
+    ownerId: { type: Schema.Types.ObjectId, required: true},
     title: { type: String, required: true, trim: true, minlength: 3 },
     description: { type: String, default: "", trim: true},
     isPublic: { type: Boolean, default: true},

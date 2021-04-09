@@ -62,7 +62,7 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
