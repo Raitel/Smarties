@@ -23,6 +23,10 @@ import profile from '../assets/profile_icon.png';
 import settings from '../assets/settings_icon.png';
 
 const useStyles = makeStyles((theme) => ({
+  appBar: {
+    position: 'relative',
+    zIndex: theme.zIndex = 1400,
+  },
   grow: {
     flexGrow: 1,
   },
@@ -194,7 +198,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" style={{backgroundColor:'#212197'}}>
+      <AppBar position="static" className={classes.appBar} style={{backgroundColor:'#212197'}}>
         <Toolbar>
           <Link color="inherit"><img src={logo} alt="logo"></img></Link>
           <Typography className={classes.title} variant="h5" noWrap>
