@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Button } from '@material-ui/core';
 
-import Navbar from "./components/navbar";
+import Navbar from "./components/navigationBar";
 import Home from "./components/home";
 import Shop from "./components/shop";
 import Settings from "./components/settings";

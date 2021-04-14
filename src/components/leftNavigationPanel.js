@@ -13,19 +13,13 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined';
 import StyleOutlinedIcon from '@material-ui/icons/StyleOutlined';
 
+import { useHistory } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
@@ -42,9 +36,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
-
+  const history = useHistory();
+  const handleHome = () => {
+    history.push("/")
+  };
+  const handleMyGames = () => {
+    history.push("/myGames")
+  };
+  const handleFavorites = () => {
+    history.push("/favorites")
+  };
+  const handleInventory = () => {
+    history.push("/inventory")
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -60,7 +67,7 @@ export default function PermanentDrawerLeft() {
         <Divider />
 
         <List>
-        <ListItem button>
+        <ListItem button onClick={handleHome}>
           <ListItemIcon>
             <HomeOutlinedIcon/>
           </ListItemIcon>
@@ -71,13 +78,13 @@ export default function PermanentDrawerLeft() {
         <Divider />
         
         <List>
-        <ListItem button>
+        <ListItem button onClick={handleFavorites}>
           <ListItemIcon>
             <FavoriteBorderOutlinedIcon/>
           </ListItemIcon>
-          <ListItemText primary="Favorite" classes={{ primary: classes.itemText}}/>
+          <ListItemText primary="Favorites" classes={{ primary: classes.itemText}}/>
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={handleMyGames}>
           <ListItemIcon>
             <SportsEsportsOutlinedIcon/>
           </ListItemIcon>
@@ -88,7 +95,7 @@ export default function PermanentDrawerLeft() {
         <Divider />
 
         <List>
-        <ListItem button>
+        <ListItem button onClick={handleInventory}>
           <ListItemIcon>
             <StyleOutlinedIcon/>
           </ListItemIcon>
