@@ -1,41 +1,255 @@
 import React from 'react';
-import Link from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import Badge from '@material-ui/core/Badge';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import Link from '@material-ui/core/Link';
+
+import logo from '../assets/logo.png';
+import shop from '../assets/shop_icon.png';
+import coin from '../assets/coin_icon.png';
+import profile from '../assets/profile_icon.png';
+import settings from '../assets/settings_icon.png';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  grow: {
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  subtitle: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+    marginLeft: '60px',
+    marginRight: '60px'
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+  coinIcon:{
+    width: '35px',
+    height: '35px'
+  },
+  shopIcon:{
+    width: '35px',
+    height: '35px'
+  },
+  settingsIcon:{
+    width: '42px',
+    height: '42px'
+  },
+  profileIcon:{
+    width: '40px',
+    height: '40px'
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
   },
 }));
 
-export default function ButtonAppBar() {
+export default function PrimarySearchAppBar() {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div className={classes.grow}>
+      <AppBar position="static" style={{backgroundColor:'#212197'}}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Link color="inherit"><img src={logo} alt="logo"></img></Link>
+          <Typography className={classes.title} variant="h5" noWrap>
             Smarties
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Typography className={classes.subtitle} variant="h6" noWrap>
+            Home
+          </Typography>
+          <Typography className={classes.subtitle} variant="h6" noWrap>
+            Create
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <Link color="inherit" style={{display:'flex', marginLeft: '20px'}}>
+              <img src={coin} alt="coin" className={classes.coinIcon}/>
+              <div style={{fontSize:'24px',verticalAlign:'middle', textAlign: 'center', lineHeight: '35px', marginLeft: '10px'}}>999</div>
+            </Link>
+            <Link color="inherit" style={{marginLeft: '20px', marginRight:'20px'}}>
+              <img src={shop} alt="shop" className={classes.shopIcon}/>
+            </Link>
+            <Link color="inherit" style={{marginLeft: '20px', marginRight:'20px'}}>
+              <img src={settings} alt="settings" className={classes.settingsIcon}/>
+            </Link>
+            <Link color="inherit" style={{marginLeft: '20px', marginRight:'10px'}}>
+              <img src={profile} alt="profile" className={classes.profileIcon}/>
+            </Link>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
     </div>
   );
 }
