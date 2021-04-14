@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import LeftPanel from "./leftpanel";
+//import LeftPanel from "./leftpanel";
+import LeftPanel from "./leftNavigationPanel";
 
 function Populate(props){
     const items = props.items;
