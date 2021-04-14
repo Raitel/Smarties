@@ -10,6 +10,7 @@ import Profile from "./components/profile";
 import Favorites from "./components/favorites";
 import Mygames from "./components/mygames";
 import Inventory from "./components/inventory";
+import ContactUs from "./components/contact.js";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Route path="/favorites" exact component={Favorites} />
       <Route path="/mygames" exact component={Mygames} />
       <Route path="/inventory" exact component={Inventory} />
-
+      <Route path="/contactus" exact component={ContactUs} />
     </Router>
   );
 }
