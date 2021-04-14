@@ -13,6 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 
 import logo from '../assets/logo.png';
 import shop from '../assets/shop_icon.png';
@@ -173,13 +174,17 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appBar} style={{backgroundColor:'#212197'}}>
         <Toolbar>
+          <Button disableRipple disableFocusRipple style={{textTransform: 'none', color: 'white'}} onClick={handleHome}>
           <Link color="inherit" onClick={handleHome}><img src={logo} alt="logo"></img></Link>
           <Typography className={classes.title} onClick={handleHome} variant="h5" noWrap>
             Smarties
           </Typography>
-          <Typography className={classes.subtitle} variant="h6" noWrap onClick={handleHome}>
+          </Button>
+          <Button style={{textTransform: 'none', color: 'white'}} onClick={handleHome}>
+          <Typography className={classes.subtitle} variant="h6" noWrap>
             Home
           </Typography>
+          </Button>
           <Typography className={classes.subtitle} variant="h6" noWrap>
             Create
           </Typography>
