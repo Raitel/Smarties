@@ -116,6 +116,7 @@ export default function Login(){
                     <Textfield 
                         onChange={(e) => setPassword(e.target.value)}
                         label="Password" 
+                        type="password"
                         variant="outlined" 
                         fullWidth 
                         required 
