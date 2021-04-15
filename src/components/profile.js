@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import LeftPanel from "./leftNavigationPanel";
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
-export default class Profile extends Component{
-    render(){
-        return(
-            <div>Profile</div>
-        )
-    }
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+}));
+
+export default function Profile(){
+    const classes = useStyles();
+    return (
+        <Typography>Profile Screen</Typography>
+    )
 }
