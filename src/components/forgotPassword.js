@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ForgotPassword() {
   const classes = useStyles();
+  const history = useHistory();
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState(false)
   
@@ -64,6 +66,12 @@ export default function ForgotPassword() {
           console.log(email)
       }
   }
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    history.push("/login")
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -102,9 +110,11 @@ export default function ForgotPassword() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="http://localhost:3000/login" variant="body2">
-                {"Have an account? Sign In"}
-              </Link>
+              <Typography>
+                <Link href="#" onClick={handleLogin} variant="body2">
+                  {"Have an account? Sign In"}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

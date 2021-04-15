@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
-//import LeftPanel from "./leftpanel";
 import LeftPanel from "./leftNavigationPanel";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";

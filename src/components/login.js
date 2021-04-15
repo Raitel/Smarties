@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const history = useHistory();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(false)
@@ -67,6 +69,16 @@ export default function Login() {
           console.log(email, password)
       }
   }
+
+  const handleForgot = (e) => {
+    e.preventDefault()
+    history.push("/forgotPassword")
+  };
+  const handleRegister = (e) => {
+    e.preventDefault()
+    history.push("/register")
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -119,14 +131,18 @@ export default function Login() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="http://localhost:3000/forgotPassword" variant="body2">
-                Forgot password?
-              </Link>
+              <Typography>
+                <Link href="#" onClick={handleForgot} variant="body2">
+                  Forgot password?
+                </Link>
+              </Typography>
             </Grid>
             <Grid item>
-              <Link href="http://localhost:3000/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Typography>
+                <Link href="#" onClick={handleRegister} variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

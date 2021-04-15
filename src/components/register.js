@@ -16,6 +16,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory();
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -87,6 +89,11 @@ export default function SignUp() {
     }
   }
   
+  const handleLogin = (e) => {
+    e.preventDefault()
+    history.push("/login")
+  };
+
   const handleClickShowPassword = () => {
     console.log(reveal)
     setReveal(!reveal)
@@ -201,9 +208,11 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="http://localhost:3000/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
+              <Typography>
+                <Link href="#" onClick={handleLogin} variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>
