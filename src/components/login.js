@@ -24,7 +24,8 @@ const useStyles = makeStyles({
         border:'2px solid grey', 
         display:'flex', 
         flexDirection:'column', 
-        alignItems:'center'
+        alignItems:'center',
+        paddingTop:'40px'
     },
     header:{
         marginBottom:'10px', 
