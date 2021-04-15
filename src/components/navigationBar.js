@@ -24,6 +24,7 @@ import settings from '../assets/settings_icon.png';
 import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 
 import { useHistory } from "react-router-dom";
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -87,32 +88,10 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
-  coinIcon:{
-    width: '35px',
-    height: '35px'
-  },
-  shopIcon:{
-    width: '35px',
-    height: '35px'
-  },
-  settingsIcon:{
-    width: '42px',
-    height: '42px'
-  },
-  profileIcon:{
-    width: '40px',
-    height: '40px'
-  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
     },
   },
   iconButton: {
@@ -141,7 +120,7 @@ export default function PrimarySearchAppBar() {
   };
   
   const handleAccountSetting = () => {
-    history.push("/accountSetting")
+    history.push("/settings")
     setAnchorEl(null);
   };
 
@@ -152,6 +131,10 @@ export default function PrimarySearchAppBar() {
   const handleHome = () => {
     history.push("/")
   };
+  const handleExplore = () => {
+    history.push("/explore")
+  };
+  
  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -185,10 +168,18 @@ export default function PrimarySearchAppBar() {
             Home
           </Typography>
           </Button>
+          <Button style={{textTransform: 'none', color: 'white'}}>
           <Typography className={classes.subtitle} variant="h6" noWrap>
-            Create
+            Create a Platform
           </Typography>
-          <div className={classes.search}>
+          </Button>
+          <Button style={{textTransform: 'none', color: 'white'}} onClick={handleExplore}>
+          <Typography className={classes.subtitle} variant="h6" noWrap>
+            Explore Platforms
+          </Typography>
+          </Button>
+          <Box>
+          <div className={classes.search} >
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -201,12 +192,10 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          </Box>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             
-          <IconButton aria-label="Shop" color="inherit">
-              <StorefrontOutlinedIcon onClick={() => history.push("/shop")}/>
-            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
