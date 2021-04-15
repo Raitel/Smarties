@@ -11,6 +11,8 @@ import Favorites from "./components/favorites";
 import Mygames from "./components/mygames";
 import Inventory from "./components/inventory";
 import ContactUs from "./components/contact.js";
+import Login from "./components/login.js";
+import Register from "./components/register.js";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
       <Route path="/mygames" exact component={Mygames} />
       <Route path="/inventory" exact component={Inventory} />
       <Route path="/contactus" exact component={ContactUs} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/register" exact component={Register} />
     </Router>
   );
 }
