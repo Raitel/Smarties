@@ -24,6 +24,7 @@ import settings from '../assets/settings_icon.png';
 import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 
 import { useHistory } from "react-router-dom";
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -119,7 +120,7 @@ export default function PrimarySearchAppBar() {
   };
   
   const handleAccountSetting = () => {
-    history.push("/accountSetting")
+    history.push("/settings")
     setAnchorEl(null);
   };
 
@@ -177,7 +178,8 @@ export default function PrimarySearchAppBar() {
             Explore Platforms
           </Typography>
           </Button>
-          <div className={classes.search}>
+          <Box>
+          <div className={classes.search} >
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -190,6 +192,7 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          </Box>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             
