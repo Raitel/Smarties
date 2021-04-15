@@ -12,6 +12,7 @@ import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined';
 import StyleOutlinedIcon from '@material-ui/icons/StyleOutlined';
+import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 
 import { useHistory } from "react-router-dom";
 
@@ -51,6 +52,9 @@ export default function PermanentDrawerLeft() {
   };
   const handleInventory = () => {
     history.push("/inventory")
+  };
+  const handleShop = () => {
+    history.push("/shop")
   };
   return (
     <div className={classes.root}>
@@ -95,6 +99,12 @@ export default function PermanentDrawerLeft() {
         <Divider />
 
         <List>
+        <ListItem button onClick={handleShop}>
+          <ListItemIcon>
+            <StorefrontOutlinedIcon/>
+          </ListItemIcon>
+          <ListItemText primary="Shop" classes={{ primary: classes.itemText}} />
+        </ListItem>
         <ListItem button onClick={handleInventory}>
           <ListItemIcon>
             <StyleOutlinedIcon/>
