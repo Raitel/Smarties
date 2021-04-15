@@ -14,6 +14,7 @@ import Inventory from "./components/inventory";
 import ContactUs from "./components/contact.js";
 import Login from "./components/login.js";
 import Register from "./components/register.js";
+import ForgotPassword from "./components/forgotPassword.js";
 
 
 const LoginContainer = () => (
@@ -27,6 +28,13 @@ const RegisterContainer = () => (
   <div>
     <Route exact path="/" render={() => <Redirect to="/register" />} />
     <Route path="/register" component={Register} />
+  </div>
+)
+
+const ForgotPasswordContainer = () => (
+  <div>
+    <Route exact path="/" render={() => <Redirect to="/forgotPassword" />} />
+    <Route path="/forgotPassword" component={ForgotPassword} />
   </div>
 )
 
@@ -50,6 +58,7 @@ function App() {
       <Switch>
         <Route exact path="/(login)" component={LoginContainer}/>
         <Route exact path="/(register)" component={RegisterContainer}/>
+        <Route exact path="/(forgotPassword)" component={ForgotPasswordContainer}/>
         <Route component={DefaultContainer}/>
 
       </Switch>

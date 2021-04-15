@@ -44,27 +44,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  offset:{
+      marginBottom: '15px'
+  }
 }));
 
-export default function Login() {
+export default function ForgotPassword() {
   const classes = useStyles();
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(false)
-  const [passwordError, setPasswordError] = useState(false)
   
   const handleSubmit = (e) => {
       e.preventDefault()
       setEmailError(false)
-      setPasswordError(false)
       if(email == ''){
           setEmailError(true)
       }
-      if(password == ''){
-          setPasswordError(true)
-      }
-      if(email && password){
-          console.log(email, password)
+      if(email){
+          console.log(email)
       }
   }
   return (
@@ -74,8 +71,11 @@ export default function Login() {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h5" className={classes.offset}>
+          Find Your Account
+        </Typography>
+        <Typography variant="body1">
+          	Please enter your username or email to search for your account.
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
@@ -91,23 +91,6 @@ export default function Login() {
             autoFocus
             error={emailError}
           />
-          <TextField
-            onChange={(e) => setPassword(e.target.value)}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            error={passwordError}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -115,17 +98,12 @@ export default function Login() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Search
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="http://localhost:3000/forgotPassword" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
+          <Grid container justify="flex-end">
             <Grid item>
-              <Link href="http://localhost:3000/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="http://localhost:3000/login" variant="body2">
+                {"Have an account? Sign In"}
               </Link>
             </Grid>
           </Grid>
