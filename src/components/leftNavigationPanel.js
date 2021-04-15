@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Container from '@material-ui/core/Container';
 
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
@@ -53,7 +54,7 @@ export default function PermanentDrawerLeft() {
     history.push("/inventory")
   };
   return (
-    <div className={classes.root}>
+    <Container className={classes.root}>
       <CssBaseline />
       <Drawer
         className={classes.drawer}
@@ -110,6 +111,6 @@ export default function PermanentDrawerLeft() {
         <div className={classes.toolbar} />
         
       </main>
-    </div>
+    </Container>
   );
 }
