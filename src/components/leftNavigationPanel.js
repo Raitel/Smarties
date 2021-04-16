@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -20,26 +21,27 @@ import { useHistory } from "react-router-dom";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  drawerContainer: {
+    overflow: 'auto',
+  },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
   },
-  itemText:{
-      //fontWeight: "bold"
-  }
 }));
 
 
-export default function PermanentDrawerLeft() {
+export default function ClippedDrawer() {
   const classes = useStyles();
   const history = useHistory();
   const handleHome = () => {
@@ -58,69 +60,55 @@ export default function PermanentDrawerLeft() {
     history.push("/shop")
   };
   return (
-    <Container className={classes.root}>
-      <CssBaseline />
-      <Drawer
+    <Drawer
         className={classes.drawer}
         variant="permanent"
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
-        anchor="left"
-      >
-        <div className={classes.toolbar} />
-        <Divider />
-
+    >
+      <Toolbar />
+      <div className={classes.drawerContainer}>
         <List>
-        <ListItem button onClick={handleHome}>
-          <ListItemIcon>
-            <HomeOutlinedIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Home" classes={{ primary: classes.itemText}} />
-        </ListItem>
+          <ListItem button onClick={handleHome}>
+            <ListItemIcon>
+              <HomeOutlinedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Home"/>
+          </ListItem>
         </List>
-
         <Divider />
-        
         <List>
-        <ListItem button onClick={handleFavorites}>
-          <ListItemIcon>
-            <FavoriteBorderOutlinedIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Favorites" classes={{ primary: classes.itemText}}/>
-        </ListItem>
-        <ListItem button onClick={handleMyGames}>
-          <ListItemIcon>
-            <SportsEsportsOutlinedIcon/>
-          </ListItemIcon>
-          <ListItemText primary="My Games" classes={{ primary: classes.itemText}} />
-        </ListItem>
+          <ListItem button onClick={handleFavorites}>
+            <ListItemIcon>
+              <FavoriteBorderOutlinedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Favorites"/>
+          </ListItem>
+          <ListItem button onClick={handleMyGames}>
+            <ListItemIcon>
+              <SportsEsportsOutlinedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="My Games"/>
+          </ListItem>
         </List>
-
         <Divider />
-
         <List>
-        <ListItem button onClick={handleShop}>
-          <ListItemIcon>
-            <StorefrontOutlinedIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Shop" classes={{ primary: classes.itemText}} />
-        </ListItem>
-        <ListItem button onClick={handleInventory}>
-          <ListItemIcon>
-            <StyleOutlinedIcon/>
-          </ListItemIcon>
-          <ListItemText primary="Inventory" classes={{ primary: classes.itemText}} />
-        </ListItem>
+          <ListItem button onClick={handleShop}>
+            <ListItemIcon>
+              <StorefrontOutlinedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Shop"/>
+          </ListItem>
+          <ListItem button onClick={handleInventory}>
+            <ListItemIcon>
+              <StyleOutlinedIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Inventory"/>
+          </ListItem>
         </List>
-
-        <Divider />
-        
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        
-      </main>
-    </Container>
+      </div>
+    </Drawer>
+    
   );
 }
