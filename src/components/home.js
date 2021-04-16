@@ -195,22 +195,32 @@ export default function Home() {
   }
 
   return(
-      <Container>
-          <LeftPanel></LeftPanel>
+    <div style={{display:'flex', marginTop:"64px"}}>
+    <LeftPanel/>
+    <div>
+
           <Container>
+            <Box p={2}>
               <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" m={1} className={classes.subtitle}>Recently Used:</Box>
+                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Box>
                   <Populate platforms={recentlyUsed} />
               </Container>
+            </Box>
+            <Box p={2}>
               <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" m={1} className={classes.subtitle}>Favorites:</Box>
+                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Box>
                   <Populate platforms={favorites} />
               </Container>
+            </Box>
+            <Box p={2}>
               <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" m={1} className={classes.subtitle}>My Games:</Box>
+                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Box>
                   <Populate platforms={myGames} />
               </Container>
+            </Box>
           </Container>
-      </Container>
+    </div>
+</div>
+
   )
 }
