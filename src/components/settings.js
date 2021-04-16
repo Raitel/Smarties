@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
     subcontainer:{
         width: "1200px",
-        height: "800px",
         border: '1px solid grey',
         borderRadius:'10px'
     },

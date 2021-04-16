@@ -17,7 +17,7 @@ import Register from "./components/register.js";
 import ForgotPassword from "./components/forgotPassword.js";
 import ChangePassword from "./components/changePassword.js";
 import ChangeUsername from "./components/changeUsername.js";
-
+import PlayGame from "./components/playGame.js";
 
 
 const LoginContainer = () => (
@@ -54,6 +54,7 @@ const DefaultContainer = () => (
     <Route path="/contactus" exact component={ContactUs} />
     <Route path="/changePassword" exact component={ChangePassword} />
     <Route path="/changeUsername" exact component={ChangeUsername} />
+    <Route path="/play" exact component={PlayGame} />
   </div>
 )
 
