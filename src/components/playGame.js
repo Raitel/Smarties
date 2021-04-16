@@ -16,22 +16,130 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
+import { CardMedia, StylesProvider } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+
+import stage from '../assets/game_assets/stage.png'
+import question from '../assets/game_assets/questioncard600.png'
+import tip from '../assets/game_assets/tipcard.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345
+    },
+    container:{
+        width:'1200px',
+        height:'800px',
+        marginTop:'100px',
+        display:'flex',
+        alignItems:'center',
+        flexDirection:'column',
+        border: '1px solid black'
+    },
+    overlay: {
+       position: 'absolute',
+       top: '20px',
+       left: '20px',
+       color: 'black',
+       backgroundColor: 'white'
+    },
+    stageRoot: {
+        minWidth: 600,
+        border: "none", 
+        boxShadow: "none" 
+    },
+    stageMedia:{
+        width:'100%',
+        height:'150px', // absolutely REQUIRED
+    },
+    stageOverlay:{
+        position: 'relative',
+        top: '-105px',
+        left: '500px',
+        color: 'black',
+    },
+    questioncontainer:{
+        display:'flex',
+        justifyContent:'center'
+    },
+    questionRoot:{
+        minWidth: 600,
+        height: 150,
+        border: "none", 
+        boxShadow: "none" 
+    },
+    questionMedia:{
+        width:'600px',
+        height:'130px', // absolutely REQUIRED
+    },
+    questionOverlay:{
+        position: 'relative',
+        color: 'black',
+        top: '-105px',
+        left: '500px',
     }
   }));
 
 export default function PlayGame() {
-  const classes = useStyles();
-  const history = useHistory();
+    const classes = useStyles();
+    const history = useHistory();
 
-  return(
+    function Construction(props){
+
+        return(
+            <Container className={classes.container}>
+                <Container>
+                    <Card className={classes.stageRoot}>
+                        <CardMedia className={classes.stageMedia} image={stage} title='stage'/>
+                        <div className={classes.stageOverlay}>
+                            Stage 5/10
+                        </div>
+                    </Card>
+                </Container>
+                <Container className={classes.questioncontainer}>
+                    <Card className={classes.questionRoot}>
+                        <CardMedia className={classes.questionMedia} image={question} title='question'/>
+                        <div className={classes.questionOverlay}>
+                            What is the best Game ever?
+                        </div>
+                    </Card>
+                </Container>
+                
+                <Grid container>
+                    <Grid item image={tip} > </Grid>
+                    <Grid item image={tip} > </Grid>
+                </Grid>
+            </Container>
+            
+        )
+    }
+    function Multiple(props){
+        return(
+            <Container className={classes.container}>
+                <Container>Banner</Container>
+                <Container>Question</Container>
+                <Container>Tip Cards</Container>
+                <Container>User Input</Container>
+                <Container>Letters</Container>
+            </Container>
+        )
+    }
+    function Text(props){
+        return(
+            <Container className={classes.container}>
+                <Container>Banner</Container>
+                <Container>Question</Container>
+                <Container>Tip Cards</Container>
+                <Container>User Input</Container>
+                <Container>Letters</Container>
+            </Container>
+        )
+    }
+    return(
     <div style={{display:'flex', marginTop:"64px"}}>
-      <LeftGamePanel/>
-
+        <LeftGamePanel/>
+        <Construction/>
     </div>
 
-  )
+    )
 }
