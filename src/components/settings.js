@@ -59,7 +59,7 @@ export default function FormPropsTextFields() {
         <div style={{display:'flex', marginTop:"64px"}}>
             <LeftPanel/>
             <Container>
-                <Box p={5}>
+                <Box style={{paddingTop:'80px'}}>
                     <Container className={classes.subcontainer}>
                         <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Settings</Typography>
                         <Container className={classes.section}>
@@ -86,7 +86,7 @@ export default function FormPropsTextFields() {
                             </Grid>
                         </Container>
                         <Divider/>
-                        <Container>
+                        <Container style={{marginTop:'50px'}}>
                             <Typography variant="h5" className={classes.subtitle}>Password</Typography>
                             <Button className={classes.buttonStyle} variant="contained" color="primary">Change Password</Button>
                         </Container>

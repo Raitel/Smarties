@@ -199,24 +199,24 @@ export default function Home() {
       <LeftPanel/>
       <div>
         <Container>
-          <Container p={2}>
+          <Box p={2}>
             <Container className={classes.section}>
-                <Typography className={classes.subtitle}>Recently Used:</Typography>
+                <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Typography>
                 <Populate platforms={recentlyUsed} />
             </Container>
-          </Container>
-          <Container p={2}>
+          </Box>
+          <Box p={2}>
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Typography>
                 <Populate platforms={favorites} />
             </Container>
-          </Container>
-          <Container p={2}>
+          </Box>
+          <Box p={2}>
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Typography>
                 <Populate platforms={myGames} />
             </Container>
-          </Container>
+          </Box>
         </Container>
       </div>
     </div>
