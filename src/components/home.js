@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
     subtitle:{
       color:'#212197', 
       fontSize:'24px',
-      marginBottom:'40px'
+      marginBottom:'40px',
+      fontWeight: 'Bold'
     },
     card:{
       width: "250px"
@@ -197,7 +198,7 @@ export default function Home() {
   return(
     <div style={{display:'flex', marginTop:"64px"}}>
       <LeftPanel/>
-      <div>
+      <Box style={{marginLeft:'64px', marginTop:"64px"}}>
         <Container>
           <Box p={2}>
             <Container className={classes.section}>
@@ -218,7 +219,7 @@ export default function Home() {
             </Container>
           </Box>
         </Container>
-      </div>
+      </Box>
     </div>
 
   )
