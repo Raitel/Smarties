@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card:{
       width: "250px"
+      
     },
     section:{
       height:'200px',
@@ -139,7 +140,9 @@ export default function Home() {
   function DisplayCard(props){
     const platform = props.platform;
     return (
+      <Box p={1}>
       <Card className={classes.card}>
+        <CardActionArea>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -166,7 +169,9 @@ export default function Home() {
             {platform.games.length == 0 ? "No Games": "Total Games: "+platform.games.length}
           </Typography>
         </CardActions>
+        </CardActionArea>
       </Card>
+      </Box>
     )
   }
 
