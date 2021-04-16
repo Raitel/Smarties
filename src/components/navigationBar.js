@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+
 import InputBase from '@material-ui/core/InputBase';
 
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,16 +12,9 @@ import MenuList from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 
 import logo from '../assets/logo.png';
-import shop from '../assets/shop_icon.png';
-import coin from '../assets/coin_icon.png';
-import profile from '../assets/profile_icon.png';
-import settings from '../assets/settings_icon.png';
-
-import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 
 import { useHistory } from "react-router-dom";
 import { Box } from '@material-ui/core';
@@ -96,7 +89,10 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding:2
-  }
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
 }));
 
 export default function PrimarySearchAppBar() {
@@ -155,28 +151,20 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.appBar} style={{backgroundColor:'#212197'}}>
-        <Toolbar>
-          <Button disableRipple disableFocusRipple style={{textTransform: 'none', color: 'white'}} onClick={handleHome}>
-          <Link color="inherit" onClick={handleHome}><img src={logo} alt="logo"></img></Link>
-          <Typography className={classes.title} onClick={handleHome} variant="h5" noWrap>
+      <AppBar  className={classes.appBar} style={{backgroundColor:'#212197', maxHeight: 64, position: "fixed"}}> 
+        <Toolbar variant="dense">
+          <Button disableRipple disableFocusRipple style={{textTransform: 'none', color: 'white', fontSize: 24}} className={classes.margin} onClick={handleHome}>
+          <img src={logo} alt="logo"></img>
             Smarties
-          </Typography>
           </Button>
-          <Button style={{textTransform: 'none', color: 'white'}} onClick={handleHome}>
-          <Typography className={classes.subtitle} variant="h6" noWrap>
+          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleHome}>
             Home
-          </Typography>
           </Button>
-          <Button style={{textTransform: 'none', color: 'white'}}>
-          <Typography className={classes.subtitle} variant="h6" noWrap>
+          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}}>
             Create a Platform
-          </Typography>
           </Button>
-          <Button style={{textTransform: 'none', color: 'white'}} onClick={handleExplore}>
-          <Typography className={classes.subtitle} variant="h6" noWrap>
+          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleExplore}>
             Explore Platforms
-          </Typography>
           </Button>
           <Box>
           <div className={classes.search} >
