@@ -196,31 +196,30 @@ export default function Home() {
 
   return(
     <div style={{display:'flex', marginTop:"64px"}}>
-    <LeftPanel/>
-    <div>
-
-          <Container>
-            <Box p={2}>
-              <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Box>
-                  <Populate platforms={recentlyUsed} />
-              </Container>
-            </Box>
-            <Box p={2}>
-              <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Box>
-                  <Populate platforms={favorites} />
-              </Container>
-            </Box>
-            <Box p={2}>
-              <Container className={classes.section}>
-                  <Box fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Box>
-                  <Populate platforms={myGames} />
-              </Container>
-            </Box>
+      <LeftPanel/>
+      <div>
+        <Container>
+          <Container p={2}>
+            <Container className={classes.section}>
+                <Typography className={classes.subtitle}>Recently Used:</Typography>
+                <Populate platforms={recentlyUsed} />
+            </Container>
           </Container>
+          <Container p={2}>
+            <Container className={classes.section}>
+                <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Typography>
+                <Populate platforms={favorites} />
+            </Container>
+          </Container>
+          <Container p={2}>
+            <Container className={classes.section}>
+                <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Typography>
+                <Populate platforms={myGames} />
+            </Container>
+          </Container>
+        </Container>
+      </div>
     </div>
-</div>
 
   )
 }

@@ -10,10 +10,13 @@ import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 
 import Divider from '@material-ui/core/Divider';
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
+import { spacing } from '@material-ui/system';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -21,6 +24,26 @@ const useStyles = makeStyles((theme) => ({
     card:{
         width: "800px" 
     },
+    subcontainer:{
+        width: "1200px",
+        height: "800px",
+        border: '1px solid grey',
+        borderRadius:'10px'
+    },
+    section:{
+        paddingBottom:"50px"
+    },
+    textField:{
+        width:"450px"
+    },
+    buttonStyle:{
+        width:"300px"
+    },
+    subtitle:{
+        color:'#212197',
+        fontWeight: 'Bold',
+        marginBottom:'20px'
+    }
 }));
 
 export default function FormPropsTextFields() {
@@ -30,94 +53,46 @@ export default function FormPropsTextFields() {
       history.push("/changePassword")
     };
     const handleChangeUsername = () => {
-        history.push("/changeUsername")
-      };
-        return(
-            <div style={{display:'flex', marginTop:"64px"}}>
-                <LeftPanel/>
-                <div>
-                    <Box p={3}>    
-                        <Card className={classes.card}>
-                            <Box p={2}>
-                            <CardHeader title={"Account Settings:"} style={{color:'#212197', fontWeight: 'Bold'}}/>
-                            </Box>
-                            <CardContent>
-                            <Box p={2}>
-                            <Grid container
-                            direction="column"
-                            justify="space-around"
-                            alignItems="flex-start"
-                            spacing={3}>
-                                <Grid item>
-                                <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                Email:
-                                </Typography>
-                                </Grid>
-                                <Grid item>
-                                <TextField
-                                    disabled
-                                    id="outlined-disabled"
-                                    
-                                    defaultValue="Test@smarties.com"
-                                    variant="outlined"
+      history.push("/changeUsername")
+    };
+    return(
+        <div style={{display:'flex', marginTop:"64px"}}>
+            <LeftPanel/>
+            <Container>
+                <Box p={5}>
+                    <Container className={classes.subcontainer}>
+                        <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Settings</Typography>
+                        <Container className={classes.section}>
+                            <Typography variant="h5" className={classes.subtitle}>Log in email:</Typography>
+                            <TextField
+                                variant="outlined"
+                                label="Email"
+                                className={classes.textField}
+                            />
+                        </Container>
+                        <Container className={classes.section}>
+                            <Typography variant="h5" className={classes.subtitle}>Username:</Typography>
+                            <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                    <TextField 
+                                        variant="outlined"
+                                        label="User Name"
+                                        className={classes.textField}
                                     />
                                 </Grid>
-
-                                <Grid item>
-                                    <Divider />
+                                <Grid item xs={6}>
+                                    <Button className={classes.buttonStyle} variant="contained" color="primary">Change Username</Button>
                                 </Grid>
-
-                                <Grid item>
-                                <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                Username:
-                                </Typography>
-                                </Grid>
-
-                                
-                                <Grid item
-                                container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="center"
-                                spacing={3}>
-                                    <Grid item>
-                                        <TextField
-                                        disabled
-                                        id="outlined-disabled"
-                                        defaultValue="ThisIsATempUsername"
-                                        variant="outlined"
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <Button variant="contained" color="primary" style={{textTransform: 'none'}} onClick={handleChangeUsername}>
-                                            Change Username
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                                
-
-                                <Grid item>
-                                    <Divider />
-                                </Grid>
-                                <Grid item>
-                                    <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                        Password:
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" color="primary" style={{textTransform: 'none'}}onClick={handleChangePassword}>
-                                        Change Password
-                                    </Button> 
-                                </Grid>
-                            </Grid>  
-                            </Box>               
-                        </CardContent>
-                    </Card>
+                            </Grid>
+                        </Container>
+                        <Divider/>
+                        <Container>
+                            <Typography variant="h5" className={classes.subtitle}>Password</Typography>
+                            <Button className={classes.buttonStyle} variant="contained" color="primary">Change Password</Button>
+                        </Container>
+                    </Container>
                 </Box>
-
-        
-                    
-             </div>
-        </div> 
+            </Container>
+    </div> 
     )
 }
