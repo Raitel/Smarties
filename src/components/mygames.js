@@ -7,12 +7,13 @@ import LeftPanel from "./leftNavigationPanel";
 export default class Home extends Component{
     render(){
         return(
-            <div style={{display:'flex'}}>
-                <LeftPanel></LeftPanel>
-                <div>
-                    my games
+            <div style={{display:'flex', marginTop:"64px"}}>
+                <LeftPanel/>
+                <div>My Games
+
+
                 </div>
-            </div>
+            </div> 
         )
     }
 }
