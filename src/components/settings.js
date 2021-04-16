@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
     subcontainer:{
         width: "1200px",
-        height: "800px",
         border: '1px solid grey',
         borderRadius:'10px'
     },
@@ -63,32 +62,38 @@ export default function FormPropsTextFields() {
                     <Container className={classes.subcontainer}>
                         <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Settings</Typography>
                         <Container className={classes.section}>
-                            <Typography variant="h5" className={classes.subtitle}>Log in email:</Typography>
+                            <Typography variant="h5" className={classes.subtitle}>Log in Email:</Typography>
                             <TextField
+                                disabled
                                 variant="outlined"
                                 label="Email"
+                                defaultValue="Test@smarties.com"
                                 className={classes.textField}
                             />
                         </Container>
                         <Container className={classes.section}>
                             <Typography variant="h5" className={classes.subtitle}>Username:</Typography>
-                            <Grid container spacing={3}>
+                            <Grid container spacing={3}
+                            justify="space-between"
+                            alignItems="center">
                                 <Grid item xs={6}>
                                     <TextField 
+                                        disabled
                                         variant="outlined"
-                                        label="User Name"
+                                        label="Username"
+                                        defaultValue="testUsername"
                                         className={classes.textField}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Button className={classes.buttonStyle} variant="contained" color="primary">Change Username</Button>
+                                    <Button className={classes.buttonStyle} variant="contained" color="primary" onClick={handleChangeUsername}>Change Username</Button>
                                 </Grid>
                             </Grid>
                         </Container>
                         <Divider/>
-                        <Container style={{marginTop:'50px'}}>
+                        <Container style={{marginTop:'50px', marginBottom:'50px'}}>
                             <Typography variant="h5" className={classes.subtitle}>Password</Typography>
-                            <Button className={classes.buttonStyle} variant="contained" color="primary">Change Password</Button>
+                            <Button className={classes.buttonStyle} variant="contained" color="primary" onClick={handleChangePassword}>Change Password</Button>
                         </Container>
                     </Container>
                 </Box>
