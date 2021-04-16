@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -26,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
 export default function FormPropsTextFields() {
     const classes = useStyles();
     const history = useHistory();
-    const handleChangePassword = () => {
-      history.push("/changePassword")
+    const handleBack = () => {
+      history.push("/settings")
     };
-    const handleChangeUsername = () => {
-        history.push("/changeUsername")
-      };
+    const handleSubmit = () => {
+    };
+
         return(
             <div style={{display:'flex', marginTop:"64px"}}>
                 <LeftPanel/>
@@ -39,7 +40,7 @@ export default function FormPropsTextFields() {
                     <Box p={3}>    
                         <Card className={classes.card}>
                             <Box p={2}>
-                            <CardHeader title={"Account Settings:"} style={{color:'#212197', fontWeight: 'Bold'}}/>
+                            <CardHeader title={"Change Password:"} style={{color:'#212197', fontWeight: 'Bold'}}/>
                             </Box>
                             <CardContent>
                             <Box p={2}>
@@ -50,66 +51,59 @@ export default function FormPropsTextFields() {
                             spacing={3}>
                                 <Grid item>
                                 <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                Email:
+                                Current Password:
                                 </Typography>
                                 </Grid>
                                 <Grid item>
                                 <TextField
-                                    disabled
-                                    id="outlined-disabled"
-                                    
-                                    defaultValue="Test@smarties.com"
+                                    id="outlined-basic"
                                     variant="outlined"
                                     />
                                 </Grid>
-
-                                <Grid item>
-                                    <Divider />
-                                </Grid>
-
                                 <Grid item>
                                 <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                Username:
+                                New Password:
                                 </Typography>
                                 </Grid>
-
-                                
-                                <Grid item
-                                container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="center"
-                                spacing={3}>
-                                    <Grid item>
+                                <Grid item>
+                                <TextField
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
+                                Confirm New Password:
+                                </Typography>
+                                </Grid>
+                                <Grid item>
                                         <TextField
-                                        disabled
-                                        id="outlined-disabled"
-                                        defaultValue="ThisIsATempUsername"
+                                        id="outlined-basic"
                                         variant="outlined"
                                         />
                                     </Grid>
+
+                                    <Grid item
+                                    container
+                                    direction="row"
+                                    justify="flex-end"
+                                    alignItems="center"
+                                    spacing={3}>
                                     <Grid item>
-                                        <Button variant="contained" color="primary" style={{textTransform: 'none'}} onClick={handleChangeUsername}>
-                                            Change Username
+                                        <Button variant="contained" style={{textTransform: 'none'}}  onClick={handleBack}>
+                                            Back
                                         </Button>
                                     </Grid>
+                                    <Grid item>
+                                        <Button variant="contained" color="primary" style={{textTransform: 'none'}} onClick={handleSubmit} >
+                                            Submit
+                                        </Button>
+                                    </Grid>
+                                    </Grid>
+                                    
                                 </Grid>
-                                
-
-                                <Grid item>
-                                    <Divider />
-                                </Grid>
-                                <Grid item>
-                                    <Typography style={{color:'#212197', fontWeight: 'Bold'}}>
-                                        Password:
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" color="primary" style={{textTransform: 'none'}}onClick={handleChangePassword}>
-                                        Change Password
-                                    </Button> 
-                                </Grid>
-                            </Grid>  
+                            
+ 
                             </Box>               
                         </CardContent>
                     </Card>
