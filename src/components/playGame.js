@@ -20,8 +20,9 @@ import { CardMedia, StylesProvider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
 import stage from '../assets/game_assets/stage.png'
-import question from '../assets/game_assets/questioncard600.png'
+import Question from '../assets/game_assets/questioncard600.png'
 import tip from '../assets/game_assets/tipcard.png'
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,6 +78,11 @@ const useStyles = makeStyles((theme) => ({
         color: 'black',
         top: '-105px',
         left: '500px',
+    },
+    paperContainerQuestion: {
+        backgroundImage: `url(${Question})`,
+        width:'600px',
+        height:'130px',
     }
   }));
 
@@ -98,13 +104,42 @@ export default function PlayGame() {
                 </Container>
                 <Container className={classes.questioncontainer}>
                     <Card className={classes.questionRoot}>
-                        <CardMedia className={classes.questionMedia} image={question} title='question'/>
+                        <CardMedia className={classes.questionMedia} image={Question} title='question'/>
                         <div className={classes.questionOverlay}>
                             What is the best Game ever?
                         </div>
                     </Card>
                 </Container>
-                
+
+                Testing Paper
+                <Paper className={classes.paperContainerQuestion}>
+                    <Container>Some text to fill the Paper Component (Only Container)</Container>
+                </Paper>    
+                <Paper className={classes.paperContainerQuestion}>
+                    <Container>
+                        <Typography>
+                            Some text to fill the Paper Component (Typograph inside Container)
+                        </Typography>
+                    </Container>
+                </Paper>
+                <Paper className={classes.paperContainerQuestion}>
+                    <Container>
+                        <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                        >
+                            <Grid item>
+                                <Typography>
+                                    Some text to fill the Paper Component(Typography inside Grid)
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Paper>
+                End of Testing Paper    
+
                 <Grid container>
                     <Grid item image={tip} > </Grid>
                     <Grid item image={tip} > </Grid>
