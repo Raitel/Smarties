@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,16 +6,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import LeftPanel from "./leftNavigationPanel";
 import Grid from '@material-ui/core/Grid';
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
 import Divider from '@material-ui/core/Divider';
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
-import { spacing } from '@material-ui/system';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,7 +57,7 @@ export default function FormPropsTextFields() {
             <Container>
                 <Box style={{paddingTop:'80px'}}>
                     <Container className={classes.subcontainer}>
-                        <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Settings</Typography>
+                        <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Settings:</Typography>
                         <Container className={classes.section}>
                             <Typography variant="h5" className={classes.subtitle}>Log in Email:</Typography>
                             <TextField
@@ -86,13 +83,13 @@ export default function FormPropsTextFields() {
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Button className={classes.buttonStyle} variant="contained" color="primary" onClick={handleChangeUsername}>Change Username</Button>
+                                    <Button className={classes.buttonStyle} variant="contained" color="primary" onClick={handleChangeUsername} >Change Username</Button>
                                 </Grid>
                             </Grid>
                         </Container>
                         <Divider/>
                         <Container style={{marginTop:'50px', marginBottom:'50px'}}>
-                            <Typography variant="h5" className={classes.subtitle}>Password</Typography>
+                            <Typography variant="h5" className={classes.subtitle}>Password:</Typography>
                             <Button className={classes.buttonStyle} variant="contained" color="primary" onClick={handleChangePassword}>Change Password</Button>
                         </Container>
                     </Container>
