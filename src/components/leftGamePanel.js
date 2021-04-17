@@ -21,7 +21,7 @@ import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from "react-router-dom";
 import { Typography } from '@material-ui/core';
-
+import Button from '@material-ui/core/Button';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -177,12 +177,17 @@ export default function LeftGamePanel() {
         </List>
         <Divider />
         <Container className={classes.subfooter}>
+          {/* 
             <ExitToAppIcon/>
             <Link href="#" onClick={handleQuit} variant="body2">
                 <Typography>
                     Quit Game
                 </Typography>
             </Link>
+          */}
+          <Button onClick={handleQuit} startIcon={<ExitToAppIcon />} style={{textTransform: 'none'}}>
+                  Quit Game
+          </Button>
             
         </Container>
         <Container className={classes.footer}>
