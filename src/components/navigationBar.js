@@ -17,7 +17,15 @@ import Button from '@material-ui/core/Button';
 import logo from '../assets/logo.png';
 
 import { useHistory } from "react-router-dom";
-import { Box } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -93,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
   },
+  subcontainer:{
+    width: "600px",
+},
 }));
 
 export default function PrimarySearchAppBar() {
@@ -101,6 +112,15 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -160,7 +180,7 @@ export default function PrimarySearchAppBar() {
           <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleHome}>
             Home
           </Button>
-          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}}>
+          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleClickOpen}>
             Create a Platform
           </Button>
           <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleExplore}>
@@ -198,6 +218,51 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="600px">
+        <DialogTitle>
+          <Typography variant="h5" gutterBottom style={{color:'#212197',fontWeight: 'Bold'}}>Create a New Platform:</Typography>
+        </DialogTitle>
+        <DialogContent>
+          {
+          //<DialogContentText>
+          //</DialogContentText>
+          }
+          <Container className={classes.subcontainer}>
+            <Typography variant="h6"  style={{color:'#212197',fontWeight: 'Bold'}}>Title:</Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="platform title"
+              label="Title"
+              type="title"
+              variant="outlined"
+              fullWidth
+            />
+          </Container>
+          <Container className={classes.subcontainer}>
+            <Typography variant="h6"  style={{color:'#212197',fontWeight: 'Bold'}}>Description:</Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="platform description"
+              label="Description"
+              type="description"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+            />
+          </Container>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
