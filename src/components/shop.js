@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
         width: "200px",
-        height: "130px"
+        height: "130px",
+        display:'flex',
+        justifyContent:'center'
       }
   }));
 
