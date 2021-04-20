@@ -121,7 +121,7 @@ export default function FormPropsTextFields() {
             <Container>
                 <Box style={{paddingTop:'80px'}}>
                     <Container className={classes.subcontainer}>
-                        <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Change Username:</Typography>
+                        <Typography variant="h4" gutterBottom style={{color:'#212197',fontWeight: 'Bold',marginBottom:"50px", marginTop:"30px"}}>Change Password:</Typography>
                         <Container className={classes.section}>
                             <Typography variant="h5" className={classes.subtitle}>Current Password:</Typography>
                             <TextField

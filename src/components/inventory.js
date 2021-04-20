@@ -88,7 +88,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 2,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -96,7 +96,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 3,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -104,7 +104,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 4,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -112,7 +112,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 5,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -120,7 +120,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 6,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -138,7 +138,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 2,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -146,7 +146,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 3,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -154,7 +154,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 4,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -162,7 +162,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 5,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -170,7 +170,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 6,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -188,7 +188,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 2,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -196,7 +196,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 3,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -204,7 +204,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 4,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -212,7 +212,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 5,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -220,7 +220,7 @@ export default function Inventory(){
       {
           "type": "question",
           "price": 6,
-          "path": "../assets/game_assets/questioncard600.png",
+          "path": "/images/questioncard600.png",
           "createdAt": "2021-04-08T23:21:10.994Z",
           "updatedAt": "2021-04-08T23:21:10.994Z",
           "__v": 0
@@ -236,7 +236,7 @@ export default function Inventory(){
               {//<CardMedia image={card.path} title='card' className={classes.media}/>
               }
               <Container className={classes.media}>
-                  <img src={card.path} style={{maxWidth: "250px", maxHeight: "100px"}}alt="card" />
+                  <img src={card.path} style={{maxWidth: "250px", maxHeight: "100px"}} alt="card" />
               </Container>
           </CardContent>
           <CardActions disableSpacing>
