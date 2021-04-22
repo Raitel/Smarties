@@ -19,6 +19,7 @@ import ChangePassword from "./components/changePassword.js";
 import ChangeUsername from "./components/changeUsername.js";
 import PlayGame from "./components/playGame.js";
 import ExplorePlatforms from "./components/explore.js";
+import Platform from "./components/platform.js";
 
 const LoginContainer = () => (
   <div>
@@ -56,6 +57,7 @@ const DefaultContainer = () => (
     <Route path="/changeUsername" exact component={ChangeUsername} />
     <Route path="/play" exact component={PlayGame} />
     <Route path="/explore" exact component={ExplorePlatforms} />
+    <Route path="/platform" exact component={Platform} />
   </div>
 )
 
