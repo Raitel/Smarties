@@ -116,7 +116,7 @@ export default function Platform() {
     function PopulateGames(props){
         var games_ids = props.games_ids;
         var listGames = games_ids.map(function (game_id){
-            axios.get('http://localhost:5000/games/'+game_id)
+            axios.get('/games/'+game_id)
             .then(function(response){
                 console.log(response.data)
                 return <DisplayCard game={response.data} key={game_id._id} item/>
