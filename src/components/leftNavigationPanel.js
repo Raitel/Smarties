@@ -89,7 +89,7 @@ export default function ClippedDrawer() {
             <ListItemIcon>
               <SportsEsportsOutlinedIcon/>
             </ListItemIcon>
-            <ListItemText primary="My Games"/>
+            <ListItemText primary="My Platforms"/>
           </ListItem>
         </List>
         <Divider />
