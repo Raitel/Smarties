@@ -19,6 +19,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import SelectInput from '@material-ui/core/Select/SelectInput';
 
 function Copyright() {
   return (
@@ -57,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
+  progressBar_disabled:{
+    display:'none'
+  }
 }));
 
 export default function SignUp() {
@@ -72,50 +77,73 @@ export default function SignUp() {
   const [confirmPasswordError, setPasswordConfirmError] = useState(false)
   const [reveal, setReveal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  function syncDelay(milliseconds){
+    var start = new Date().getTime();
+    var end=0;
+    while( (end-start) < milliseconds){
+        end = new Date().getTime();
+    }
+   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setLoading(true)
     setUsernameError(false)
     setEmailError(false)
     setPasswordError(false)
     setPasswordConfirmError(false)
+    var missing = false;
     if(username == ''){
         setUsernameError(true)
+        missing = true
     }
     if(email == ''){
         setEmailError(true)
+        missing = true
     }
     if(password == ''){
         setPasswordError(true)
+        missing = true
     }
     if(confirmPassword == ''){
         setPasswordConfirmError(true)
+        missing = true
     }
+    if ((password && confirmPassword) && (password !== confirmPassword)){
+      setPasswordError(true)
+      setPasswordConfirmError(true)
+      enqueueSnackbar('Password Mismatch', {variant:'warning'});
+    }
+    if (missing){
+      enqueueSnackbar('Missing Fields', {variant:'error'});
+    }
+    console.log(loading)
     if(username && email && password === confirmPassword){
         console.log('send req: ' + username, email, password, confirmPassword)
-        
+        setLoading(!loading)
         axios.post('http://localhost:5000/users/add', {username: username, email: email, password: password})
           .then(res => {
             console.log(res)
+            console.log('132')
+            setLoading(false)
             if (res.status === 200){
-              setLoading(false)
-              HandleClickSnackbar('success')
+              enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
+            }else if(res.status === 204){
+              setEmailError(true)
+              enqueueSnackbar('Email in use', {variant:'warning'});
+            }else if(res.status === 205){
+              setUsernameError(true)
+              enqueueSnackbar('Username in use', {variant:'warning'});
+            }else if (res.status === 404){
+              enqueueSnackbar('Something Broke! 404', {variant:'error'});
+            }else{
+              enqueueSnackbar('Hm, something is not right', {variant:'success'});
             }
           })
           // if res, display tag and redirect in 3 secs
     }else{
         console.log('do not send req')
-    }
-    setLoading(false)
-  }
-
-  const HandleClickSnackbar = (variant) => () => {
-    if (variant === 'success'){
-      // pop message
-      // redirect
-    }else{
-      console.log('something went wrong')
     }
   }
   
@@ -135,7 +163,7 @@ export default function SignUp() {
 
   return (
     <div>
-      {loading ? <LinearProgress className={classes.progressBar}/> : null }
+      <LinearProgress className={loading ? classes.progressBar:classes.progressBar_disabled}/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -253,6 +281,6 @@ export default function SignUp() {
           <Copyright />
         </Box>
       </Container>
-    </div>
+    </div >
   );
 }
