@@ -34,7 +34,6 @@ router.route('/getByUsername/:username').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-
 router.route('/add').post(async(req, res) => {
   if (!req.body.username){
     res.status(406).send({status: false, message: "username parameter required"})
@@ -109,4 +108,30 @@ router.route('/update/:id').patch((req, res) => {
     }
   })
 })
+
+router.route('/login/login').post(async(req, res) => {
+  const { credential, password } = req.body
+  user_byemail = await User.findOne({email: credential})
+  user_byeusername = await User.findOne({username: credential})
+  if (user_byemail){
+    const isMatch = await bcrypt.compare(password, user_byemail.password);
+    if (!isMatch){
+      res.status(205).send({status: false, message: 'Incorrect Password'})
+    }else{
+      res.status(200).send({status: true, message: 'Logging in'})
+    }
+  }else if (user_byeusername){
+    const isMatch = await bcrypt.compare(password, user_byeusername.password);
+    if (!isMatch){
+      res.status(205).send({status: false, message: 'Incorrect Password'})
+    }else{
+      res.status(200).send({status: true, message: 'Logging in'})
+    }
+  }else if (!user_byemail){
+    res.status(204).send({status: false, message: 'User not found'})
+  }else if (!user_byeusername){
+    res.status(204).send({status: false, message: 'User not found'})
+  }
+})
+
 module.exports = router;

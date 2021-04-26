@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 function Copyright() {
   return (
@@ -54,7 +56,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
-  
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   const handleSubmit = (e) => {
       e.preventDefault()
       setEmailError(false)
@@ -65,8 +68,27 @@ export default function Login() {
       if(password == ''){
           setPasswordError(true)
       }
+      const user = {
+        credential: email, 
+        password: password
+      }
       if(email && password){
           console.log(email, password)
+          axios.post('http://localhost:5000/users/login/login', user)
+          .then(res => {
+            console.log(res)
+            if (res.status === 200){
+              enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
+              history.push("/")
+            }else if (res.status === 204){
+              setEmailError(true)
+              setPasswordError(true)
+              enqueueSnackbar('User not found', {variant:'error'});
+            }else if (res.status === 205){
+              setPasswordError(true)
+              enqueueSnackbar('Invalid Password', {variant:'error'});
+            }
+          })
       }
   }
 

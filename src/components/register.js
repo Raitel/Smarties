@@ -19,8 +19,9 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory } from "react-router-dom";
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import SelectInput from '@material-ui/core/Select/SelectInput';
+import { SettingsInputAntennaTwoTone } from '@material-ui/icons';
 
 function Copyright() {
   return (
@@ -78,16 +79,9 @@ export default function SignUp() {
   const [reveal, setReveal] = useState(false)
   const [loading, setLoading] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  function syncDelay(milliseconds){
-    var start = new Date().getTime();
-    var end=0;
-    while( (end-start) < milliseconds){
-        end = new Date().getTime();
-    }
-   }
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
+    // Set loading to true
     e.preventDefault()
     setUsernameError(false)
     setEmailError(false)
@@ -118,17 +112,15 @@ export default function SignUp() {
     if (missing){
       enqueueSnackbar('Missing Fields', {variant:'error'});
     }
-    console.log(loading)
     if(username && email && password === confirmPassword){
         console.log('send req: ' + username, email, password, confirmPassword)
-        setLoading(!loading)
         axios.post('http://localhost:5000/users/add', {username: username, email: email, password: password})
           .then(res => {
             console.log(res)
-            console.log('132')
-            setLoading(false)
             if (res.status === 200){
               enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
+              // Redirect to where we want
+              history.push("/login")
             }else if(res.status === 204){
               setEmailError(true)
               enqueueSnackbar('Email in use', {variant:'warning'});
@@ -138,13 +130,18 @@ export default function SignUp() {
             }else if (res.status === 404){
               enqueueSnackbar('Something Broke! 404', {variant:'error'});
             }else{
-              enqueueSnackbar('Hm, something is not right', {variant:'success'});
+              enqueueSnackbar('Hm, something is not right', {variant:'error'});
             }
           })
-          // if res, display tag and redirect in 3 secs
+          .catch(() => {
+            enqueueSnackbar('Hm, something is not right', {variant:'error'});
+          })
     }else{
         console.log('do not send req')
     }
+    // Set loading to false
+    setLoading(false)
+    console.log('end')
   }
   
   const handleLogin = (e) => {
@@ -153,17 +150,16 @@ export default function SignUp() {
   };
 
   const handleClickShowPassword = () => {
-    console.log(reveal)
     setReveal(!reveal)
   };
-  
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   return (
     <div>
-      <LinearProgress className={loading ? classes.progressBar:classes.progressBar_disabled}/>
+      <LinearProgress className={loading ? classes.progressBar : classes.progressBar_disabled}/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
