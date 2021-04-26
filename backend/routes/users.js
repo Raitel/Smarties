@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const session = require('express-session')
+const MonggoDBSession = require('connect-mongodb-session')(session)
+const bcrypt = require('bcryptjs')
 let User = require('../models/user.model');
 
 router.route('/').get((req, res) => {
@@ -31,30 +34,42 @@ router.route('/getByUsername/:username').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post((req, res) => {
+
+router.route('/add').post(async(req, res) => {
   if (!req.body.username){
     res.status(406).send({status: false, message: "username parameter required"})
   }
-  if (!req.body.email){
+  else if (!req.body.email){
     res.status(406).send({status: false, message: "email parameter required"})
   }
-  if (!req.body.password){
+  else if (!req.body.password){
     res.status(406).send({status: false, message: "password parameter required"})
   }
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
+  else{
+    const {username, email, password} = req.body
 
-  const newUser = new User({
-    username,
-    email,
-    password
-  });
+    let user_email = await User.findOne({email})
+    if (user_email){
+      res.status(600).send({status: false, message: 'Email already registered'})
+    }
+    let user_username = await User.findOne({username})
+    if (user_username){
+      res.status(600).send({status: false, message: 'Username already registered'})
+    }
 
-  newUser.save()
-    .then(() => res.json('User added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    const hashedPw = await bcrypt.hash(password, 12)
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPw
+    });
+
+    await newUser.save()
+      .then(() => res.json('User added!'))
+      .catch(err => res.status(400).json('Error: ' + err));
+  } 
 });
+
 
 router.route('/:id').delete((req, res) => {
   User.findByIdAndDelete(req.params.id)
