@@ -49,24 +49,23 @@ router.route('/add').post(async(req, res) => {
     const {username, email, password} = req.body
 
     let user_email = await User.findOne({email})
+    let user_username = await User.findOne({username})
     if (user_email){
       res.status(600).send({status: false, message: 'Email already registered'})
-    }
-    let user_username = await User.findOne({username})
-    if (user_username){
+    }else if (user_username){
       res.status(600).send({status: false, message: 'Username already registered'})
+    }else{
+      const hashedPw = await bcrypt.hash(password, 12)
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPw
+      });
+
+      await newUser.save()
+        .then(() => res.json('User added!'))
+        .catch(err => res.status(400).json('Error: ' + err));
     }
-
-    const hashedPw = await bcrypt.hash(password, 12)
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPw
-    });
-
-    await newUser.save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
   } 
 });
 

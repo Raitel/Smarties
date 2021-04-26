@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory } from "react-router-dom";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 function Copyright() {
   return (
@@ -49,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  progressBar: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
 export default function SignUp() {
@@ -63,9 +71,11 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = useState(false)
   const [confirmPasswordError, setPasswordConfirmError] = useState(false)
   const [reveal, setReveal] = useState(false)
-  
+  const [loading, setLoading] = useState(false)
+
   const handleSubmit = (e) => {
     e.preventDefault()
+    setLoading(true)
     setUsernameError(false)
     setEmailError(false)
     setPasswordError(false)
@@ -82,10 +92,30 @@ export default function SignUp() {
     if(confirmPassword == ''){
         setPasswordConfirmError(true)
     }
-    if(username && email && password && confirmPassword){
-        console.log(username, email, password, confirmPassword)
+    if(username && email && password === confirmPassword){
+        console.log('send req: ' + username, email, password, confirmPassword)
+        
+        axios.post('http://localhost:5000/users/add', {username: username, email: email, password: password})
+          .then(res => {
+            console.log(res)
+            if (res.status === 200){
+              setLoading(false)
+              HandleClickSnackbar('success')
+            }
+          })
+          // if res, display tag and redirect in 3 secs
     }else{
-        console.log(false)
+        console.log('do not send req')
+    }
+    setLoading(false)
+  }
+
+  const HandleClickSnackbar = (variant) => () => {
+    if (variant === 'success'){
+      // pop message
+      // redirect
+    }else{
+      console.log('something went wrong')
     }
   }
   
@@ -104,122 +134,125 @@ export default function SignUp() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setUsername(e.target.value)}
-                error={usernameError}
-                autoComplete="username"
-                name="username"
-                variant="outlined"
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                autoFocus
-              />
+    <div>
+      {loading ? <LinearProgress className={classes.progressBar}/> : null }
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={(e) => setUsername(e.target.value)}
+                  error={usernameError}
+                  autoComplete="username"
+                  name="username"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="userName"
+                  label="User Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={(e) => setEmail(e.target.value)}
+                  error={emailError}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={(e) => setPassword(e.target.value)}
+                  type={reveal ? 'text' : 'password'}
+                  error={passwordError}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  id="password"
+                  autoComplete="current-password"
+                  InputProps={{
+                      endAdornment:(
+                          <InputAdornment position="end">
+                              <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              >
+                              {reveal ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                          </InputAdornment>
+                      )
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  type={reveal ? 'text' : 'password'}
+                  error={confirmPasswordError}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  id="confirmPassword"
+                  autoComplete="confirm-password"
+                  InputProps={{
+                      endAdornment:(
+                          <InputAdornment position="end">
+                              <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              >
+                              {reveal ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                          </InputAdornment>
+                      )
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setEmail(e.target.value)}
-                error={emailError}
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Typography>
+                  <Link href="#" onClick={handleLogin} variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setPassword(e.target.value)}
-                type={reveal ? 'text' : 'password'}
-                error={passwordError}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                    endAdornment:(
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            >
-                            {reveal ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    )
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                type={reveal ? 'text' : 'password'}
-                error={confirmPasswordError}
-                variant="outlined"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                id="confirmPassword"
-                autoComplete="confirm-password"
-                InputProps={{
-                    endAdornment:(
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            >
-                            {reveal ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    )
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Typography>
-                <Link href="#" onClick={handleLogin} variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Typography>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
   );
 }
