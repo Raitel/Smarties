@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Redirect } from 'react-router';
 
@@ -19,6 +19,7 @@ import ChangeUsername from "./components/changeUsername.js";
 import PlayGame from "./components/playGame.js";
 import ExplorePlatforms from "./components/explore.js";
 import Platform from "./components/platform.js";
+import AuthApi from "./utils/AuthApi";
 
 const LoginContainer = () => (
   <div>
@@ -44,7 +45,7 @@ const ForgotPasswordContainer = () => (
 const DefaultContainer = () => (
   <div>
     <Navbar />
-    <Route path="/" exact component={Home} />
+    <Route path="/home" exact component={Home} />
     <Route path="/shop" exact component={Shop} />
     <Route path="/settings" exact component={Settings} />
     <Route path="/profile" exact component={Profile} />
@@ -60,17 +61,42 @@ const DefaultContainer = () => (
   </div>
 )
 
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/(login)" component={LoginContainer}/>
-        <Route exact path="/(register)" component={RegisterContainer}/>
-        <Route exact path="/(forgotPassword)" component={ForgotPasswordContainer}/>
-        <Route component={DefaultContainer}/>
+const RouteGuest = ({ component: Component, ...rest}) => {
+  const authApi = React.useContext(AuthApi);
+  return <Route 
+            {...rest} 
+            render = {props =>
+              !authApi.auth ? <Component {...props} /> : <Redirect to="/home" /> 
+            }
+          />
+}
 
-      </Switch>
-    </Router>
+const RouteUser = ({ component: Component, ...rest}) => {
+  const authApi = React.useContext(AuthApi);
+  return <Route 
+          {...rest} 
+          render={props => 
+            authApi.auth ? <Component {...props}/> : <Redirect to="/login" />} 
+          />;
+}
+
+function App() {
+  const [auth, setAuth] = useState(false);
+
+  return (
+    <div>
+      <AuthApi.Provider value={{ auth, setAuth }}>
+        <Router>
+          <Switch>
+            <RouteGuest exact path="/(login)" component={LoginContainer}/>
+            <RouteGuest exact path="/(register)" component={RegisterContainer}/>
+            <RouteGuest exact path="/(forgotPassword)" component={ForgotPasswordContainer}/>
+            <RouteUser component={DefaultContainer}/>
+
+          </Switch>
+        </Router>
+      </AuthApi.Provider> 
+    </div>
   );
 }
 

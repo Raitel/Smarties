@@ -125,6 +125,9 @@ router.route('/login/login').post(async(req, res) => {
     if (!isMatch){
       res.status(205).send({status: false, message: 'Incorrect Password'})
     }else{
+      // Success
+      req.session.isAuth = true
+      console.log(req.session)
       res.status(200).send({status: true, message: 'Logging in'})
     }
   }else if (!user_byemail){

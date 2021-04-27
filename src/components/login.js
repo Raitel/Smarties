@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from 'notistack';
+import AuthApi from '../utils/AuthApi';
 
 function Copyright() {
   return (
@@ -57,6 +58,7 @@ export default function Login() {
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const authApi = React.useContext(AuthApi);
 
   const handleSubmit = (e) => {
       e.preventDefault()
@@ -79,7 +81,7 @@ export default function Login() {
             console.log(res)
             if (res.status === 200){
               enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
-              history.push("/")
+              authApi.setAuth(true);
             }else if (res.status === 204){
               setEmailError(true)
               setPasswordError(true)

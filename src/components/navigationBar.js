@@ -3,22 +3,15 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-
 import InputBase from '@material-ui/core/InputBase';
-
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/Menu';
-
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
 import Button from '@material-ui/core/Button';
-
 import logo from '../assets/logo.png';
-
 import { useHistory } from "react-router-dom";
 import { Box, Container } from '@material-ui/core';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -26,6 +19,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
+import AuthApi from '../utils/AuthApi';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -113,6 +107,7 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
+  const authApi = React.useContext(AuthApi);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -142,6 +137,7 @@ export default function PrimarySearchAppBar() {
 
   const handleLogOut = () => {
     setAnchorEl(null);
+    authApi.setAuth(false);
   };
 
   const handleHome = () => {
