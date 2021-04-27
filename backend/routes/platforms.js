@@ -16,45 +16,6 @@ router.route('/getPublicPlatforms').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// get platforms by keyword
-// router.route('/getPlatformsByKeyword/:keyword').get((req, res) => {
-//   Platform.find({
-//     $and: [
-//         { 'isPublic': true },
-//         { $or: [{"title" : new RegExp(req.params.keyword,'i')}, {"description" : new RegExp(req.params.keyword,'i')}, {"tags" : new RegExp(req.params.keyword,'i')}] }
-//     ]
-// })
-//     .then(platforms => res.json(platforms))
-//     .catch(err => res.status(400).json('Error: ' + err));
-// });
-
-router.route('/getPlatformsByKeyword/:keyword').get((req, res) => {
-  var keywords = req.params.keyword;
-  var keywords_regular_expression = new RegExp(keywords, "i");
-
-  if(req.params.keyword.includes('&')){
-    keywords = req.params.keyword.split('&');
-    keywords_regular_expression = new RegExp(keywords.join("|"), "i");
-  }
-
-  Platform.find({
-    $and: [
-      { 'isPublic': true },
-      { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
-  ]
-})
-    .then(platforms => res.json(platforms))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-//get 10 most recent platforms
-//{updatedAt: 'desc'}
-router.route('/getRecentPlatforms').get((req, res) => {
-  Platform.find({'isPublic': true}).sort({$natural:-1}).limit(10)
-    .then(platforms => res.json(platforms))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
 // get platform by id
 router.route('/:id').get((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
