@@ -10,6 +10,36 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//get games by keyword
+// router.route('/getGamesByKeyword/:keyword').get((req, res) => {
+//   Game.find({
+//     $and: [
+//         { $or: [{"title" : new RegExp(req.params.keyword,'i')}, {"description" : new RegExp(req.params.keyword,'i')}, {"tags" : new RegExp(req.params.keyword,'i')}] }
+//     ]
+// })
+//     .then(games => res.json(games))
+//     .catch(err => res.status(400).json('Error: ' + err));
+// });
+
+//get games by multiple keyword
+router.route('/getGamesByKeyword/:keyword').get((req, res) => {
+  var keywords = req.params.keyword;
+  var keywords_regular_expression = new RegExp(keywords, "i");
+
+  if(req.params.keyword.includes('&')){
+    keywords = req.params.keyword.split('&');
+    keywords_regular_expression = new RegExp(keywords.join("|"), "i");
+  }
+
+  Game.find({
+    $and: [
+      { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
+  ]
+})
+    .then(games => res.json(games))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // get game by id
 router.route('/:id').get((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
