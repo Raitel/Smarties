@@ -55,7 +55,7 @@ const DefaultContainer = () => (
     <Route path="/contactus" exact component={ContactUs} />
     <Route path="/changePassword" exact component={ChangePassword} />
     <Route path="/changeUsername" exact component={ChangeUsername} />
-    <Route path="/play" exact component={PlayGame} />
+    <Route path="/" exact component={PlayGame} />
     <Route path="/explore" exact component={ExplorePlatforms} />
     <Route path="/platform" exact component={Platform} />
   </div>

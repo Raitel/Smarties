@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import React, { useState } from 'react';
 import LeftGamePanel from "./leftGamePanel";
+import MultipleChoice from "./playGameStages";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -26,6 +27,8 @@ import Tip from '../assets/game_assets/tipcard.png'
 import ConstructBox from '../assets/game_assets/constructionBox.png'
 import Background from '../assets/game_assets/background.png'
 import Paper from '@material-ui/core/Paper';
+import PlayGameStages from './playGameStages';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -329,7 +332,8 @@ export default function PlayGame() {
     return(
     <div style={{display:'flex', marginTop:"64px"}}>
         <LeftGamePanel/>
-        <Multiple/>
+        <PlayGameStages/>
+
     </div>
 
     )
