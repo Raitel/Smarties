@@ -179,6 +179,7 @@ export default function PlayGameStages() {
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [showScore, setShowScore] = useState(false);
 	const [score, setScore] = useState(0);
+    const [point, setPoint] = useState(0);
     const [tip1Disabled, setTip1Disabled] = useState(false);
     const [tip2Disabled, setTip2Disabled] = useState(false);
     const [tipConstruction, setTipConstruction] = useState([-1,-1]);
@@ -198,7 +199,15 @@ export default function PlayGameStages() {
 	const handleAnswerOptionClick = (isCorrect) => {
 		if (isCorrect) {
 			setScore(score + 1);
+            setPoint(point + 10);
+            if(tip1Disabled === false){
+                setPoint(point + 3);
+            }
+            if(tip2Disabled === false){
+                setPoint(point + 3);
+            }
 		}
+
 
 		const nextQuestion = currentQuestion + 1;
 
@@ -354,13 +363,20 @@ export default function PlayGameStages() {
 	return (
 		<div className='app'>
 			{showScore ? (
-				<div className='score-section'>
-					You scored {score} out of {testQuestions.length}
-				</div>
+				<Container className={classes.container}>
+                    <Typography>
+                        You got {score} questions correct out of {testQuestions.length} questions.
+                    </Typography>
+                    <Typography>
+                        You obtained {point} points from completing the game.
+                    </Typography>
+				</Container>
 			) : (
 				<>
                     <Container className={classes.container}>
-                        {score}
+                        <Typography>
+                            Current Obtained Points: {point}.
+                        </Typography>
                         <Container id='stage-count' className={classes.stageCount}>
                             <Typography>
                                 Stage {currentQuestion + 1} / {testQuestions.length}
