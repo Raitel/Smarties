@@ -6,6 +6,10 @@ import { useHistory } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { useSnackbar } from 'notistack';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -176,6 +180,8 @@ export default function PlayGameStages() {
         }
     ]
 
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [showScore, setShowScore] = useState(false);
 	const [score, setScore] = useState(0);
@@ -196,18 +202,53 @@ export default function PlayGameStages() {
     const [constructionSubmitButtonDisabled, setConstructionSubmitButtonDisabled] = useState(false)
     const [constructionLetters, setConstructionLetters] = useState(shuffle(testQuestions[currentQuestion].letters.map(x => x)));
 
+
 	const handleAnswerOptionClick = (isCorrect) => {
+        if(isCorrect){
+            enqueueSnackbar("Good Job! You got the answer correct!", {
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                persist: true,
+                variant:'success',
+                action});
+        }
+        else{
+            var message = "Oops, the correct answer was " + testQuestions[currentQuestion].answer;
+            enqueueSnackbar(message, {
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                persist: true,
+                variant:'error',
+                action});            
+        }
+
+        handleNextQuestion(isCorrect);
+	};
+
+    const action = key => (
+            <IconButton onClick={() => { closeSnackbar(key) }}>
+                <CloseIcon />
+            </IconButton>
+    );
+
+	const handleNextQuestion = (isCorrect) => {
 		if (isCorrect) {
+            var extraPoints = 0;
 			setScore(score + 1);
-            setPoint(point + 10);
+            
             if(tip1Disabled === false){
-                setPoint(point + 3);
+                extraPoints = extraPoints + 3;
             }
             if(tip2Disabled === false){
-                setPoint(point + 3);
+                extraPoints = extraPoints + 3;
             }
-		}
 
+            setPoint(point + 10 + extraPoints);
+		}
 
 		const nextQuestion = currentQuestion + 1;
 
@@ -226,10 +267,6 @@ export default function PlayGameStages() {
             setTextboxAnswer('');
             setTipConstruction([-1,-1]);
 
-            // if (testQuestions[currentQuestion].type === "MultipleChoice") {
-            //     initializeMultipleChoice();
-            // }
-
 		} else {
 			setShowScore(true);
 		}
@@ -237,19 +274,19 @@ export default function PlayGameStages() {
 
 	const handleSubmitTextboxOptionClick = (isCorrect) => {
 		if (textboxAnswer === "") {
-			setTextboxAnswerError(true)
+			setTextboxAnswerError(true);
 		}
         else{
-            handleAnswerOptionClick(isCorrect)
+            handleAnswerOptionClick(isCorrect);
         }
 	};
 
 	const handleSubmitConstructionOptionClick = (isCorrect) => {
 		if (constructionAnswer === "") {
-			setConstructionAnswerError(true)
+			setConstructionAnswerError(true);
 		}
         else{
-            handleAnswerOptionClick(isCorrect)
+            handleAnswerOptionClick(isCorrect);
         }
 	};
 
@@ -361,6 +398,7 @@ export default function PlayGameStages() {
     }
 
 	return (
+
 		<div className='app'>
 			{showScore ? (
 				<Container className={classes.container}>
@@ -466,5 +504,6 @@ export default function PlayGameStages() {
 				</>
 			)}
 		</div>
+
 	);
 }

@@ -20,6 +20,7 @@ import PlayGame from "./components/playGame.js";
 import ExplorePlatforms from "./components/explore.js";
 import Platform from "./components/platform.js";
 import AuthApi from "./utils/AuthApi";
+import { SnackbarProvider } from 'notistack';
 
 const LoginContainer = () => (
   <div>
@@ -85,17 +86,19 @@ function App() {
 
   return (
     <div>
-      <AuthApi.Provider value={{ auth, setAuth }}>
-        <Router>
-          <Switch>
-            <RouteGuest exact path="/(login)" component={LoginContainer}/>
-            <RouteGuest exact path="/(register)" component={RegisterContainer}/>
-            <RouteGuest exact path="/(forgotPassword)" component={ForgotPasswordContainer}/>
-            <RouteUser component={DefaultContainer}/>
+      <SnackbarProvider maxSnack={1}>
+        <AuthApi.Provider value={{ auth, setAuth }}>
+          <Router>
+            <Switch>
+              <RouteGuest exact path="/(login)" component={LoginContainer}/>
+              <RouteGuest exact path="/(register)" component={RegisterContainer}/>
+              <RouteGuest exact path="/(forgotPassword)" component={ForgotPasswordContainer}/>
+              <RouteUser component={DefaultContainer}/>
 
-          </Switch>
-        </Router>
-      </AuthApi.Provider> 
+            </Switch>
+          </Router>
+        </AuthApi.Provider>
+      </SnackbarProvider> 
     </div>
   );
 }
