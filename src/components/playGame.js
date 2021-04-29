@@ -175,164 +175,125 @@ export default function PlayGame() {
           "__v": 4
         }
     )
-
-    function GenerateRow(props){
-        var counter;
-        if (props.row == 1){
-            counter = 0
-        }else{
-            counter = 7
+    const testQuestions = [
+        {
+            "question": "question0",
+            "answer": "d1",
+            "tip1": "tip1",
+            "tip2": "tip2",
+            "choice1": "d1",
+            "choice2": "Bd2",
+            "choice3": "Bd3",
+            "choice4": "Bd4",
+            "choice5": "Bd5",
+            "letters": [],
+            "_id": "",
+            "type": "MultipleChoice"
+        },
+        {
+            "question": "question1",
+            "answer": "ABC",
+            "tip1": "",
+            "tip2": "",
+            "choice1": "",
+            "choice2": "",
+            "choice3": "",
+            "choice4": "",
+            "choice5": "",
+            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','C','J'],
+            "_id": "6070a325ad0c350524e78ea9",
+            "type": "Construction"
+        },
+        {
+            "question": "question2",
+            "answer": "B1",
+            "tip1": "tip1",
+            "tip2": "tip2",
+            "choice1": "B1",
+            "choice2": "B2",
+            "choice3": "B3",
+            "choice4": "B4",
+            "choice5": "B5",
+            "letters": [],
+            "_id": "",
+            "type": "MultipleChoice"
+        },
+        {
+            "question": "question3",
+            "answer": "ASD",
+            "tip1": "tip1",
+            "tip2": "tip2",
+            "choice1": "",
+            "choice2": "",
+            "choice3": "",
+            "choice4": "",
+            "choice5": "",
+            "letters": ['B'],
+            "_id": "6070a325ad0c350524e78ea9",
+            "type": "Textbox"
+        },
+        {
+            "question": "question4",
+            "answer": "MJ",
+            "tip1": "",
+            "tip2": "",
+            "choice1": "",
+            "choice2": "",
+            "choice3": "",
+            "choice4": "",
+            "choice5": "",
+            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
+            "_id": "6070a325ad0c350524e78ea9",
+            "type": "Construction"
+        },
+        {
+            "question": "question5",
+            "answer": "c1",
+            "tip1": "tip1",
+            "tip2": "tip2",
+            "choice1": "c1",
+            "choice2": "c2",
+            "choice3": "c3",
+            "choice4": "c4",
+            "choice5": "c5",
+            "letters": [],
+            "_id": "",
+            "type": "MultipleChoice"
+        },
+        {
+            "question": "question6",
+            "answer": "DDD",
+            "tip1": "TIP1: ANSWER = DDD",
+            "tip2": "TIP2: ANSWER = DDD",
+            "choice1": "1",
+            "choice2": "2",
+            "choice3": "3",
+            "choice4": "4",
+            "choice5": "5",
+            "letters": [],
+            "_id": "6070a325ad0c350524e78ea9",
+            "type": "Textbox"
+        },
+        {
+            "question": "question7",
+            "answer": "WO",
+            "tip1": "",
+            "tip2": "",
+            "choice1": "",
+            "choice2": "",
+            "choice3": "",
+            "choice4": "",
+            "choice5": "",
+            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
+            "_id": "6070a325ad0c350524e78ea9",
+            "type": "Construction"
         }
-        var rowItems = []
-        var limit = counter + 7
-        while(counter < limit){
-            rowItems.push(
-                <Container className={classes.letterPaper}>{game.nestedStages[0].letters[counter]}</Container>
-            )
-            counter++;
-        }
-
-        return (
-            [rowItems]
-        )
-    }
-
-    function Construction(props){
-        return(
-            <Container>
-                <Container className={classes.container}>
-
-                    <Container className={classes.stagePaper}>
-                        <Typography className={classes.stageHeader}>
-                            Stage Paper
-                        </Typography>
-                    </Container>
-
-                    <Container className={classes.questionPaper}>
-                        Question Paper
-                    </Container>
-
-                    <Grid container direction="row" justify="center" alignItems="center" spacing={10}>
-                        <Grid item>
-                            <Container className={classes.tipCard1}>
-                                Tip Card 1
-                            </Container>
-                        </Grid>
-                        <Grid item>
-                            <Container className={classes.tipCard2}>
-                                Tip Card 2
-                            </Container>
-                        </Grid>
-                    </Grid>
-
-                    <Container className={classes.constructPaper}>
-                        Construct Paper
-                    </Container>
-
-                    <Container className={classes.letterRow}>
-                        <GenerateRow row={1}/>
-                    </Container>
-                    <Container className={classes.letterRow}>
-                        <GenerateRow row={2}/>
-                    </Container>
-                    
-                </Container>
-            </Container>
-        )
-    }
-    function Multiple(props){
-        return(
-            <Container>
-                <Container className={classes.container}>
-
-                    <Container className={classes.stagePaper}>
-                        <Typography className={classes.stageHeader}>
-                            Stage Paper
-                        </Typography>
-                    </Container>
-
-                    <Container className={classes.questionPaper}>
-                        Question Paper
-                    </Container>
-
-                    <Grid container direction="column" justify="center" alignItems="center" >
-                        <Grid container style={{marginBottom:'20px'}}>
-                            <Container className={classes.constructPaper}>
-                                Construct Paper
-                            </Container>
-                            <Grid item>
-                                <Container className={classes.tipCard1}>
-                                    Tip Card 1
-                                </Container>
-                            </Grid>
-                            <Container className={classes.constructPaper}>
-                                Construct Paper
-                            </Container>
-                        </Grid>
-                        <Grid container style={{marginBottom:'20px'}}>
-                            <Container className={classes.constructPaper}>
-                                Construct Paper
-                            </Container>
-                        </Grid>
-                        <Grid container style={{marginBottom:'20px'}}>
-                            <Container className={classes.constructPaper}>
-                                Construct Paper
-                            </Container>
-                            <Grid item>
-                                <Container className={classes.tipCard1}>
-                                    Tip Card 1
-                                </Container>
-                            </Grid>
-                            <Container className={classes.constructPaper}>
-                                Construct Paper
-                            </Container>
-                        </Grid>
-                    </Grid>
-                    
-                </Container>
-            </Container>
-        )
-    }
-    function Text(props){
-        return(
-            <Container>
-                <Container className={classes.container}>
-
-                    <Container className={classes.stagePaper}>
-                        <Typography className={classes.stageHeader}>
-                            Stage Paper
-                        </Typography>
-                    </Container>
-
-                    <Container className={classes.questionPaper}>
-                        Question Paper
-                    </Container>
-
-                    <Grid container direction="column" justify="center" alignItems="center" spacing={2} style={{marginBottom:'15px'}}>
-                        <Grid item>
-                            <Container className={classes.tipCard1}>
-                                Tip Card 1
-                            </Container>
-                        </Grid>
-                        <Grid item>
-                            <Container className={classes.tipCard2}>
-                                Tip Card 2
-                            </Container>
-                        </Grid>
-                    </Grid>
-
-                    <Container className={classes.constructPaper}>
-                        Construct Paper
-                    </Container>
-                    
-                </Container>
-            </Container>
-        )
-    }
+    ]
+    
     return(
     <div style={{display:'flex', marginTop:"64px"}}>
         <LeftGamePanel/>
-        <PlayGameStages/>
+        <PlayGameStages value={testQuestions}/>
 
     </div>
 

@@ -72,123 +72,123 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function PlayGameStages() {
+export default function PlayGameStages(props) {
     const classes = useStyles();
-    const history = useHistory();
-    const testQuestions = [
-        {
-            "question": "question0",
-            "answer": "d1",
-            "tip1": "tip1",
-            "tip2": "tip2",
-            "choice1": "d1",
-            "choice2": "Bd2",
-            "choice3": "Bd3",
-            "choice4": "Bd4",
-            "choice5": "Bd5",
-            "letters": [],
-            "_id": "",
-            "type": "MultipleChoice"
-        },
-        {
-            "question": "question1",
-            "answer": "ABC",
-            "tip1": "",
-            "tip2": "",
-            "choice1": "",
-            "choice2": "",
-            "choice3": "",
-            "choice4": "",
-            "choice5": "",
-            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','C','J'],
-            "_id": "6070a325ad0c350524e78ea9",
-            "type": "Construction"
-        },
-        {
-            "question": "question2",
-            "answer": "B1",
-            "tip1": "tip1",
-            "tip2": "tip2",
-            "choice1": "B1",
-            "choice2": "B2",
-            "choice3": "B3",
-            "choice4": "B4",
-            "choice5": "B5",
-            "letters": [],
-            "_id": "",
-            "type": "MultipleChoice"
-        },
-        {
-            "question": "question3",
-            "answer": "ASD",
-            "tip1": "tip1",
-            "tip2": "tip2",
-            "choice1": "",
-            "choice2": "",
-            "choice3": "",
-            "choice4": "",
-            "choice5": "",
-            "letters": ['B'],
-            "_id": "6070a325ad0c350524e78ea9",
-            "type": "Textbox"
-        },
-        {
-            "question": "question4",
-            "answer": "MJ",
-            "tip1": "",
-            "tip2": "",
-            "choice1": "",
-            "choice2": "",
-            "choice3": "",
-            "choice4": "",
-            "choice5": "",
-            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
-            "_id": "6070a325ad0c350524e78ea9",
-            "type": "Construction"
-        },
-        {
-            "question": "question5",
-            "answer": "c1",
-            "tip1": "tip1",
-            "tip2": "tip2",
-            "choice1": "c1",
-            "choice2": "c2",
-            "choice3": "c3",
-            "choice4": "c4",
-            "choice5": "c5",
-            "letters": [],
-            "_id": "",
-            "type": "MultipleChoice"
-        },
-        {
-            "question": "question6",
-            "answer": "DDD",
-            "tip1": "TIP1: ANSWER = DDD",
-            "tip2": "TIP2: ANSWER = DDD",
-            "choice1": "1",
-            "choice2": "2",
-            "choice3": "3",
-            "choice4": "4",
-            "choice5": "5",
-            "letters": [],
-            "_id": "6070a325ad0c350524e78ea9",
-            "type": "Textbox"
-        },
-        {
-            "question": "question7",
-            "answer": "WO",
-            "tip1": "",
-            "tip2": "",
-            "choice1": "",
-            "choice2": "",
-            "choice3": "",
-            "choice4": "",
-            "choice5": "",
-            "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
-            "_id": "6070a325ad0c350524e78ea9",
-            "type": "Construction"
-        }
-    ]
+    const testQuestions = props.value;
+    // const testQuestions = [
+    //     {
+    //         "question": "question0",
+    //         "answer": "d1",
+    //         "tip1": "tip1",
+    //         "tip2": "tip2",
+    //         "choice1": "d1",
+    //         "choice2": "Bd2",
+    //         "choice3": "Bd3",
+    //         "choice4": "Bd4",
+    //         "choice5": "Bd5",
+    //         "letters": [],
+    //         "_id": "",
+    //         "type": "MultipleChoice"
+    //     },
+    //     {
+    //         "question": "question1",
+    //         "answer": "ABC",
+    //         "tip1": "",
+    //         "tip2": "",
+    //         "choice1": "",
+    //         "choice2": "",
+    //         "choice3": "",
+    //         "choice4": "",
+    //         "choice5": "",
+    //         "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','C','J'],
+    //         "_id": "6070a325ad0c350524e78ea9",
+    //         "type": "Construction"
+    //     },
+    //     {
+    //         "question": "question2",
+    //         "answer": "B1",
+    //         "tip1": "tip1",
+    //         "tip2": "tip2",
+    //         "choice1": "B1",
+    //         "choice2": "B2",
+    //         "choice3": "B3",
+    //         "choice4": "B4",
+    //         "choice5": "B5",
+    //         "letters": [],
+    //         "_id": "",
+    //         "type": "MultipleChoice"
+    //     },
+    //     {
+    //         "question": "question3",
+    //         "answer": "ASD",
+    //         "tip1": "tip1",
+    //         "tip2": "tip2",
+    //         "choice1": "",
+    //         "choice2": "",
+    //         "choice3": "",
+    //         "choice4": "",
+    //         "choice5": "",
+    //         "letters": ['B'],
+    //         "_id": "6070a325ad0c350524e78ea9",
+    //         "type": "Textbox"
+    //     },
+    //     {
+    //         "question": "question4",
+    //         "answer": "MJ",
+    //         "tip1": "",
+    //         "tip2": "",
+    //         "choice1": "",
+    //         "choice2": "",
+    //         "choice3": "",
+    //         "choice4": "",
+    //         "choice5": "",
+    //         "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
+    //         "_id": "6070a325ad0c350524e78ea9",
+    //         "type": "Construction"
+    //     },
+    //     {
+    //         "question": "question5",
+    //         "answer": "c1",
+    //         "tip1": "tip1",
+    //         "tip2": "tip2",
+    //         "choice1": "c1",
+    //         "choice2": "c2",
+    //         "choice3": "c3",
+    //         "choice4": "c4",
+    //         "choice5": "c5",
+    //         "letters": [],
+    //         "_id": "",
+    //         "type": "MultipleChoice"
+    //     },
+    //     {
+    //         "question": "question6",
+    //         "answer": "DDD",
+    //         "tip1": "TIP1: ANSWER = DDD",
+    //         "tip2": "TIP2: ANSWER = DDD",
+    //         "choice1": "1",
+    //         "choice2": "2",
+    //         "choice3": "3",
+    //         "choice4": "4",
+    //         "choice5": "5",
+    //         "letters": [],
+    //         "_id": "6070a325ad0c350524e78ea9",
+    //         "type": "Textbox"
+    //     },
+    //     {
+    //         "question": "question7",
+    //         "answer": "WO",
+    //         "tip1": "",
+    //         "tip2": "",
+    //         "choice1": "",
+    //         "choice2": "",
+    //         "choice3": "",
+    //         "choice4": "",
+    //         "choice5": "",
+    //         "letters": ['A','N','Q','R','H','W','O','K','J','U','V','B','M','J'],
+    //         "_id": "6070a325ad0c350524e78ea9",
+    //         "type": "Construction"
+    //     }
+    // ]
 
     const [progress, setProgress] = useState(0);
 
