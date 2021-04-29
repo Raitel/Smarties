@@ -9,21 +9,31 @@ import TextField from '@material-ui/core/TextField';
 import { useSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const useStyles = makeStyles((theme) => ({
-    container:{
+    background:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/5vPj1BZ8f9jV9inMRGy9Ryy_D-zZD0Mojj0u_jxYvM-OJzhCFFFSQgXKTGmwNITIcdsDMFrBHBbZF6k4eZrj7lVlGEpLTIqH1ReEeGr7n0m7-UGZiVFaHoWUuWhukWQFQk4Z-65uSZMrIbUO0t1NdOPx-Utxx2RHGX1Rkyob8xT8h-Gf5qL7NVlRcmlAIAN1WLhNx5MW7dTXFUjyZNGqvsWBwu9Ke-KRxXB45EDffLQ0fqqBU8YhgRZrFc0_nzn5flkY_wJ7H6e0CacbbXUGt5YZxrKrYuLSZR7R4pgwy2sNi1PlPtgi_c5WSHCKD3bPOtrGgqHX5cgGxY_wKkHZKzpxaW_R3GvkbWgJ4WVjLff9DQzmi2modM5oXpYPWMtjjvtGhFXdw3LmIThgsZD5Mk12_5cOQh4ZnVXAp4t_HillSonSmBpjHWZxNf7cafHVKTB8KOcFUsaZ9pQgqS0cwW2WsSYeiaKVXSsMmSFpJyScLAmbFItiAAAAPqyekbAYHzeAWkP5FEgBDo4AQrQW3kCMQ9LxjGe6WSFet6r1S42nlqXFEC7n5E0o3_mOnDiPJjxZ26sFkzjNT7hvYiUvQ6A03HFtZpyr-9aJtqPveetavd5-LKL9zfV0hWQkxMtUZB6jtzxV4ZK7JCz5iYhuKCZGckJqYHvhMRnxIVJJG0Ek1NzmnrJvcW5GgLVTgdz87L6tr1i0u1M2YfxdJKwbTpk=w1200-h800-no?authuser=0)`,
         width:'1200px',
         height:'800px',
-        marginTop:'64px',
+        //marginTop:'64px',
         marginLeft:'64px',
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
         border: '1px solid black'
     },
+    progressBar:{
+        height:'50px',
+        marginBottom:'10px',
+        display:'flex',
+        alignItems:'center',
+        flexDirection:'column',
+        border: '1px solid black'       
+    },
     questionSection:{
-        height:'200px',
+        height:'150px',
         marginTop:'10px',
         marginBottom:'10px',
         display:'flex',
@@ -40,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid black'       
     },
     tipSection:{
-        height:'200px',
+        height:'150px',
         marginTop:'10px',
         marginBottom:'10px',
         display:'flex',
@@ -49,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid black'       
     },
     answerSection:{
-        height:'400px',
+        height:'300px',
         marginTop:'10px',
         marginBottom:'10px',
         display:'flex',
@@ -180,6 +190,8 @@ export default function PlayGameStages() {
         }
     ]
 
+    const [progress, setProgress] = useState(0);
+
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -201,6 +213,7 @@ export default function PlayGameStages() {
     const [constructionButtonDisabled, setConstructionButtonDisabled] = useState([])
     const [constructionSubmitButtonDisabled, setConstructionSubmitButtonDisabled] = useState(false)
     const [constructionLetters, setConstructionLetters] = useState(shuffle(testQuestions[currentQuestion].letters.map(x => x)));
+
 
 
 	const handleAnswerOptionClick = (isCorrect) => {
@@ -266,8 +279,10 @@ export default function PlayGameStages() {
             setTextboxAnswerError(false);
             setTextboxAnswer('');
             setTipConstruction([-1,-1]);
-
+            setProgress(Math.floor((100 * nextQuestion)/testQuestions.length));
+            
 		} else {
+            setProgress(Math.floor((100 * nextQuestion)/testQuestions.length));
 			setShowScore(true);
 		}
 	};
@@ -400,8 +415,12 @@ export default function PlayGameStages() {
 	return (
 
 		<div className='app'>
+            <LinearProgress variant="determinate" value={progress} style={{
+                width:'1200px',
+                marginTop:'64px',
+                marginLeft:'64px',}}/>
 			{showScore ? (
-				<Container className={classes.container}>
+				<Container className={classes.background}>
                     <Typography>
                         You got {score} questions correct out of {testQuestions.length} questions.
                     </Typography>
@@ -411,7 +430,7 @@ export default function PlayGameStages() {
 				</Container>
 			) : (
 				<>
-                    <Container className={classes.container}>
+                    <Container className={classes.background}>
                         <Typography>
                             Current Obtained Points: {point}.
                         </Typography>
