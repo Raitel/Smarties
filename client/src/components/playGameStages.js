@@ -153,6 +153,9 @@ export default function PlayGameStages(props) {
             if (testQuestions[nextQuestion].type === "MultipleChoice") {
                 initializeMultipleChoice();
             }
+            if (testQuestions[nextQuestion].type === "Construction") {
+                initializeConstruction();
+            }
 
 			setCurrentQuestion(nextQuestion);
             setTip1Disabled(false);
@@ -265,6 +268,9 @@ export default function PlayGameStages(props) {
         shuffle(temp);
         setMultipleChoice(temp);
 	};
+    const initializeConstruction = () => {
+        setConstructionLetters(shuffle(testQuestions[currentQuestion + 1].letters.map(x => x)));
+	};
 
     // const initializeConstructionLetters = () => {
     //     var temp = testQuestions[currentQuestion].letters.map();
@@ -299,6 +305,8 @@ export default function PlayGameStages(props) {
 	return (
 
 		<div className='app'>
+            {constructionLetters[0]}{constructionLetters[1]}{constructionLetters[2]}{constructionLetters[3]}
+            {constructionLetters[4]}{constructionLetters[5]}{constructionLetters[6]}{constructionLetters[7]}
             <LinearProgress variant="determinate" value={progress} style={{
                 width:'1200px',
                 marginTop:'64px',
@@ -375,9 +383,9 @@ export default function PlayGameStages(props) {
                                 placeholder="Your Answer"
                                 //helperText="Please Enter an Answer."
                                 className={classes.textBoxTextField}
-                                inputProps={{style: {textTransform: 'uppercase'}}}
+                                //inputProps={{style: {textTransform: 'uppercase'}}}
                                 />
-                                <Button variant="contained" onClick={() => handleSubmitTextboxOptionClick(textboxAnswer.valueOf().toLocaleUpperCase('en-US') === testQuestions[currentQuestion].answer.valueOf())}>{"Submit"}</Button>
+                                <Button variant="contained" onClick={() => handleSubmitTextboxOptionClick(textboxAnswer.valueOf().toLocaleUpperCase('en-US') === testQuestions[currentQuestion].answer.valueOf().toLocaleUpperCase('en-US'))}>{"Submit"}</Button>
                              
                             </Container>
                             }
@@ -393,7 +401,7 @@ export default function PlayGameStages(props) {
                                 {constructionButtonDisabled}
                                 <Button variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
                                 <Button variant="contained" onClick={() => handleResetOptionClick()} disabled={constructionSubmitButtonDisabled}>{"Reset"}</Button>
-                                {testQuestions[currentQuestion].letters.map((letter, index) => (
+                                {constructionLetters.map((letter, index) => (
                                     <Button variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
                                 ))}
                                 {/* {constructionLetters.map((letter, index) => (

@@ -1,16 +1,9 @@
-import { Component } from 'react';
+
 import React, { useState, useEffect} from 'react';
 import LeftGamePanel from "./leftGamePanel";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
-import { useParams } from 'react-router-dom';
 
-import Stage from '../assets/game_assets/stage.png'
-import Question from '../assets/game_assets/questioncard600.png'
-import Answer from '../assets/game_assets/answercard400.png'
-import Tip from '../assets/game_assets/tipcard.png'
-import ConstructBox from '../assets/game_assets/constructionBox.png'
-import Background from '../assets/game_assets/background.png'
+import { useParams } from 'react-router-dom';
 
 import PlayGameStages from './playGameStages';
 import axios from 'axios';
