@@ -56,7 +56,7 @@ export default function Platform() {
         getPlatform();
     }, []);
     const getPlatform = () => {
-        axios.get("http://localhost:5000/platforms/" + id).then( data => {
+        axios.get("/platforms/" + id).then( data => {
             setPlatformData(data);
         });
     }

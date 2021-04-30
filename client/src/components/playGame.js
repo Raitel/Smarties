@@ -120,7 +120,7 @@ export default function PlayGame() {
         getGame();
     }, []);
     const getGame = () => {
-        axios.get("http://localhost:5000/games/" + id).then( data => {
+        axios.get("/games/" + id).then( data => {
             setGameData(data);
         });
     }
