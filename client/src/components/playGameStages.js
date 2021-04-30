@@ -305,8 +305,6 @@ export default function PlayGameStages(props) {
 	return (
 
 		<div className='app'>
-            {constructionLetters[0]}{constructionLetters[1]}{constructionLetters[2]}{constructionLetters[3]}
-            {constructionLetters[4]}{constructionLetters[5]}{constructionLetters[6]}{constructionLetters[7]}
             <LinearProgress variant="determinate" value={progress} style={{
                 width:'1200px',
                 marginTop:'64px',
@@ -338,7 +336,21 @@ export default function PlayGameStages(props) {
                         </Container>
                         
                         <Container id='tip-section' className={classes.tipSection}>
+                            {testQuestions[currentQuestion].type === "MultipleChoice"
+                            && 
+                            <Typography>Use a tip card to eliminate a wrong answer card!</Typography>
+                            }
+                            {testQuestions[currentQuestion].type === "Textbox"
+                            && 
+                            <Typography>Use a tip card to get a hint!</Typography>
+                            }
+                            {testQuestions[currentQuestion].type === "Construction"
+                            && 
+                            <Typography>Use a tip card to get a correct letter!</Typography>
+                            }
+
                             <Button variant="contained" onClick={() => handleTip1OptionClick(true)} disabled={tip1Disabled}>{"Tip Card 1"}</Button>
+
                             {tip1Disabled && testQuestions[currentQuestion].type === "Textbox"
                             && 
                             <Typography>{testQuestions[currentQuestion].tip1}</Typography>
