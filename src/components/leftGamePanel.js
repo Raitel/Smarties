@@ -83,52 +83,7 @@ export default function LeftGamePanel(props) {
   const classes = useStyles();
   const history = useHistory();
   const gameData = props.value;
-  // const [game, setGame] = useState(gameData);
-  // const [game, setGame] = useState(
-  //     {
-  //       "description": "",
-  //       "tags": ['best', 'game', 'class', 'school', 'study', 'college'],
-  //       "stages": [],
-  //       "questionCard": "606e7b59bee1d0599ca713b7",
-  //       "tipCard": "606e7b59bee1d0599ca713b7",
-  //       "answerCard": "606e7b59bee1d0599ca713b7",
-  //       "_id": "60708e459ca18d2708a34203",
-  //       "title": "first game update",
-  //       "nestedStages": [
-  //           {
-  //               "question": "",
-  //               "answer": "",
-  //               "tip1": "",
-  //               "tip2": "",
-  //               "choice1": "",
-  //               "choice2": "",
-  //               "choice3": "",
-  //               "choice4": "",
-  //               "choice5": "",
-  //               "letters": [],
-  //               "_id": "6070a325ad0c350524e78ea9",
-  //               "type": "CN"
-  //           },
-  //           {
-  //               "question": "",
-  //               "answer": "",
-  //               "tip1": "",
-  //               "tip2": "",
-  //               "choice1": "",
-  //               "choice2": "",
-  //               "choice3": "",
-  //               "choice4": "",
-  //               "choice5": "",
-  //               "letters": [],
-  //               "_id": "6070aa21c2617208fc247dbe",
-  //               "type": "TX"
-  //           }
-  //       ],
-  //       "createdAt": "2021-04-09T17:26:29.533Z",
-  //       "updatedAt": "2021-04-09T19:25:21.806Z",
-  //       "__v": 4
-  //     }
-  // )
+
   const handleQuit = (e) => {
     e.preventDefault()
     history.push("/platform/:id")
@@ -168,12 +123,12 @@ export default function LeftGamePanel(props) {
         <Divider />
         <List>
           <ListItem className={classes.drawerSection}>
-            <ListItemText primary="Game Name" className={classes.subtitle}/>
-            <ListItemText primary="Best Game Ever 5000"/>
+            <ListItemText primary="Game Name:" className={classes.subtitle}/>
+            <ListItemText primary={gameData.title}/>
           </ListItem>
           <ListItem className={classes.drawerSection}>
-            <ListItemText primary="Game Description" className={classes.subtitle}/>
-            <ListItemText primary="This is the best game ever created for the purpose of being great"/>
+            <ListItemText primary="Game Description:" className={classes.subtitle}/>
+            <ListItemText primary={gameData.description}/>
           </ListItem>
           <ListItem className={classes.drawerSection}>
             <ListItemText primary="Tags:" className={classes.subtitle}/>
