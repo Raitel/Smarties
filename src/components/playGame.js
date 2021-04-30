@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 import LeftGamePanel from "./leftGamePanel";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-
+import { useParams } from 'react-router-dom';
 
 import Stage from '../assets/game_assets/stage.png'
 import Question from '../assets/game_assets/questioncard600.png'
@@ -273,21 +273,23 @@ export default function PlayGame() {
             "type": "Construction"
         }
     ]
-
+    const { id } = useParams();
     const[gameData,setGameData] = useState(null);
     useEffect(() => {
         getGame();
     }, []);
     const getGame = () => {
-        axios.get("http://localhost:5000/games/608b39f4b4ea5114b844c165").then( data => {
+        axios.get("http://localhost:5000/games/" + id).then( data => {
             setGameData(data);
         });
     }
     if(gameData != null){
         return(
         <div style={{display:'flex', marginTop:"64px"}}>
+            
             { <LeftGamePanel value={gameData.data}/> }
             { <PlayGameStages value={gameData.data.nestedStages}/>}
+
         </div>
         )
     }

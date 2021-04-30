@@ -141,7 +141,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleHome = () => {
-    history.push("/")
+    history.push("/home")
   };
   const handleExplore = () => {
     history.push("/explore")

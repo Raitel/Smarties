@@ -59,6 +59,9 @@ const DefaultContainer = () => (
     <Route path="/" exact component={PlayGame} />
     <Route path="/explore" exact component={ExplorePlatforms} />
     <Route path="/platform" exact component={Platform} />
+    <Route path="/play/:id">
+      <PlayGame />
+    </Route>
   </div>
 )
 

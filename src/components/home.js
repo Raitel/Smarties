@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -195,11 +196,18 @@ export default function Home() {
       );
   }
 
+  const handle = () => {
+    history.push("/play/608b39f4b4ea5114b844c165");
+  };
+
   return(
     <div style={{display:'flex', marginTop:"64px"}}>
       <LeftPanel/>
+      
       <Box style={{marginLeft:'64px', marginTop:"64px"}}>
+
         <Container>
+          <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle}>TEST BUTTON</Button>
           <Box p={2}>
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Typography>

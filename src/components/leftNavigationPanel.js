@@ -45,7 +45,7 @@ export default function ClippedDrawer() {
   const classes = useStyles();
   const history = useHistory();
   const handleHome = () => {
-    history.push("/")
+    history.push("/home")
   };
   const handleMyGames = () => {
     history.push("/myGames")
