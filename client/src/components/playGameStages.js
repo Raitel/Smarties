@@ -410,15 +410,20 @@ export default function PlayGameStages(props) {
                                 }
                                 <Typography>{"Input Answer: "}</Typography>
                                 <Typography>{constructionAnswer}</Typography>
-                                {constructionButtonDisabled}
-                                <Button variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
-                                <Button variant="contained" onClick={() => handleResetOptionClick()} disabled={constructionSubmitButtonDisabled}>{"Reset"}</Button>
+                                {//constructionButtonDisabled
+                                }
+                                <Container>
+                                    <Button variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
+                                    <Button variant="contained" onClick={() => handleResetOptionClick()} disabled={constructionSubmitButtonDisabled}>{"Reset"}</Button>
+                                </Container>
+                                <Container>
                                 {constructionLetters.map((letter, index) => (
                                     <Button variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
                                 ))}
                                 {/* {constructionLetters.map((letter, index) => (
                                     <Button variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
                                 ))} */}
+                                </Container>
                             </Container>
                             }
 
