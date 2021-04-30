@@ -74,24 +74,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LeftGamePanel(props) {
 
-  LeftGamePanel.propTypes = {
-    description: PropTypes.string,
-    tags: PropTypes.array,
-    title: PropTypes.string,
-  }
-
   const classes = useStyles();
   const history = useHistory();
   const gameData = props.value;
+  const platformId = props.platformId;
 
   const handleQuit = (e) => {
     e.preventDefault()
-    history.push("/platform/:id")
+    history.push("/platform/"+platformId);
   };
-  const handleRegister =(e) => {
-    e.preventDefault()
-    history.push("/register")
-  }
 
   function Populate(props){
     const tags = props.tags;
@@ -149,7 +140,6 @@ export default function LeftGamePanel(props) {
           <Button onClick={handleQuit} startIcon={<ExitToAppIcon />} style={{textTransform: 'none'}}>
                   Quit Game
           </Button>
-            
         </Container>
         <Container className={classes.footer}>
             <Typography>

@@ -21,7 +21,7 @@ import { CardMedia, StylesProvider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { useParams } from 'react-router-dom';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
     banner:{
@@ -165,24 +165,9 @@ export default function Platform() {
     else{
         return(
             <div style={{display:'flex', marginTop:"64px"}}>
-                Loading
+                <CircularProgress />
             </div>
             )        
     }
 
-    return(
-    <div style={{display:'flex', marginTop:"64px"}}>
-        <LeftPanel/>
-        <div className={classes.container}>
-            <Container className = {classes.banner}>
-                <PopulateTags tags={platformData.data.tags}/>
-                {/* <Populate games_ids={platform.games}/> */}
-            </Container>
-            <Container className = {classes.container}>
-                <Populate games={platformData.data.games} />
-            </Container>
-        </div>
-    </div>
-
-    )
 }

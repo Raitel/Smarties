@@ -14,102 +14,12 @@ import Background from '../assets/game_assets/background.png'
 
 import PlayGameStages from './playGameStages';
 import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
       maxWidth: 345
-    },
-    container:{
-        backgroundImage: `url(${Background})`,
-        width:'1200px',
-        height:'800px',
-        marginTop:'100px',
-        display:'flex',
-        alignItems:'center',
-        flexDirection:'column',
-        border: '1px solid black'
-    },
-    questionPaper:{
-        backgroundImage: `url(${Question})`,
-        width:'600px',
-        height:'130px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-        color:'white',
-        marginBottom:'30px'
-    },
-    tipCard1:{
-        backgroundImage: `url(${Tip})`,
-        width:'92px',
-        height:'135px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    tipCard2:{
-        backgroundImage: `url(${Tip})`,
-        width:'93px',
-        height:'135px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-    },
-    stagePaper:{
-        backgroundImage: `url(${Stage})`,
-        width:'633px',
-        height:'118px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-        marginBottom:'30px'
-    },
-    stageHeader:{
-        color:'white',
-        position:'relative',
-        top:'-15px'
-    },
-    constructPaper:{
-        backgroundImage: `url(${Answer})`,
-        width:'400px',
-        height:'130px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-        color:'white'
-    },
-    letterRow:{
-        display:'flex'
-    },
-    letterPaper:{
-        backgroundImage: `url(${ConstructBox})`,
-        width:'92px',
-        height:'96px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-        fontSize:'24px',
-        color:'white'
-    },
-    rowFormat:{
-        display:'flex'
-    },
-    answerPaper:{
-        backgroundImage: `url(${Answer})`,
-        width:'400px',
-        height:'100px',
-        display:'flex',
-        textAlign:'center',
-        alignItems:'center',
-        justifyContent:'center',
-        color:'white'
     },
   }));
 
@@ -119,16 +29,27 @@ export default function PlayGame() {
     useEffect(() => {
         getGame();
     }, []);
+    const[platformData,setPlatformData] = useState(null);
+    useEffect(() => {
+        getPlatform();
+    }, []);
+
     const getGame = () => {
         axios.get("/games/" + id).then( data => {
             setGameData(data);
         });
     }
-    if(gameData != null){
+    const getPlatform = () => {
+        axios.get("/platforms/getPlatformByGameId/" + id).then( data => {
+            setPlatformData(data);
+            console.log(data.data);
+        });
+    }
+    if(gameData != null && platformData != null){
         return(
         <div style={{display:'flex', marginTop:"64px"}}>
             
-            { <LeftGamePanel value={gameData.data}/> }
+            { <LeftGamePanel value={gameData.data} platformId={platformData.data._id}/> }
             { <PlayGameStages value={gameData.data.nestedStages}/>}
 
         </div>
@@ -137,7 +58,7 @@ export default function PlayGame() {
     else{
         return(
             <div style={{display:'flex', marginTop:"64px"}}>
-                Loading
+                <CircularProgress />
             </div>
             )        
     }
