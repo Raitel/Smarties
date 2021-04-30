@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     },
     section:{
       height:'200px',
-      marginBottom: '50px'
+      marginTop: '50px',
+      marginBottom: '50px',
     }
   }));
 
@@ -159,9 +160,9 @@ export default function Home() {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+
             <FavoriteIcon />
-          </IconButton>
+
           <Typography
             variant="body2"
             color="textSecondary"
@@ -197,37 +198,37 @@ export default function Home() {
   }
 
   const handle = () => {
-    history.push("/play/608b39f4b4ea5114b844c165");
+    history.push("/game/608b39f4b4ea5114b844c165");
+  };
+  const handle2 = () => {
+    history.push("/platform/606ea28cf3b2dc0d08e40adc");
   };
 
   return(
     <div style={{display:'flex', marginTop:"64px"}}>
       <LeftPanel/>
-      
-      <Box style={{marginLeft:'64px', marginTop:"64px"}}>
 
         <Container>
-          <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle}>TEST BUTTON</Button>
-          <Box p={2}>
+          <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle}>TEST GAME BUTTON</Button>
+          <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle2}>TEST PLATFORM BUTTON</Button>
+
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Typography>
                 <Populate platforms={recentlyUsed} />
             </Container>
-          </Box>
-          <Box p={2}>
+
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Typography>
                 <Populate platforms={favorites} />
             </Container>
-          </Box>
-          <Box p={2}>
+
             <Container className={classes.section}>
                 <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Typography>
                 <Populate platforms={myGames} />
             </Container>
-          </Box>
+
         </Container>
-      </Box>
+
     </div>
 
   )

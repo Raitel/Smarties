@@ -208,9 +208,7 @@ export default function MyGames(){
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
-                </IconButton>
                 <Typography
                 variant="body2"
                 color="textSecondary"
@@ -276,7 +274,7 @@ export default function MyGames(){
             <LeftPanel/>
             <Container style={{paddingLeft:'64px', marginTop:"64px"}}maxWidth="xl">
                 <Container className={classes.section}>
-                    <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Typography>
+                    <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Platforms:</Typography>
                     <Populate platforms={myGames} />
                 </Container>
             </Container>
