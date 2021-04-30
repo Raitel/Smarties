@@ -108,9 +108,8 @@ export default function PlayGameStages(props) {
                 vertical: 'bottom',
                 horizontal: 'center',
                 },
-                persist: true,
                 variant:'success',
-                action});
+                });
         }
         else{
             var message = "Oops, the correct answer was " + testQuestions[currentQuestion].answer;
