@@ -19,7 +19,7 @@ import ChangeUsername from "./components/changeUsername.js";
 import PlayGame from "./components/playGame.js";
 import ExplorePlatforms from "./components/explore.js";
 import Platform from "./components/platform.js";
-import Test from "./components/test.js";
+import { SnackbarProvider } from 'notistack';
 
 const ForgotPasswordContainer = () => (
   <div>
