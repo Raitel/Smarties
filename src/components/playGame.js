@@ -1,24 +1,9 @@
 import { Component } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import LeftGamePanel from "./leftGamePanel";
-import MultipleChoice from "./playGameStages";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 import { useHistory } from "react-router-dom";
-import Grid from '@material-ui/core/Grid';
-import { CardMedia, StylesProvider } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+
 
 import Stage from '../assets/game_assets/stage.png'
 import Question from '../assets/game_assets/questioncard600.png'
@@ -26,8 +11,9 @@ import Answer from '../assets/game_assets/answercard400.png'
 import Tip from '../assets/game_assets/tipcard.png'
 import ConstructBox from '../assets/game_assets/constructionBox.png'
 import Background from '../assets/game_assets/background.png'
-import Paper from '@material-ui/core/Paper';
+
 import PlayGameStages from './playGameStages';
+import axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -128,53 +114,51 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function PlayGame() {
-    const classes = useStyles();
-    const history = useHistory();
-    const [game, setGame] = useState(
-        {
-          "description": "",
-          "tags": ['best', 'game', 'class', 'school', 'study', 'college'],
-          "stages": [],
-          "questionCard": "606e7b59bee1d0599ca713b7",
-          "tipCard": "606e7b59bee1d0599ca713b7",
-          "answerCard": "606e7b59bee1d0599ca713b7",
-          "_id": "60708e459ca18d2708a34203",
-          "title": "first game update",
-          "nestedStages": [
-              {
-                  "question": "",
-                  "answer": "",
-                  "tip1": "",
-                  "tip2": "",
-                  "choice1": "",
-                  "choice2": "",
-                  "choice3": "",
-                  "choice4": "",
-                  "choice5": "",
-                  "letters": ['a','N','Q','R','h','W','o','K','J','U','V','B','M','j'],
-                  "_id": "6070a325ad0c350524e78ea9",
-                  "type": "CN"
-              },
-              {
-                  "question": "",
-                  "answer": "",
-                  "tip1": "",
-                  "tip2": "",
-                  "choice1": "",
-                  "choice2": "",
-                  "choice3": "",
-                  "choice4": "",
-                  "choice5": "",
-                  "letters": [],
-                  "_id": "6070aa21c2617208fc247dbe",
-                  "type": "TX"
-              }
-          ],
-          "createdAt": "2021-04-09T17:26:29.533Z",
-          "updatedAt": "2021-04-09T19:25:21.806Z",
-          "__v": 4
-        }
-    )
+    // const [game, setGame] = useState(
+    //     {
+    //       "description": "",
+    //       "tags": ['best', 'game', 'class', 'school', 'study', 'college'],
+    //       "stages": [],
+    //       "questionCard": "606e7b59bee1d0599ca713b7",
+    //       "tipCard": "606e7b59bee1d0599ca713b7",
+    //       "answerCard": "606e7b59bee1d0599ca713b7",
+    //       "_id": "60708e459ca18d2708a34203",
+    //       "title": "first game update",
+    //       "nestedStages": [
+    //           {
+    //               "question": "",
+    //               "answer": "",
+    //               "tip1": "",
+    //               "tip2": "",
+    //               "choice1": "",
+    //               "choice2": "",
+    //               "choice3": "",
+    //               "choice4": "",
+    //               "choice5": "",
+    //               "letters": ['a','N','Q','R','h','W','o','K','J','U','V','B','M','j'],
+    //               "_id": "6070a325ad0c350524e78ea9",
+    //               "type": "CN"
+    //           },
+    //           {
+    //               "question": "",
+    //               "answer": "",
+    //               "tip1": "",
+    //               "tip2": "",
+    //               "choice1": "",
+    //               "choice2": "",
+    //               "choice3": "",
+    //               "choice4": "",
+    //               "choice5": "",
+    //               "letters": [],
+    //               "_id": "6070aa21c2617208fc247dbe",
+    //               "type": "TX"
+    //           }
+    //       ],
+    //       "createdAt": "2021-04-09T17:26:29.533Z",
+    //       "updatedAt": "2021-04-09T19:25:21.806Z",
+    //       "__v": 4
+    //     }
+    // )
     const testQuestions = [
         {
             "question": "question0",
@@ -289,13 +273,29 @@ export default function PlayGame() {
             "type": "Construction"
         }
     ]
-    
-    return(
-    <div style={{display:'flex', marginTop:"64px"}}>
-        <LeftGamePanel/>
-        <PlayGameStages value={testQuestions}/>
 
-    </div>
-
-    )
+    const[gameData,setGameData] = useState(null);
+    useEffect(() => {
+        getGame();
+    }, []);
+    const getGame = () => {
+        axios.get("http://localhost:5000/games/608b39f4b4ea5114b844c165").then( data => {
+            setGameData(data);
+        });
+    }
+    if(gameData != null){
+        return(
+        <div style={{display:'flex', marginTop:"64px"}}>
+            { <LeftGamePanel value={gameData.data}/> }
+            { <PlayGameStages value={gameData.data.nestedStages}/>}
+        </div>
+        )
+    }
+    else{
+        return(
+            <div style={{display:'flex', marginTop:"64px"}}>
+                Loading
+            </div>
+            )        
+    }
 }

@@ -2,26 +2,22 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+
 import ListItemText from '@material-ui/core/ListItemText';
 import Container from '@material-ui/core/Container';
 import Chip from '@material-ui/core/Chip';
-import Link from '@material-ui/core/Link';
-import Icon from '@material-ui/core/Icon';
 
-import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
-import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
-import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined';
-import StyleOutlinedIcon from '@material-ui/icons/StyleOutlined';
-import StorefrontOutlinedIcon from '@material-ui/icons/StorefrontOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from "react-router-dom";
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+
+import PropTypes from 'prop-types'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -76,54 +72,63 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function LeftGamePanel() {
+export default function LeftGamePanel(props) {
+
+  LeftGamePanel.propTypes = {
+    description: PropTypes.string,
+    tags: PropTypes.array,
+    title: PropTypes.string,
+  }
+
   const classes = useStyles();
   const history = useHistory();
-  const [game, setGame] = useState(
-      {
-        "description": "",
-        "tags": ['best', 'game', 'class', 'school', 'study', 'college'],
-        "stages": [],
-        "questionCard": "606e7b59bee1d0599ca713b7",
-        "tipCard": "606e7b59bee1d0599ca713b7",
-        "answerCard": "606e7b59bee1d0599ca713b7",
-        "_id": "60708e459ca18d2708a34203",
-        "title": "first game update",
-        "nestedStages": [
-            {
-                "question": "",
-                "answer": "",
-                "tip1": "",
-                "tip2": "",
-                "choice1": "",
-                "choice2": "",
-                "choice3": "",
-                "choice4": "",
-                "choice5": "",
-                "letters": [],
-                "_id": "6070a325ad0c350524e78ea9",
-                "type": "CN"
-            },
-            {
-                "question": "",
-                "answer": "",
-                "tip1": "",
-                "tip2": "",
-                "choice1": "",
-                "choice2": "",
-                "choice3": "",
-                "choice4": "",
-                "choice5": "",
-                "letters": [],
-                "_id": "6070aa21c2617208fc247dbe",
-                "type": "TX"
-            }
-        ],
-        "createdAt": "2021-04-09T17:26:29.533Z",
-        "updatedAt": "2021-04-09T19:25:21.806Z",
-        "__v": 4
-      }
-  )
+  const gameData = props.value;
+  // const [game, setGame] = useState(gameData);
+  // const [game, setGame] = useState(
+  //     {
+  //       "description": "",
+  //       "tags": ['best', 'game', 'class', 'school', 'study', 'college'],
+  //       "stages": [],
+  //       "questionCard": "606e7b59bee1d0599ca713b7",
+  //       "tipCard": "606e7b59bee1d0599ca713b7",
+  //       "answerCard": "606e7b59bee1d0599ca713b7",
+  //       "_id": "60708e459ca18d2708a34203",
+  //       "title": "first game update",
+  //       "nestedStages": [
+  //           {
+  //               "question": "",
+  //               "answer": "",
+  //               "tip1": "",
+  //               "tip2": "",
+  //               "choice1": "",
+  //               "choice2": "",
+  //               "choice3": "",
+  //               "choice4": "",
+  //               "choice5": "",
+  //               "letters": [],
+  //               "_id": "6070a325ad0c350524e78ea9",
+  //               "type": "CN"
+  //           },
+  //           {
+  //               "question": "",
+  //               "answer": "",
+  //               "tip1": "",
+  //               "tip2": "",
+  //               "choice1": "",
+  //               "choice2": "",
+  //               "choice3": "",
+  //               "choice4": "",
+  //               "choice5": "",
+  //               "letters": [],
+  //               "_id": "6070aa21c2617208fc247dbe",
+  //               "type": "TX"
+  //           }
+  //       ],
+  //       "createdAt": "2021-04-09T17:26:29.533Z",
+  //       "updatedAt": "2021-04-09T19:25:21.806Z",
+  //       "__v": 4
+  //     }
+  // )
   const handleQuit = (e) => {
     e.preventDefault()
     history.push("/platform/:id")
@@ -172,7 +177,8 @@ export default function LeftGamePanel() {
           </ListItem>
           <ListItem className={classes.drawerSection}>
             <ListItemText primary="Tags:" className={classes.subtitle}/>
-            <Populate tags={game.tags}/>
+            {/* <Populate tags={game.tags}/> */}
+            <Populate tags={gameData.tags}/>
           </ListItem>
         </List>
         <Divider />
