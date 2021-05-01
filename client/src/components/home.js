@@ -197,9 +197,6 @@ export default function Home() {
       );
   }
 
-  const handle = () => {
-    history.push("/game/608b39f4b4ea5114b844c165");
-  };
   const handle2 = () => {
     history.push("/platform/606ea28cf3b2dc0d08e40adc");
   };
@@ -209,7 +206,6 @@ export default function Home() {
       <LeftPanel/>
 
         <Container>
-          <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle}>TEST GAME BUTTON</Button>
           <Button  style={{textTransform: 'none', fontSize: 24}} className={classes.margin} onClick={handle2}>TEST PLATFORM BUTTON</Button>
 
             <Container className={classes.section}>
