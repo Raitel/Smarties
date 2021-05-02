@@ -14,7 +14,7 @@ import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
 
 const useStyles = makeStyles((theme) => ({
     background:{
-        backgroundImage: `url(https://lh3.googleusercontent.com/5vPj1BZ8f9jV9inMRGy9Ryy_D-zZD0Mojj0u_jxYvM-OJzhCFFFSQgXKTGmwNITIcdsDMFrBHBbZF6k4eZrj7lVlGEpLTIqH1ReEeGr7n0m7-UGZiVFaHoWUuWhukWQFQk4Z-65uSZMrIbUO0t1NdOPx-Utxx2RHGX1Rkyob8xT8h-Gf5qL7NVlRcmlAIAN1WLhNx5MW7dTXFUjyZNGqvsWBwu9Ke-KRxXB45EDffLQ0fqqBU8YhgRZrFc0_nzn5flkY_wJ7H6e0CacbbXUGt5YZxrKrYuLSZR7R4pgwy2sNi1PlPtgi_c5WSHCKD3bPOtrGgqHX5cgGxY_wKkHZKzpxaW_R3GvkbWgJ4WVjLff9DQzmi2modM5oXpYPWMtjjvtGhFXdw3LmIThgsZD5Mk12_5cOQh4ZnVXAp4t_HillSonSmBpjHWZxNf7cafHVKTB8KOcFUsaZ9pQgqS0cwW2WsSYeiaKVXSsMmSFpJyScLAmbFItiAAAAPqyekbAYHzeAWkP5FEgBDo4AQrQW3kCMQ9LxjGe6WSFet6r1S42nlqXFEC7n5E0o3_mOnDiPJjxZ26sFkzjNT7hvYiUvQ6A03HFtZpyr-9aJtqPveetavd5-LKL9zfV0hWQkxMtUZB6jtzxV4ZK7JCz5iYhuKCZGckJqYHvhMRnxIVJJG0Ek1NzmnrJvcW5GgLVTgdz87L6tr1i0u1M2YfxdJKwbTpk=w1200-h800-no?authuser=0)`,
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaj2Q.png)`,
         //background: 'linear-gradient(45deg, #2d3436 30%, #d3d3d3 90%)',
         width:'1200px',
         height:'800px',
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid black'
     },
     backgroundScore:{
-        backgroundImage: `url(https://lh3.googleusercontent.com/5vPj1BZ8f9jV9inMRGy9Ryy_D-zZD0Mojj0u_jxYvM-OJzhCFFFSQgXKTGmwNITIcdsDMFrBHBbZF6k4eZrj7lVlGEpLTIqH1ReEeGr7n0m7-UGZiVFaHoWUuWhukWQFQk4Z-65uSZMrIbUO0t1NdOPx-Utxx2RHGX1Rkyob8xT8h-Gf5qL7NVlRcmlAIAN1WLhNx5MW7dTXFUjyZNGqvsWBwu9Ke-KRxXB45EDffLQ0fqqBU8YhgRZrFc0_nzn5flkY_wJ7H6e0CacbbXUGt5YZxrKrYuLSZR7R4pgwy2sNi1PlPtgi_c5WSHCKD3bPOtrGgqHX5cgGxY_wKkHZKzpxaW_R3GvkbWgJ4WVjLff9DQzmi2modM5oXpYPWMtjjvtGhFXdw3LmIThgsZD5Mk12_5cOQh4ZnVXAp4t_HillSonSmBpjHWZxNf7cafHVKTB8KOcFUsaZ9pQgqS0cwW2WsSYeiaKVXSsMmSFpJyScLAmbFItiAAAAPqyekbAYHzeAWkP5FEgBDo4AQrQW3kCMQ9LxjGe6WSFet6r1S42nlqXFEC7n5E0o3_mOnDiPJjxZ26sFkzjNT7hvYiUvQ6A03HFtZpyr-9aJtqPveetavd5-LKL9zfV0hWQkxMtUZB6jtzxV4ZK7JCz5iYhuKCZGckJqYHvhMRnxIVJJG0Ek1NzmnrJvcW5GgLVTgdz87L6tr1i0u1M2YfxdJKwbTpk=w1200-h800-no?authuser=0)`,
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaj2Q.png)`,
         //background: 'linear-gradient(45deg, #2d3436 30%, #d3d3d3 90%)',
         width:'1200px',
         height:'800px',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
         //boxShadow: '1px 1px'       
     },
     stageImage:{
-        backgroundImage: `url(https://lh3.googleusercontent.com/WHJJzNnlPqYc6x0THeH_ICQ1TLsiBH0Rad54GHQS_QM3gXU39XGGPcN193F_cDK0OgAX9l2SCmt0pdKo9DCkvO3sy7w63TYZcyZjg6J35UUyJyTKdFwfx-0xlhnL4uAHYbZuOOhYvl6Og5E5WQooc2dh0KVQqfovs_AvyLGDFZDqOnC8jSL9aT2wA9gKCWO7uF21l6MC6Su-vYj-kAyCJc4D-8JVKrflK0U9gsvi1mHl2ytAT_KO7eTAqb7c2By3a2u10iEsDDcu-QYLnSm87PNXUnIsT5CkqOJvRkonfAfGYxGTAEd3XDc90ClZIm6YZINDKZhsy1PtVFvt0z9Rz0ccB7HNMEfoYDr-xXvHoT6XluA1f6FZI4pSYTr_SA2TKDvaJzepf3cBIQALXskIXNgkKHjs059gby1L20Gi1GSPpprFBT798Uq11TOlgPBpCceBXA5SoPrVsREWO4-brq6b4gogDP3SLvmnw9mjZ04R_TspZDXfz2EjIU9-cVxtjzGM9WyDAM84Y50JgP93jBFdOdkGWdwm7cA_i_uEbn1N1Dxv_MJcHsJF_JuIk8HO0kwPWO8M5Cafphp8zAuWM3nA-unUj7v3yQjHG6FVnFC4H_AES7vC4zFzy6cMTwwJXPHwVSI_T0cvvdChqlXrdax57_DXPtgjMbZAX6Lh4BTDjdQH5XKt9JZ7vJKMNDa1_Vuyz5EuUF987JE6LpMrih4=w325-h75-no?authuser=0)`,
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaX8g.png)`,
         height:'75px',
         width: '325px',
         display:'flex',
