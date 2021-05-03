@@ -9,16 +9,32 @@ import { useSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Grid from '@material-ui/core/Grid';
+import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
+import ToysOutlinedIcon from '@material-ui/icons/ToysOutlined';
 
 const useStyles = makeStyles((theme) => ({
     background:{
-        //backgroundImage: `url(https://lh3.googleusercontent.com/5vPj1BZ8f9jV9inMRGy9Ryy_D-zZD0Mojj0u_jxYvM-OJzhCFFFSQgXKTGmwNITIcdsDMFrBHBbZF6k4eZrj7lVlGEpLTIqH1ReEeGr7n0m7-UGZiVFaHoWUuWhukWQFQk4Z-65uSZMrIbUO0t1NdOPx-Utxx2RHGX1Rkyob8xT8h-Gf5qL7NVlRcmlAIAN1WLhNx5MW7dTXFUjyZNGqvsWBwu9Ke-KRxXB45EDffLQ0fqqBU8YhgRZrFc0_nzn5flkY_wJ7H6e0CacbbXUGt5YZxrKrYuLSZR7R4pgwy2sNi1PlPtgi_c5WSHCKD3bPOtrGgqHX5cgGxY_wKkHZKzpxaW_R3GvkbWgJ4WVjLff9DQzmi2modM5oXpYPWMtjjvtGhFXdw3LmIThgsZD5Mk12_5cOQh4ZnVXAp4t_HillSonSmBpjHWZxNf7cafHVKTB8KOcFUsaZ9pQgqS0cwW2WsSYeiaKVXSsMmSFpJyScLAmbFItiAAAAPqyekbAYHzeAWkP5FEgBDo4AQrQW3kCMQ9LxjGe6WSFet6r1S42nlqXFEC7n5E0o3_mOnDiPJjxZ26sFkzjNT7hvYiUvQ6A03HFtZpyr-9aJtqPveetavd5-LKL9zfV0hWQkxMtUZB6jtzxV4ZK7JCz5iYhuKCZGckJqYHvhMRnxIVJJG0Ek1NzmnrJvcW5GgLVTgdz87L6tr1i0u1M2YfxdJKwbTpk=w1200-h800-no?authuser=0)`,
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaj2Q.png)`,
+        //background: 'linear-gradient(45deg, #2d3436 30%, #d3d3d3 90%)',
         width:'1200px',
         height:'800px',
         //marginTop:'64px',
         marginLeft:'64px',
         display:'flex',
+        alignItems:'center',
+        flexDirection:'column',
+        border: '1px solid black'
+    },
+    backgroundScore:{
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaj2Q.png)`,
+        //background: 'linear-gradient(45deg, #2d3436 30%, #d3d3d3 90%)',
+        width:'1200px',
+        height:'800px',
+        //marginTop:'64px',
+        marginLeft:'64px',
+        display:'flex',
+        justifyContent: 'center',
         alignItems:'center',
         flexDirection:'column',
         border: '1px solid black'
@@ -29,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        border: '1px solid black'       
+        //border: '1px solid black'       
     },
     questionSection:{
         height:'150px',
@@ -38,16 +54,41 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        border: '1px solid black'       
+        //border: '1px solid black'       
     },
     stageCount:{
         marginTop:'10px',
+        height:'75px',
         marginBottom:'10px',
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        border: '1px solid black'       
+        //border: '1px solid black',
+        //boxShadow: '1px 1px'       
     },
+    stageImage:{
+        backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaX8g.png)`,
+        height:'75px',
+        width: '325px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column', 
+        //boxShadow: '1px 1px'    
+    },
+    questionImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/g1m2SUcCl1nJ5y4ySh4blWmEA0MpXOpatOEvcj6SCngWcN-2ITlWfGpu0CBPhM-ed3ZBxAMMNiT3whgURRcLe9v1otRG9HyNuNWS8acdPQXmLKUSrw_-gBxO2iTGrTBQ03yrBcuiyEemZtKsIm3UcjanL_WX95RgWYA6yuiAEe_YrTBkUr_ms0SdxRiy0UVIn8QqrY9jX38KNc5pMNyPKZ8AHNm4I9OLwMpHVLbqZL_2pGB5YSV-ZZ1Rx2Csa0Ul2DRh9o7GxqtcMHXt54lNs0w-ivtJMXbcnElJjyZZ2l8VFc-E6KQ2DwYFdBrbwyQJ--lik70R4c69gJ-0H644EOspFnK3LbkRfE2fcXs-LdLx4-2m8GH57oB4u3DtxsJw6-dOgv1Soothlkkb7f76IDvwSoMH1zDKg4O7HsNHYIyxUovk6_dYle4n39J3bB97UIzFrg4hGxkqtLENuSSntRTLj6IKb55EgAyI_2ErSN0aU6FFMN0rky5MI6d9KzzvAyzPIcBZ0Gb8ZmXdCYRIyoRB2XBCZeFqdlqRN25PteZS9S-0VkdbR1vUcI8460fQRkS-mq838R1rdYFey_5MooBmgZhHUCf6fNEvHNVAkCqPdmq-FfQTty2xVQwO3dRD7lJm1GiilrPRwTv4oVyX8GVJ0a813qSZ96hnMpbD7OgDrEZYh5K3C95ygDxSvQ5zctDGKnizuGWP1RedIGCQGyM=w600-h131-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #fc5296 30%, #f67062 90%)',
+        height:'131px',
+        width: '600px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        borderRadius: '10px'
+    }, 
     tipSection:{
         height:'150px',
         marginTop:'10px',
@@ -55,7 +96,85 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        border: '1px solid black'       
+        //border: '1px solid black'       
+    },
+    tipImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/oaiqkzi7sbrCnDLHtdb5mVkH6ld6ZDPPdCTIMt5ZG08popkSf7QE7kwSiVoZFJ4p1LL1aCAwK6NsRZGT1LIJSNoMnP9ht0oPdp8EznBRp9YyP4V0lcTsurZdsfGlRs1KdvSfyDLB68RFbket73cGrvptVMKE09h_xALNzPwbmpRWKlro69RpbMkdAWyMltQtPF44VL493uf_f2qQ-haHRY4YSvImrof99VcRegoUGaqqk1VnrbRgUYQuDsyIRSWunlhhkblW1oxH0uPsAGRblEWd8maAgjbeB7-H8Km2rmbQKq70tWDSbsLyZwMGxBhHANt8jzrVZ6Y_7ZH00djXFl9kPXMMFscgZjacoRIE95N9Yp96KXN6reQmkI7RY1fBzjnH5UYQLO935IU_i9RwNIXbd04cksRVhc78p88fP4qMR0bpK9bQ1YIA4cGomr4rbYEHnDSAslreBxBdo94p5pgCQTGdhPBbGNtoc8jG_Tb7E0GUKHGC21XKL3JCCSleSgUzVm2aOfLBRytQOO-fwlifQin8LDybAGDSkmMbNQMnV88-B8BKwn9mTsHTqgw1vze1bdTlZbM0Pep3GgToa78thbYg8LX02rbT5-5ArnWkrPIFWGXMeQWPSArBlrMOxpkoRR4md_Jd4_RQhOL8XjWBrwsDRUBgVonUwKZvCDSzp4I-m3Xh4_H_b5Z1m0iyo6P9zR2dkmy3R8ujoVQey_Q=w65-h95-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #fbb034 30%, #ffdd00 90%)',
+        height:'95px',
+        width: '65px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'20px',
+        marginRight:'20px',
+        borderRadius: '10px'
+    }, 
+    tipExpandedImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/fl2JQtt5pzW1YzfLAQO-dYdgo5Xaq2mnYekTbrzSsJTPFsH0Cr3F246-pKzsN5h8xc5UoXr1uco-2d3etljMssljy8sLGGCE0qYYm2tv1cpO4fUQxGcyEbx2Mv-rNFDpozkkdrKNvYBzh-hvlDNIl9cKq9YGkf4l1JgN1gE6LFwmJJqEiP7HCcGeP_bNBbT2zaVlZvQfzElx3JJZLWEOYxjet-KmL77EjmS63LmbSq8RzVAc4d_ZvQvABKo09zR1BqCGqTfycc1JKChLpqaD7yshYztehpzdcWxxfiVYLvzyPL2TqcErZk1rJ14RYrOuUloXxrTq4S9BLn5fvZRlLSmNBN7Qq1I--83g0MN2s14JrD010e2G6SirgmE_8TWWkX7PRmcedaOhvbaFzcj-29k4GFgnKvkJIv4e5WPytPCyDBfr-846l2tGF7ObB2F4AwKwYj8rd8ZAoSmVd9ZjJvCWGNWFeHaasZoJjAAb2SP58rMdZA06v4dqPZQsnuXxrhw-u7EiGCCUR62H-9QwuJkCYUs-0o-M5n7KQtk5Sl6tTS4ejd5V6GUnwNXt1E5_7Hx9CdVztVHsC2S7aN7B9Fj85cfK3F4_XKRaLkKsdOYX_V37zklLNwHiRu9EAK9wE5JrVw1YqF7yDEdfZu8eINBhlgwdHuatiKa7NpUfOyOhSEVLUgBCFvnrn809vzWC-aIjvKwIHJy2xct0eD8Ijkw=w400-h95-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #fcba29 30%, #fbb034 90%)',
+        height:'95px',
+        width: '400px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'20px',
+        marginRight:'20px',
+        borderRadius: '10px'
+    },
+    multipleChoiceAnswerImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/v3d5H5kVAW3JEqEcszLFIezk6A2_2AdAT9_a2zHXUysUuLnEWAKNfLA-68LcWBkFTAFvLSOwTa_jJiTArzqAMuZRVTrcA5pYBPsUclV3ovODfSqpJGLTbWDnvf9dCJyn31An0z5jnoPmEpe6vzGjBfisUFmDL0Kf3GAHfwfbvVMrllwxpCu1rFdLacxzoTq2lqTcIgKzUa132NHwJIIEq9Qsm6gGOhVCeTWRhMiyVtyD0Wh2wkFq0FJdnmAHYVYbdtUm8L3tD-tsaM4h6h4Vxn8rnfejRlS75DCXvq_O6H9yM-KbTnjX_av3vmPA4SknD6AELTECOtShUJXiEHVOtSID-NRumxRt_-mv2medd9TyOoCCbpGXixnYlLGnEW7qFLmh2Tidv69zcAsEsVvKtWXKu1z0pi0bdFWhGE9H7CPAXkqmfNgnsyM5wyDyYVPG4dm_6_sokjRWK0SgECrVWHurJ_ra1XlM-rq4xE0rt3ko2-Jv_91n4nWBfWLowYlpIistDBv0I4flH2ndAhwkZGTni6wFCl7p0kSWWrDP-pl0-J_6jHfg1EB5omJEXMuwZWvMtkKT-6imPlPx-csLIus2V2cLDI-TPt4yUqFafRU7uGJQ7BehaRrTpJYPh6PRS4IUT7rKLlSSG1TyvE9EMLQurAEpo4TWLC1dRyylWeJHRh0gdkfM-8BHfjfqPXBua4A6kMG1nBfTeFl8fPmcwLs=w400-h75-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #159794 30%, #53b1af 90%)',
+        height:'75px',
+        width: '400px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px'
+    }, 
+    ConstructionAnswerImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/v3d5H5kVAW3JEqEcszLFIezk6A2_2AdAT9_a2zHXUysUuLnEWAKNfLA-68LcWBkFTAFvLSOwTa_jJiTArzqAMuZRVTrcA5pYBPsUclV3ovODfSqpJGLTbWDnvf9dCJyn31An0z5jnoPmEpe6vzGjBfisUFmDL0Kf3GAHfwfbvVMrllwxpCu1rFdLacxzoTq2lqTcIgKzUa132NHwJIIEq9Qsm6gGOhVCeTWRhMiyVtyD0Wh2wkFq0FJdnmAHYVYbdtUm8L3tD-tsaM4h6h4Vxn8rnfejRlS75DCXvq_O6H9yM-KbTnjX_av3vmPA4SknD6AELTECOtShUJXiEHVOtSID-NRumxRt_-mv2medd9TyOoCCbpGXixnYlLGnEW7qFLmh2Tidv69zcAsEsVvKtWXKu1z0pi0bdFWhGE9H7CPAXkqmfNgnsyM5wyDyYVPG4dm_6_sokjRWK0SgECrVWHurJ_ra1XlM-rq4xE0rt3ko2-Jv_91n4nWBfWLowYlpIistDBv0I4flH2ndAhwkZGTni6wFCl7p0kSWWrDP-pl0-J_6jHfg1EB5omJEXMuwZWvMtkKT-6imPlPx-csLIus2V2cLDI-TPt4yUqFafRU7uGJQ7BehaRrTpJYPh6PRS4IUT7rKLlSSG1TyvE9EMLQurAEpo4TWLC1dRyylWeJHRh0gdkfM-8BHfjfqPXBua4A6kMG1nBfTeFl8fPmcwLs=w400-h75-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #71c1e9 30%, #80ced7 90%)',
+        height:'65px',
+        width: '65px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px',
+        fontSize: 20,
+        //fontWeight: 'bold',
+        //color: "#FFFFFF"
+    },
+    ConstructionInputAnswerImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/AcX4isuEYjw_PMMJ5TWu2Wj9D-Rq3mGK44Ktdhpf4TRgnk6GVSctF27yCnnkPQI8mVpsDsYMKIVvgQNgKeRe1RICUA1Adzi5YlqlJboG_gl97gpcN9TIvhV06imWqlTpYP_m76DBr6xN1SvM4x931CW7rwH3bMtxTXWCuiIJpUpRtBy6SWlHRQC5SSA53rbhU-jDeloKOyvFjTyZEX9SaBxw70WPFOWvZGFlZDGquQpLXyW2PMPH-3eYrH0wWlOIhgsUtXmbA0aHmPPg7VE75MrIKIndYMD_3TbzJVwTebh7XCa0j2fqhjn74llQxJMNbkVxYQgTZhcYrrRx0vow-o3bAGzy_Ku2ULQVn8RwvvpaRj6krqx4aE75vXxefX2b9itSiA2ELAzQZfjNWrsvi_UsUanm6b_A3S61mPN8Jcc3LmG8ZXdWyOYgI7Z4Oc6rmRpEr_wbW5P_GFHkw1pCDx_Q8yCbd5U_UBLcWZWqBSQGjp7ADe_6wcN35QzTxwTyihBCCnguUNUvf2OaPEJMxY6-IFggtb0Bjm12AMJtWf7bdV7cAT9yFti5fFMrz4ZQ-KDl2pgKdBCsIt1c_ZZpZn6HEprQfp2snIU5Cx1CBun8ueeqUjV3rVneY7rBa2Pngyln-VPlGo14UsIN8HAnYoNyefxfacgAUe0iptp2cO1RfmCPvBB7yiq0361c8EcjlQQ9DvamqIqWhXNEugeVqOE=w500-h150-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #159794 30%, #53b1af 90%)',
+        height:'75px',
+        width: '500px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        //marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px'
     },
     answerSection:{
         height:'300px',
@@ -64,10 +183,54 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         alignItems:'center',
         flexDirection:'column',
-        border: '1px solid black'       
+        //border: '1px solid black'       
+    },
+    textBoxContainer:{
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+    },
+    constructionContainer:{
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
     },
     textBoxTextField:{
         width:"450px"
+    },
+    textBoxImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/AcX4isuEYjw_PMMJ5TWu2Wj9D-Rq3mGK44Ktdhpf4TRgnk6GVSctF27yCnnkPQI8mVpsDsYMKIVvgQNgKeRe1RICUA1Adzi5YlqlJboG_gl97gpcN9TIvhV06imWqlTpYP_m76DBr6xN1SvM4x931CW7rwH3bMtxTXWCuiIJpUpRtBy6SWlHRQC5SSA53rbhU-jDeloKOyvFjTyZEX9SaBxw70WPFOWvZGFlZDGquQpLXyW2PMPH-3eYrH0wWlOIhgsUtXmbA0aHmPPg7VE75MrIKIndYMD_3TbzJVwTebh7XCa0j2fqhjn74llQxJMNbkVxYQgTZhcYrrRx0vow-o3bAGzy_Ku2ULQVn8RwvvpaRj6krqx4aE75vXxefX2b9itSiA2ELAzQZfjNWrsvi_UsUanm6b_A3S61mPN8Jcc3LmG8ZXdWyOYgI7Z4Oc6rmRpEr_wbW5P_GFHkw1pCDx_Q8yCbd5U_UBLcWZWqBSQGjp7ADe_6wcN35QzTxwTyihBCCnguUNUvf2OaPEJMxY6-IFggtb0Bjm12AMJtWf7bdV7cAT9yFti5fFMrz4ZQ-KDl2pgKdBCsIt1c_ZZpZn6HEprQfp2snIU5Cx1CBun8ueeqUjV3rVneY7rBa2Pngyln-VPlGo14UsIN8HAnYoNyefxfacgAUe0iptp2cO1RfmCPvBB7yiq0361c8EcjlQQ9DvamqIqWhXNEugeVqOE=w500-h150-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #71c1e9 30%, #80ced7 90%)',
+        height:'150px',
+        width: '500px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px'
+    },
+    questionText:{
+        width:"450px"
+    },
+    score:{
+        background: 'linear-gradient(45deg, #71c1e9 30%, #80ced7 90%)',
+        height:'250px',
+        width: '600px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px'
     },
 }))
 
@@ -310,80 +473,188 @@ export default function PlayGameStages(props) {
                 marginTop:'64px',
                 marginLeft:'64px',}}/>
 			{showScore ? (
-				<Container className={classes.background}>
-                    <Typography>
-                        You got {score} questions correct out of {testQuestions.length} questions.
-                    </Typography>
-                    <Typography>
-                        You obtained {point} points from completing the game.
-                    </Typography>
+				<Container className={classes.backgroundScore}>
+                    <Container className={classes.score}>
+                        <Typography>
+                            You got {score} questions correct out of {testQuestions.length} questions.
+                        </Typography>
+                        <Typography>
+                            You obtained {point} points from completing the game.
+                        </Typography>
+                    </Container>
 				</Container>
 			) : (
 				<>
                     <Container className={classes.background}>
-                        <Typography>
+                        <Container style={{
+                        display:'flex',
+                        //justifyContent: 'center',
+                        alignItems:'center',
+                        marginTop:'20px',
+                        marginLeft:'0px',
+                        }}>
+                            <Typography style={{
+                            display:'flex',
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            color: "#FFFFFF"
+                            }}>
+                            <ToysOutlinedIcon style={{ color: "#FFFFFF" }}/>
                             Current Obtained Points: {point}.
                         </Typography>
+                        </Container>
                         <Container id='stage-count' className={classes.stageCount}>
-                            <Typography>
-                                Stage {currentQuestion + 1} / {testQuestions.length}
-                            </Typography>
+                            <Container id='stage-image' className={classes.stageImage}>
+                                <Typography style={{ fontWeight: 'bold'}}>
+                                    Stage {currentQuestion + 1} / {testQuestions.length}
+                                </Typography>
+                            </Container>
                         </Container>
                         <Container id='question-section' className={classes.questionSection}>
-                            <Typography>
-                                {testQuestions[currentQuestion].question}
-                            </Typography>                         
+                            <Container id='question-image' className={classes.questionImage}>
+                                <Typography variant='h5' style={{fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}} >
+                                    {testQuestions[currentQuestion].question}
+                                </Typography> 
+                                </Container>
                         </Container>
                         
                         <Container id='tip-section' className={classes.tipSection}>
                             {testQuestions[currentQuestion].type === "MultipleChoice"
                             && 
-                            <Typography>Use a tip card to eliminate a wrong answer card!</Typography>
+                            <Typography style={{fontSize: 12, fontStyle:"italic", textAlign: "center",  verticalAlign: "middle", color: '#EEEEEE'}}>Use a tip card to eliminate a wrong answer card!</Typography>
                             }
                             {testQuestions[currentQuestion].type === "Textbox"
                             && 
-                            <Typography>Use a tip card to get a hint!</Typography>
+                            <Typography style={{fontSize: 12, fontStyle:"italic", textAlign: "center",  verticalAlign: "middle", color: '#EEEEEE'}}>Use a tip card to get a hint!</Typography>
                             }
                             {testQuestions[currentQuestion].type === "Construction"
                             && 
-                            <Typography>Use a tip card to get a correct letter!</Typography>
+                            <Typography style={{fontSize: 12, fontStyle:"italic", textAlign: "center",  verticalAlign: "middle", color: '#EEEEEE'}}>Use a tip card to get a correct letter!</Typography>
                             }
-
-                            <Button variant="contained" onClick={() => handleTip1OptionClick(true)} disabled={tip1Disabled}>{"Tip Card 1"}</Button>
-
+                            <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            >
+                            {!(tip1Disabled && testQuestions[currentQuestion].type === "Textbox")
+                            &&
+                            <Button variant="contained" onClick={() => handleTip1OptionClick(true)} disabled={tip1Disabled} className={classes.tipImage}>
+                                {!(tip1Disabled && testQuestions[currentQuestion].type === "Construction")
+                                &&
+                                <EmojiObjectsOutlinedIcon/>
+                                }
+                                {tip1Disabled && testQuestions[currentQuestion].type === "Construction"
+                                && 
+                                <Typography
+                                style={{fontSize: 18,
+                                fontWeight: 'bold'}}> {testQuestions[currentQuestion].answer.charAt(tipConstruction[0])}</Typography>
+                                }
+                            </Button>
+                            }
                             {tip1Disabled && testQuestions[currentQuestion].type === "Textbox"
-                            && 
-                            <Typography>{testQuestions[currentQuestion].tip1}</Typography>
+                            &&
+                            <Container className={classes.tipExpandedImage}>
+                                <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>{testQuestions[currentQuestion].tip1}</Typography>
+                            </Container>
                             }
-                            {tip1Disabled && testQuestions[currentQuestion].type === "Construction"
-                            && 
-                            <Typography>{testQuestions[currentQuestion].answer.charAt(tipConstruction[0])}</Typography>
+                            
+                            {!(tip2Disabled && testQuestions[currentQuestion].type === "Textbox")
+                            &&
+                            <Button variant="contained" onClick={() => handleTip2OptionClick(true)} disabled={tip2Disabled} className={classes.tipImage}>
+                                {!(tip2Disabled && testQuestions[currentQuestion].type === "Construction")
+                                &&
+                                <EmojiObjectsOutlinedIcon/>
+                                }
+                                {tip2Disabled && testQuestions[currentQuestion].type === "Construction"
+                                && 
+                                <Typography
+                                style={{fontSize: 18,
+                                fontWeight: 'bold'}}>{testQuestions[currentQuestion].answer.charAt(tipConstruction[1])}</Typography>
+                                }
+                            </Button>
                             }
-                            <Button variant="contained" onClick={() => handleTip2OptionClick(true)} disabled={tip2Disabled}>{"Tip Card 2"}</Button>
                             {tip2Disabled && testQuestions[currentQuestion].type === "Textbox"
                             &&
-                            <Typography>{testQuestions[currentQuestion].tip2}</Typography>
+                            <Container className={classes.tipExpandedImage}>
+                                <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>{testQuestions[currentQuestion].tip2}</Typography>
+                            </Container>
                             }
-                            {tip2Disabled && testQuestions[currentQuestion].type === "Construction"
-                            && 
-                            <Typography>{testQuestions[currentQuestion].answer.charAt(tipConstruction[1])}</Typography>
-                            }
+                            
+                            </Grid>
                         </Container>
 
                         <Container id='answer-section' className={classes.answerSection}>
                             {testQuestions[currentQuestion].type === "MultipleChoice"
                             &&
                             <Container id='multiple-choice-section'>
-                                <Button style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[0] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[0]}>{multipleChoice[0]}</Button>
-                                <Button style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[1] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[1]}>{multipleChoice[1]}</Button>
-                                <Button style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[2] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[2]}>{multipleChoice[2]}</Button>
-                                <Button style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[3] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[3]}>{multipleChoice[3]}</Button>
-                                <Button style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[4] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[4]}>{multipleChoice[4]}</Button>
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
+                                    {!multipleChoiceButtonDisabled[0]
+                                    &&
+                                    <Button className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[0] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[0]}>
+                                        <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>
+                                            {multipleChoice[0]}
+                                        </Typography>
+                                    </Button>
+                                    }
+                                    {!multipleChoiceButtonDisabled[1]
+                                    &&
+                                    <Button className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[1] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[1]}>
+                                        <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>
+                                            {multipleChoice[1]}
+                                        </Typography>
+                                    </Button>
+                                    }
+                                </Grid>
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
+                                {!multipleChoiceButtonDisabled[2]
+                                &&
+                                <Button className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[2] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[2]}>
+                                    <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>
+                                        {multipleChoice[2]}
+                                    </Typography>
+                                </Button>
+                                }
+                                </Grid>
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
+                                    {!multipleChoiceButtonDisabled[3]
+                                    &&
+                                    <Button className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[3] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[3]}>
+                                        <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>
+                                            {multipleChoice[3]}
+                                            </Typography>
+                                    </Button>
+                                    }
+                                    {!multipleChoiceButtonDisabled[4]
+                                    &&
+                                    <Button className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAnswerOptionClick(multipleChoice[4] === testQuestions[currentQuestion].answer)} disabled={multipleChoiceButtonDisabled[4]}>
+                                        <Typography style={{fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}>
+                                            {multipleChoice[4]}
+                                            </Typography>
+                                    </Button>
+                                    }
+                                </Grid>
                             </Container>
                             }
                             {testQuestions[currentQuestion].type === "Textbox"
                             &&
-                            <Container id='textbox-section'>
+                            <Container className={classes.textBoxContainer}>
+                                <Container className={classes.textBoxImage}>
                                 <TextField
                                 onChange={(e) => setTextboxAnswer(e.target.value)}
                                 error={textboxAnswerError}
@@ -395,34 +666,80 @@ export default function PlayGameStages(props) {
                                 placeholder="Your Answer"
                                 //helperText="Please Enter an Answer."
                                 className={classes.textBoxTextField}
-                                //inputProps={{style: {textTransform: 'uppercase'}}}
+                                inputProps={{style: {fontSize: 20, fontWeight: 'bold', textAlign: "center",  verticalAlign: "middle", color: '#FFFFFF'}}}
                                 />
-                                <Button variant="contained" onClick={() => handleSubmitTextboxOptionClick(textboxAnswer.valueOf().toLocaleUpperCase('en-US') === testQuestions[currentQuestion].answer.valueOf().toLocaleUpperCase('en-US'))}>{"Submit"}</Button>
+                                </Container>
+                                <Button variant="contained" style={{
+                                marginTop:'20px',
+                                marginBottom:'20px',
+                                textTransform: 'none',
+                                background: 'linear-gradient(45deg, #71c1e9 30%, #71c1e9 90%)'}} onClick={() => handleSubmitTextboxOptionClick(textboxAnswer.valueOf().toLocaleUpperCase('en-US') === testQuestions[currentQuestion].answer.valueOf().toLocaleUpperCase('en-US'))}>{"Submit"}</Button>
                              
                             </Container>
                             }
                             {testQuestions[currentQuestion].type === "Construction"
                             &&
-                            <Container id='construction-section'>
-                                {constructionAnswerError
-                                &&
-                                <Typography>{"Please Input an Answer!"}</Typography>
-                                }
-                                <Typography>{"Input Answer: "}</Typography>
-                                <Typography>{constructionAnswer}</Typography>
-                                {//constructionButtonDisabled
-                                }
+                            <Container id='construction-section' className={classes.constructionContainer}>
+                                
+                                <Container className={classes.ConstructionInputAnswerImage}>
+                                    <Typography style={{fontSize: 18,
+                                    fontWeight: 'bold',
+                                    color: "#FFFFFF"}}>
+                                        {"Input Answer: "}
+                                    </Typography>
+                                    {constructionAnswerError
+                                    &&
+                                    <Typography style={{fontSize: 18,
+                                    fontWeight: 'bold',
+                                    color: "#ec1c24"}}>
+                                        {"Please Input an Answer!"}
+                                    </Typography>
+                                    }
+                                    {constructionAnswer==='' && (!constructionAnswerError)
+                                    &&
+                                    <Typography style={{fontSize: 18,                                    
+                                    color: "#FFFFFF"}}>
+                                        {"________"}
+                                    </Typography>
+                                    }
+                                    <Typography style={{fontSize: 18,
+                                    fontWeight: 'bold',
+                                    color: "#FFFFFF",
+                                    textDecoration: 'underline'}}>
+                                        {constructionAnswer}
+                                    </Typography>
+                                </Container> 
+
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
+                                    <Button style={{
+                                    marginLeft:'20px',
+                                    marginRight:'20px',
+                                    textTransform: 'none',
+                                    background: 'linear-gradient(45deg, #71c1e9 30%, #71c1e9 90%)'}}
+                                    variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
+                                    <Button  style={{
+                                    marginLeft:'20px',
+                                    marginRight:'20px',
+                                    textTransform: 'none',
+                                    background: 'linear-gradient(45deg, #71c1e9 30%, #71c1e9 90%)'}}
+                                    variant="contained" variant="contained" onClick={() => handleResetOptionClick()} disabled={constructionSubmitButtonDisabled}>{"Reset"}</Button>
+                                </Grid>
                                 <Container>
-                                    <Button variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
-                                    <Button variant="contained" onClick={() => handleResetOptionClick()} disabled={constructionSubmitButtonDisabled}>{"Reset"}</Button>
-                                </Container>
-                                <Container>
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
                                 {constructionLetters.map((letter, index) => (
-                                    <Button variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
+                                    <Button className={classes.ConstructionAnswerImage} variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
                                 ))}
-                                {/* {constructionLetters.map((letter, index) => (
-                                    <Button variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
-                                ))} */}
+                                </Grid>
                                 </Container>
                             </Container>
                             }

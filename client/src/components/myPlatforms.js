@@ -54,13 +54,13 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function Favorite() {
+export default function MyPlatforms() {
   const classes = useStyles();
   const history = useHistory();
   
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState(null);
-  const [favorites, setFavorites] = useState(null);
+  const [ownedPlatforms, setOwnedPlatforms] = useState(null);
   useEffect(() => {
     setToken(localStorage.getItem('token'));
 },[]);
@@ -78,7 +78,7 @@ export default function Favorite() {
 
   useEffect(() => {
     if(userData != null){
-      setFavorites(userData.data.favorites)
+      setOwnedPlatforms(userData.data.ownedPlatforms)
   };
 },[userData]);
 
@@ -143,14 +143,14 @@ function Populate(props){
     );
 }
 
-  if(favorites!= null){
+  if(ownedPlatforms!= null){
   return(
     <div style={{display:'flex', marginTop:"64px"}}>
       <LeftPanel/>
         <Container className={classes.container}>
             <Container className={classes.section}>
-                <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Favorites:</Typography>
-                {favorites.length === 0
+                <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Platforms:</Typography>
+                {ownedPlatforms.length === 0
                 &&
                 <Container style={{
                   background: '#ffffff',
@@ -168,11 +168,11 @@ function Populate(props){
                   border: '1px solid grey'
               }}>
                   <Typography style={{textAlign: "center"}}>
-                  You have not favorited any platform. 
+                  You do not have any platform.
                   </Typography>
                 </Container>
                 }
-                <Populate platforms={favorites} />
+                <Populate platforms={ownedPlatforms} />
             </Container>
         </Container>
 

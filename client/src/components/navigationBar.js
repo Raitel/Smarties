@@ -23,7 +23,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative',
-    zIndex: theme.zIndex = theme.zIndex.drawer + 1,
+    zIndex: 10000,
   },
   grow: {
     flexGrow: 1,
@@ -145,7 +145,14 @@ export default function PrimarySearchAppBar(props) {
   const handleExplore = () => {
     history.push("/explore")
   };
-  
+  const handleSearch = (e) => {
+    console.log((e.target.value));
+    if(e.key === 'Enter' || e.keyCode === 13){
+      const url = (e.target.value).split(' ').join('&');
+      history.push("/search/" + url);
+    }
+    
+  };
  
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -157,6 +164,7 @@ export default function PrimarySearchAppBar(props) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      style={{zIndex: 10001}}
     >
       <MenuItem onClick={handleMyProfile} >My Profile</MenuItem>
       <MenuItem onClick={handleAccountSetting} >Settings</MenuItem>
@@ -187,7 +195,8 @@ export default function PrimarySearchAppBar(props) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              onKeyPress ={(e) => handleSearch(e)}
+              placeholder="Search Platforms…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -218,10 +227,7 @@ export default function PrimarySearchAppBar(props) {
           <Typography variant="h5" gutterBottom style={{color:'#212197',fontWeight: 'Bold'}}>Create a New Platform:</Typography>
         </DialogTitle>
         <DialogContent>
-          {
-          //<DialogContentText>
-          //</DialogContentText>
-          }
+
           <Container className={classes.subcontainer}>
             <Typography variant="h6"  style={{color:'#212197',fontWeight: 'Bold'}}>Title:</Typography>
             <TextField

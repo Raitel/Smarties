@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import PlayGameStages from './playGameStages';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,7 +51,17 @@ export default function PlayGame() {
     else{
         return(
             <div style={{display:'flex', marginTop:"64px"}}>
-                <CircularProgress />
+                <Container style={{
+                            width:'1250px',
+                            height:'700px',
+                            display:'flex',
+                            alignItems:'center',
+                            justifyContent: "center",
+                            flexDirection:'column',
+                        }}>
+                            <CircularProgress />
+                            
+                </Container>
             </div>
             )        
     }
