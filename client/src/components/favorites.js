@@ -183,7 +183,7 @@ function Populate(props){
     return(
       <div>
       <LeftPanel/>
-      <Container tyle={{
+      <Container style={{
                 width:'1250px',
                 height:'700px',
                 display:'flex',

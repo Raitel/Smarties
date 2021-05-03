@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
+import ToysOutlinedIcon from '@material-ui/icons/ToysOutlined';
 
 const useStyles = makeStyles((theme) => ({
     background:{
@@ -485,9 +486,23 @@ export default function PlayGameStages(props) {
 			) : (
 				<>
                     <Container className={classes.background}>
-                        <Typography>
+                        <Container style={{
+                        display:'flex',
+                        //justifyContent: 'center',
+                        alignItems:'center',
+                        marginTop:'20px',
+                        marginLeft:'0px',
+                        }}>
+                            <Typography style={{
+                            display:'flex',
+                            justifyContent: 'center',
+                            alignItems:'center',
+                            color: "#FFFFFF"
+                            }}>
+                            <ToysOutlinedIcon style={{ color: "#FFFFFF" }}/>
                             Current Obtained Points: {point}.
                         </Typography>
+                        </Container>
                         <Container id='stage-count' className={classes.stageCount}>
                             <Container id='stage-image' className={classes.stageImage}>
                                 <Typography style={{ fontWeight: 'bold'}}>
