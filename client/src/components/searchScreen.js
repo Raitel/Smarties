@@ -123,7 +123,7 @@ export default function Search(){
                         
                     </Grid>
         
-                        <SearchFunction platformData={platformData} page={page} keywords={keywords} />
+                        <SearchFunction platformData={platformData}/>
         
                     </Container>
         

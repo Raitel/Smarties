@@ -26,13 +26,13 @@ router.route('/getRandomPlatforms').get((req, res) => {
 });
 
 router.route('/getRecentlyUpdatedPlatforms').get((req, res) => {
-  Platform.find().sort({'updatedAt':-1}).limit(12)
+  Platform.find({'isPublic': true}).sort({'updatedAt':-1}).limit(12)
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getMostUpvotedPlatforms').get((req, res) => {
-  Platform.aggregate().sort('Upvotes').limit(12)
+  Platform.aggregate([{$match: {isPublic: true}}]).sort('Upvotes').limit(12)
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
