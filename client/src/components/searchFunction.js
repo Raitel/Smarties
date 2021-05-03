@@ -39,22 +39,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchFunction(prop){
     const classes = useStyles();
     const history = useHistory();
-    //const { page } = useParams();
-    //const { keywords } = useParams();
-    const page = prop.page;
-    const keywords = prop.keywords
     const platformData = prop.platformData
-    // const [platformData, setPlatformData] = useState(null);
-    // useEffect(() => {
-    //     setPlatformData(null);
-    //     getPlatform();
-    // },[page]);
-    // const getPlatform = () => {
-    //     axios.get("/platforms/getPlatformsByKeyword/" + page + "/" + keywords).then( data => {
-    //         setPlatformData(data);
-    //         console.log(data.data);
-    //     });
-    // }
+
     const handlePlatform = (id) => {
         history.push("/platform/" + id);
     };

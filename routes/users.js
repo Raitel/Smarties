@@ -121,7 +121,7 @@ router.post('/auth/login', (req, res) => {
 })
 
 router.get('/auth/user', auth, (req, res) => {
-  User.findById(req.user.id)
+  User.findById(req.user.id).populate('ownedPlatforms').populate('favorites')
     .select('-password')
     .then(user => res.json(user))
 })

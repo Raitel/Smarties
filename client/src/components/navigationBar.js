@@ -164,6 +164,7 @@ export default function PrimarySearchAppBar(props) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      style={{zIndex: 10001}}
     >
       <MenuItem onClick={handleMyProfile} >My Profile</MenuItem>
       <MenuItem onClick={handleAccountSetting} >Settings</MenuItem>
