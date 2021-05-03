@@ -198,7 +198,7 @@ export default function Home() {
   }
 
   const handle2 = () => {
-    history.push("/platform/606ea28cf3b2dc0d08e40adc");
+    history.push("/search/Universe");
   };
 
   return(

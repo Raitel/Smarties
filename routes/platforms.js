@@ -28,7 +28,7 @@ router.route('/getPublicPlatforms').get((req, res) => {
 //     .catch(err => res.status(400).json('Error: ' + err));
 // });
 
-router.route('/getPlatformsByKeyword/:keyword').get((req, res) => {
+router.route('/getPlatformsByKeywordAll/:keyword').get((req, res) => {
   var keywords = req.params.keyword;
   var keywords_regular_expression = new RegExp(keywords, "i");
 
@@ -43,6 +43,25 @@ router.route('/getPlatformsByKeyword/:keyword').get((req, res) => {
       { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
   ]
 })
+    .then(platforms => res.json(platforms))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/getPlatformsByKeyword/:page/:keyword').get((req, res) => {
+  var keywords = req.params.keyword;
+  var keywords_regular_expression = new RegExp(keywords, "i");
+
+  if(req.params.keyword.includes('&')){
+    keywords = req.params.keyword.split('&');
+    keywords_regular_expression = new RegExp(keywords.join("|"), "i");
+  }
+
+  Platform.find({
+    $and: [
+      { 'isPublic': true },
+      { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
+  ]
+}).limit(12).skip(req.params.page * 12)
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
