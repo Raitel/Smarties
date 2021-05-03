@@ -22,9 +22,13 @@ import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 import { useParams } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Popover from '@material-ui/core/Popover';
 
 const useStyles = makeStyles((theme) => ({
-    banner:{
+    subcontainer:{
         //backgroundImage: `url(${Background})`,
         width:'1200px',
         height:'200px',
@@ -44,14 +48,44 @@ const useStyles = makeStyles((theme) => ({
         flexDirection:'column',
         border: '1px solid black'
     },
+    bannerTest:{
+        width:'100%'
+    },
+    coverTest:{
+        width:'100%',
+        height: '420px',
+        border: '1px solid #000',
+        margin: '10px 0',
+        objectFit:'cover',
+        objectPosition: 'center 30%'
+    },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        width: 500,
+        height: 450,
+    },
 }));
 
 export default function Platform() {
     const classes = useStyles();
     const history = useHistory();
-    
     const { id } = useParams();
-    const[platformData,setPlatformData] = useState(null);
+    const [platformData,setPlatformData] = useState(null);
+    const [imageURL, setimageURL] = useState(null)
+    const [searchInput, setsearchInput] = useState('') 
+    const access_key = 'JJwuG0hMuTaes4G5QEwMyWZWxhCdr2udfk_QFR0DJq0';
+    const secret_key = 'ZXRZlY5kOzfMdbvt9Iy2E7Q63Q7ICl_28Qopl4x3SJY';
+    const [imageResult, setimageResult] = useState([])
+    const [bannerURL, setbannerURL] = useState('')
+    const [bannerOffset, setbannerOffset] = useState(50)
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
     useEffect(() => {
         getPlatform();
     }, []);
@@ -61,9 +95,35 @@ export default function Platform() {
         });
     }
 
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const popup_id = open ? 'simple-popover' : undefined;
+
+    
     const handleGame = (id) => {
         history.push("/game/"+id);
-      };
+    };
+    
+    const setPhoto = (id, fullURL) => {
+        console.log(id, fullURL)
+        setbannerURL(fullURL)
+        handleClose()
+    }
+
+    function adjustBanner(props){
+        console.log('adjustBanner')
+    }
+    function removeBanner(props){
+        setbannerURL('')
+        handleClose()
+    }
 
     function DisplayCard(props){
         const game = props.game;
@@ -94,7 +154,7 @@ export default function Platform() {
             </Card>
           </Box>
         )
-      }
+    }
 
     function PopulateTags(props){
         const tags = props.tags;
@@ -134,12 +194,115 @@ export default function Platform() {
         );
     }
 
+    function fetchUnsplash(e){
+        e.preventDefault();
+        console.log('search with query: ' + searchInput)
+        axios.get('https://api.unsplash.com/search/photos/?client_id=' + access_key + '&query=' + searchInput)
+            .then(res =>{
+                console.log(res.data.results)
+                setimageResult([])
+                res.data.results.forEach(photo => {
+                    setimageResult(oldArray => [...oldArray, 
+                        <GridListTile key={photo.id} cols={1} onClick={() => setPhoto(photo.id, photo.urls.full)}>
+                            <img src={photo.urls.thumb} alt={'alt pic'} />
+                        </GridListTile>
+                    ])
+                });
+                console.log(imageResult)
+            }) 
+    } 
+    
     if(platformData != null){
         return(
         <div style={{display:'flex', marginTop:"64px"}}>
             <LeftPanel/>
             <div>
-                <Container className = {classes.banner}>
+                <div className={classes.bannerTest}>
+                    {bannerURL ? <img className={classes.coverTest} src={bannerURL} alt="Banner image"/> : null }
+                </div>
+                
+                {!bannerURL ? 
+                <div>
+                    <Button aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add Cover</Button>
+                    <Popover
+                        popup_id={popup_id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                        }}
+                    >
+                        <Container style={{display:'flex'}}>
+                            <TextField
+                                onChange={(e) => setsearchInput(e.target.value)}
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                label="searchInput"
+                                type="searchInput"
+                                id="searchInput"
+                            />
+                            <Button onClick={fetchUnsplash} variant="contained" color="primary">Search me</Button>
+                        </Container>
+                        <div className={classes.root}>
+                            <GridList cellHeight={160} className={classes.gridList} cols={3}>
+                                {imageResult}
+                            </GridList>
+                        </div>
+                    </Popover>
+                </div>
+                : 
+                <div>
+                    <Button variant="contained" onClick={adjustBanner} >
+                        Adjust Image
+                    </Button>
+                    <Button variant="contained" aria-describedby={popup_id} onClick={handleClick}>
+                        Change Cover    
+                    </Button>
+                    <Popover
+                        popup_id={popup_id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                        }}
+                    >
+                        <Container style={{display:'flex'}}>
+                            <TextField
+                                onChange={(e) => setsearchInput(e.target.value)}
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                label="searchInput"
+                                type="searchInput"
+                                id="searchInput"
+                            />
+                            <Button onClick={fetchUnsplash} variant="contained" color="primary">Search me</Button>
+                        </Container>
+                        <div className={classes.root}>
+                            <GridList cellHeight={160} className={classes.gridList} cols={3}>
+                                {imageResult}
+                            </GridList>
+                        </div>
+                    </Popover>
+                    <Button variant="contained" onClick={removeBanner} >
+                        Remove Banner
+                    </Button>
+                </div>
+                }
+                <Container className = {classes.subcontainer}>
                     <Typography>
                         Title: {platformData.data.title}
                     </Typography>
