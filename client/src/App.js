@@ -19,6 +19,7 @@ import ChangeUsername from "./components/changeUsername.js";
 import PlayGame from "./components/playGame.js";
 import ExplorePlatforms from "./components/explore.js";
 import Platform from "./components/platform.js";
+import Search from "./components/searchScreen.js";
 import { SnackbarProvider } from 'notistack';
 
 const ForgotPasswordContainer = () => (
@@ -49,6 +50,10 @@ const DefaultContainer = (props) => (
 
     <Route path="/game/:id">
       <PlayGame />
+    </Route>
+
+    <Route path="/search/:keywords">
+      <Search />
     </Route>
   </div>
 )

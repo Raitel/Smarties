@@ -52,11 +52,21 @@ export default function Search(){
     const classes = useStyles();
     const { keywords } = useParams();
     const [page, setPage] = useState(0);
+    const [keywordState, setKeywordState] = useState(keywords);
     const [platformData, setPlatformData] = useState(null);
+    if(keywords != keywordState){
+        setKeywordState(keywords);
+    }
+    
     useEffect(() => {
         setPlatformData(null);
         getPlatform();
     },[page]);
+    useEffect(() => {
+        setPage(0);
+        setPlatformData(null);
+        getPlatform();
+    },[keywordState]);  
     const getPlatform = () => {
         axios.get("/platforms/getPlatformsByKeyword/" + page + "/" + keywords).then( data => {
             setPlatformData(data);
@@ -78,6 +88,7 @@ export default function Search(){
         
                     <Container className={classes.section}>
                     <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Search Results:</Typography>
+                    {keywords}
                     <Grid
                     container
                     direction="row"

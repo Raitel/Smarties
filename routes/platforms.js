@@ -31,16 +31,32 @@ router.route('/getPublicPlatforms').get((req, res) => {
 router.route('/getPlatformsByKeywordAll/:keyword').get((req, res) => {
   var keywords = req.params.keyword;
   var keywords_regular_expression = new RegExp(keywords, "i");
+  var check = []
 
   if(req.params.keyword.includes('&')){
     keywords = req.params.keyword.split('&');
-    keywords_regular_expression = new RegExp(keywords.join("|"), "i");
+    //keywords_regular_expression = new RegExp(keywords.join("|"), "i");
+    if(keywords.length > 1){
+      for(var i = 0; i < keywords.length; i++){
+        keywords_regular_expression = new RegExp(keywords[i], "i");
+        check.push({ $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] })
+      }
+    }
+
   }
+  else{
+    check.push({ $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] })
+  }
+  
 
   Platform.find({
-    $and: [
+  //   $and: [
+  //     { 'isPublic': true },
+  //     { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
+  // ]
+     $and: [
       { 'isPublic': true },
-      { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
+      { $and: check }
   ]
 })
     .then(platforms => res.json(platforms))
@@ -50,16 +66,27 @@ router.route('/getPlatformsByKeywordAll/:keyword').get((req, res) => {
 router.route('/getPlatformsByKeyword/:page/:keyword').get((req, res) => {
   var keywords = req.params.keyword;
   var keywords_regular_expression = new RegExp(keywords, "i");
+  var check = []
 
   if(req.params.keyword.includes('&')){
     keywords = req.params.keyword.split('&');
-    keywords_regular_expression = new RegExp(keywords.join("|"), "i");
+    
+    if(keywords.length > 1){
+      for(var i = 0; i < keywords.length; i++){
+        keywords_regular_expression = new RegExp(keywords[i], "i");
+        check.push({ $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] })
+      }
+    }
+
+  }
+  else{
+    check.push({ $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] })
   }
 
   Platform.find({
     $and: [
       { 'isPublic': true },
-      { $or: [{"title" : keywords_regular_expression}, {"description" : keywords_regular_expression}, {"tags" : keywords_regular_expression}] }
+      { $and: check }
   ]
 }).limit(12).skip(req.params.page * 12)
     .then(platforms => res.json(platforms))
