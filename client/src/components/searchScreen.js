@@ -88,7 +88,7 @@ export default function Search(){
         
                     <Container className={classes.section}>
                     <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Search Results:</Typography>
-                    {keywords}
+                    
                     <Grid
                     container
                     direction="row"

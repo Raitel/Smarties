@@ -16,6 +16,27 @@ router.route('/getPublicPlatforms').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/getRandomPlatforms').get((req, res) => {
+  Platform.aggregate([
+    {$match: {isPublic: true}},
+    {$sample: {size: 12}}
+  ])
+    .then(platforms => res.json(platforms))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/getRecentlyUpdatedPlatforms').get((req, res) => {
+  Platform.find().sort({'updatedAt':-1}).limit(12)
+    .then(platforms => res.json(platforms))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/getMostUpvotedPlatforms').get((req, res) => {
+  Platform.aggregate().sort('Upvotes').limit(12)
+    .then(platforms => res.json(platforms))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // get platforms by keyword
 // router.route('/getPlatformsByKeyword/:keyword').get((req, res) => {
 //   Platform.find({
@@ -70,7 +91,7 @@ router.route('/getPlatformsByKeyword/:page/:keyword').get((req, res) => {
 
   if(req.params.keyword.includes('&')){
     keywords = req.params.keyword.split('&');
-    
+
     if(keywords.length > 1){
       for(var i = 0; i < keywords.length; i++){
         keywords_regular_expression = new RegExp(keywords[i], "i");
