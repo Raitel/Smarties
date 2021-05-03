@@ -8,7 +8,7 @@ import Shop from "./components/shop";
 import Settings from "./components/settings";
 import Profile from "./components/profile";
 import Favorites from "./components/favorites";
-import Mygames from "./components/mygames";
+import MyPlatforms from "./components/myPlatforms";
 import Inventory from "./components/inventory";
 import ContactUs from "./components/contact.js";
 import Login from "./components/login.js";
@@ -37,7 +37,7 @@ const DefaultContainer = (props) => (
     <Route path="/settings" exact component={Settings} />
     <Route path="/profile" exact component={Profile} />
     <Route path="/favorites" exact component={Favorites} />
-    <Route path="/mygames" exact component={Mygames} />
+    <Route path="/myPlatforms" exact component={MyPlatforms} />
     <Route path="/inventory" exact component={Inventory} />
     <Route path="/contactus" exact component={ContactUs} />
     <Route path="/changePassword" exact component={ChangePassword} />

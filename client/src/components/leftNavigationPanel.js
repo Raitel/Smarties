@@ -48,7 +48,7 @@ export default function ClippedDrawer() {
     history.push("/home")
   };
   const handleMyGames = () => {
-    history.push("/myGames")
+    history.push("/myPlatforms")
   };
   const handleFavorites = () => {
     history.push("/favorites")

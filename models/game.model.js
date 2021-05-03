@@ -9,7 +9,7 @@ const defaultTipCard = "606e7b59bee1d0599ca713b7";
 const defaultAnswerCard = "606e7b59bee1d0599ca713b7";
 
 const nestedStageSchema = new Schema({
-  type: { type: String},
+  type: { type: String, default: "MultipleChoice"},
   question: { type: String, default: ""},
   answer: { type: String, default: ""},
   tip1: { type: String, default: ""},
