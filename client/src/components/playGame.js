@@ -35,7 +35,6 @@ export default function PlayGame() {
     const getPlatform = () => {
         axios.get("/platforms/getPlatformByGameId/" + id).then( data => {
             setPlatformData(data);
-            console.log(data.data);
         });
     }
     if(gameData != null && platformData != null){

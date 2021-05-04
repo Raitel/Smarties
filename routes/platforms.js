@@ -127,7 +127,17 @@ router.route('/:id').get((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
   }
-  Platform.findById(req.params.id)
+  Platform.findById(req.params.id).populate('games','title description')
+    .then(platform => res.json(platform))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// get platform by id
+router.route('/getPlatformGames/:id').get((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)){
+    res.status(406).send({status: false, message: ":id must be of ObjectId type"})
+  }
+  Platform.findById(req.params.id).select('games').select('-_id').populate('games','title description -_id').select('-_id')
     .then(platform => res.json(platform))
     .catch(err => res.status(400).json('Error: ' + err));
 });

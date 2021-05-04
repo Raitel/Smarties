@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
         width: 500,
         height: 450,
     },
+    game:{
+        width: "250px"
+    },
 }));
 
 export default function Platform() {
@@ -128,33 +131,35 @@ export default function Platform() {
     function DisplayCard(props){
         const game = props.game;
         return (
-          <Box p={1}>
-            <Card className={classes.game}>
-                <CardActionArea onClick={() => handleGame(game)}>
+            <Card className={classes.game} style={{
+                marginTop:'25px',
+                marginBottom:'25px',
+                marginLeft:'25px',
+                marginRight:'25px',
+                }}>
+                <CardActionArea onClick={() => handleGame(game._id)}>
                     <CardHeader
-                    // title={game.title}
-                    title={game}
+                     title={game.title}
                     />
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {/* {game.description ? game.description :"No description"} */}
+                            {game.description ? game.description :"No description"}
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                    <Typography
+                    {/* <Typography
                         variant="body2"
                         color="textSecondary"
                         component="p"
                         align="right"
                     >
-                        {/* {game.nestedStages.length == 0 ? "No Stage": "Total Stages: " + game.nestedStages.length} */}
-                    </Typography>
+                        {game.nestedStages.length == 0 ? "No Stage": "Total Stages: " + game.nestedStages.length}
+                    </Typography> */}
                     </CardActions>
                 </CardActionArea>
             </Card>
-          </Box>
         )
-    }
+      }
 
     function PopulateTags(props){
         const tags = props.tags;
@@ -180,14 +185,13 @@ export default function Platform() {
     function Populate(props){
         const games = props.games;
         const listGames = games.map((game) => 
-          <DisplayCard game={game} key={game._id} item/>
+          <DisplayCard game={game} />
         );
         return (
-          <Grid
+            <Grid
             container
             direction="row"
             justify="flex-start"
-            spacing={5}
           >
             {listGames}
           </Grid>
@@ -328,7 +332,17 @@ export default function Platform() {
     else{
         return(
             <div style={{display:'flex', marginTop:"64px"}}>
-                <CircularProgress />
+                <Container style={{
+                width:'1250px',
+                height:'700px',
+                display:'flex',
+                alignItems:'center',
+                justifyContent: "center",
+                flexDirection:'column',
+                }}>
+                    <CircularProgress />
+                            
+                </Container>
             </div>
             )        
     }
