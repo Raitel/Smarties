@@ -99,7 +99,11 @@ router.route('/update/:id').patch((req, res) => {
         if(req.body.questionCard){retrievedGame.questionCard = req.body.questionCard};
         if(req.body.tipCard){retrievedGame.tipCard = req.body.tipCard};
         if(req.body.answerCard){retrievedGame.answerCard = req.body.answerCard};
-        if(req.body.nestedStages){retrievedGame.nestedStages = req.body.nestedStages};
+        if(req.body.nestedStages){
+          retrievedGame.nestedStages = req.body.nestedStages;
+          retrievedGame.markModified('nestedStages');
+        };
+        
         retrievedGame.save(function(err, updatedGame) {
           if (err){
             console.log(err);
@@ -124,7 +128,7 @@ router.route('/:id').delete((req, res) => {
 });
 
 // STAGE API
-// add stage
+// add empty stage
 router.route('/:id/addStage').post((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)){
     res.status(406).send({status: false, message: ":id must be of ObjectId type"})
@@ -138,20 +142,10 @@ router.route('/:id/addStage').post((req, res) => {
       res.status(404).send()
     }
     else{
-      retrievedGame.nestedStages.push({
-        type: req.body.type,
-        question: req.body.question,
-        answer: req.body.answer,
-        tip1: req.body.tip1,
-        tip2: req.body.tip2,
-        choice1: req.body.choice1,
-        choice2: req.body.choice2,
-        choice3: req.body.choice3,
-        choice4: req.body.choice4,
-        choice5: req.body.choice5,
-        letters: req.body.letters
-    });
-    retrievedGame.save(function(err, updatedGame) {
+
+      retrievedGame.nestedStages.push();
+
+      retrievedGame.save(function(err, updatedGame) {
       if (err){
         console.log(err);
         res.status(500).send()
@@ -181,6 +175,7 @@ router.route('/:id/updateStage/:index').patch((req, res) => {
       res.status(400).send({status: false, message: "index out of bounds"})
     } 
     else{
+      
       if(req.body.type){retrievedGame.nestedStages[req.params.index].type = req.body.type};
       if(req.body.question){retrievedGame.nestedStages[req.params.index].question = req.body.question};
       if(req.body.answer){retrievedGame.nestedStages[req.params.index].answer = req.body.answer};
@@ -193,6 +188,7 @@ router.route('/:id/updateStage/:index').patch((req, res) => {
       if(req.body.choice4){retrievedGame.nestedStages[req.params.index].choice4 = req.body.choice4};
       if(req.body.choice5){retrievedGame.nestedStages[req.params.index].choice5 = req.body.choice5};
       if(req.body.letters){retrievedGame.nestedStages[req.params.index].letters = req.body.letters};
+      
       retrievedGame.save(function(err, updatedGame) {
         if (err){
           console.log(err);

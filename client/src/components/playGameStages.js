@@ -313,7 +313,7 @@ export default function PlayGameStages(props) {
 		const nextQuestion = currentQuestion + 1;
 
 		if (nextQuestion < testQuestions.length) {
-            if (testQuestions[nextQuestion].type === "MultipleChoice") {
+            if (testQuestions[nextQuestion].type === "Multiple Choice") {
                 initializeMultipleChoice();
             }
             if (testQuestions[nextQuestion].type === "Construction") {
@@ -377,7 +377,7 @@ export default function PlayGameStages(props) {
 	};
 	const handleTip1OptionClick = () => {
         setTip1Disabled(true);
-        if (testQuestions[currentQuestion].type === "MultipleChoice") {
+        if (testQuestions[currentQuestion].type === "Multiple Choice") {
             var rand = getRandomInt(5);
             while(multipleChoice[rand] === testQuestions[currentQuestion].answer.toString() || multipleChoiceButtonDisabled[rand] === true){
                 rand = getRandomInt(5);
@@ -400,7 +400,7 @@ export default function PlayGameStages(props) {
 
 	const handleTip2OptionClick = () => {
         setTip2Disabled(true);
-        if (testQuestions[currentQuestion].type === "MultipleChoice") {
+        if (testQuestions[currentQuestion].type === "Multiple Choice") {
             var rand = getRandomInt(5);
             while(multipleChoice[rand] === testQuestions[currentQuestion].answer.toString() || multipleChoiceButtonDisabled[rand] === true){
                 rand = getRandomInt(5);
@@ -519,7 +519,7 @@ export default function PlayGameStages(props) {
                         </Container>
                         
                         <Container id='tip-section' className={classes.tipSection}>
-                            {testQuestions[currentQuestion].type === "MultipleChoice"
+                            {testQuestions[currentQuestion].type === "Multiple Choice"
                             && 
                             <Typography style={{fontSize: 12, fontStyle:"italic", textAlign: "center",  verticalAlign: "middle", color: '#EEEEEE'}}>Use a tip card to eliminate a wrong answer card!</Typography>
                             }
@@ -585,7 +585,7 @@ export default function PlayGameStages(props) {
                         </Container>
 
                         <Container id='answer-section' className={classes.answerSection}>
-                            {testQuestions[currentQuestion].type === "MultipleChoice"
+                            {testQuestions[currentQuestion].type === "Multiple Choice"
                             &&
                             <Container id='multiple-choice-section'>
                                 <Grid
@@ -721,7 +721,7 @@ export default function PlayGameStages(props) {
                                     marginRight:'20px',
                                     textTransform: 'none',
                                     background: 'linear-gradient(45deg, #71c1e9 30%, #71c1e9 90%)'}}
-                                    variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf() === testQuestions[currentQuestion].answer.valueOf())} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
+                                    variant="contained" onClick={() => handleSubmitConstructionOptionClick(constructionAnswer.valueOf().toLocaleUpperCase('en-US') === testQuestions[currentQuestion].answer.valueOf().toLocaleUpperCase('en-US'))} disabled={constructionSubmitButtonDisabled}>{"Submit"}</Button>
                                     <Button  style={{
                                     marginLeft:'20px',
                                     marginRight:'20px',
@@ -737,7 +737,7 @@ export default function PlayGameStages(props) {
                                 alignItems="center"
                                 >
                                 {constructionLetters.map((letter, index) => (
-                                    <Button className={classes.ConstructionAnswerImage} variant="contained" onClick={() => handleAddLetterOptionClick(letter, index)} disabled={constructionButtonDisabled[index]}>{letter}</Button>
+                                    <Button className={classes.ConstructionAnswerImage} variant="contained" onClick={() => handleAddLetterOptionClick(letter.toLocaleUpperCase('en-US'), index)} disabled={constructionButtonDisabled[index]}>{letter.toLocaleUpperCase('en-US')}</Button>
                                 ))}
                                 </Grid>
                                 </Container>

@@ -21,6 +21,7 @@ import ExplorePlatforms from "./components/explore.js";
 import Platform from "./components/platform.js";
 import Search from "./components/searchScreen.js";
 import { SnackbarProvider } from 'notistack';
+import EditGame from "./components/editGame.js";
 
 const jwt = require('jsonwebtoken')
 
@@ -100,6 +101,10 @@ function App() {
       <Route path="/search/:keywords">
         <Search />
       </Route>
+      <Route path="/editGame/:id">
+        <EditGame />
+      </Route>
+ 
     </div>
   )
 

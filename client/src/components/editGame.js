@@ -1,0 +1,67 @@
+
+import React, { useState, useEffect} from 'react';
+import LeftEditPanel from "./leftEditPanel";
+import { makeStyles } from "@material-ui/core/styles";
+
+import { useParams } from 'react-router-dom';
+
+import EditGameStages from './editGameStage';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      maxWidth: 345
+    },
+  }));
+
+export default function EditGame() {
+    const { id } = useParams();
+    const[gameData,setGameData] = useState(null);
+    useEffect(() => {
+        getGame();
+    }, []);
+    const[platformData,setPlatformData] = useState(null);
+    useEffect(() => {
+        getPlatform();
+    }, []);
+
+    const getGame = () => {
+        axios.get("/games/" + id).then( data => {
+            setGameData(data);
+        });
+    }
+    const getPlatform = () => {
+        axios.get("/platforms/getPlatformByGameId/" + id).then( data => {
+            setPlatformData(data);
+        });
+    }
+    if(gameData != null && platformData != null){
+        return(
+        <div style={{display:'flex', marginTop:"64px"}}>
+            
+            { <LeftEditPanel value={gameData.data} platformId={platformData.data._id}/> }
+            { <EditGameStages value={gameData.data.nestedStages} id={id}/>}
+
+        </div>
+        )
+    }
+    else{
+        return(
+            <div style={{display:'flex', marginTop:"64px"}}>
+                <Container style={{
+                            width:'1250px',
+                            height:'700px',
+                            display:'flex',
+                            alignItems:'center',
+                            justifyContent: "center",
+                            flexDirection:'column',
+                        }}>
+                            <CircularProgress />
+                            
+                </Container>
+            </div>
+            )        
+    }
+}
