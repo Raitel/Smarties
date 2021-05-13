@@ -202,7 +202,6 @@ export default function Profile() {
                                                 </Grid>
                                             </Grid>
                                         </Container>
-                                        <Divider />
                                         <Container style={{ marginBottom: '10px', marginTop: "10px" }}>
                                             <Grid container spacing={3}
                                                 justify="space-between"
@@ -215,6 +214,23 @@ export default function Profile() {
                                                 <Grid item>
                                                     <Typography className={classes.text}>
                                                         {userData.downvoted.length}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Container>
+                                        <Divider />
+                                        <Container style={{ marginBottom: '10px', marginTop: "10px" }}>
+                                            <Grid container spacing={3}
+                                                justify="space-between"
+                                                alignItems="center">
+                                                <Grid item>
+                                                    <Typography className={classes.text}>
+                                                        Completed Games:
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography className={classes.text}>
+                                                        {userData.completedGames.length}
                                                     </Typography>
                                                 </Grid>
                                             </Grid>

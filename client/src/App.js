@@ -22,88 +22,118 @@ import Platform from "./components/platform.js";
 import Search from "./components/searchScreen.js";
 import { SnackbarProvider } from 'notistack';
 
-const ForgotPasswordContainer = () => (
-  <div>
-    <Route exact path="/" render={() => <Redirect to="/forgotPassword" />} />
-    <Route path="/forgotPassword" component={ForgotPassword} />
-  </div>
-)
-
-const DefaultContainer = (props) => (
-  <div>
-    <Navbar isAuth={props.isAuth} setIsAuth={props.setIsAuth} />
-    <Route path="/home" exact component={Home} />
-    <Route path="/shop" exact component={Shop} />
-    <Route path="/settings" exact component={Settings} />
-    <Route path="/profile/:username">
-      <Profile />
-    </Route>
-    <Route path="/test">
-      <div>hi</div>
-    </Route>
-    <Route path="/favorites" exact component={Favorites} />
-    <Route path="/myPlatforms" exact component={MyPlatforms} />
-    <Route path="/inventory" exact component={Inventory} />
-    <Route path="/contactus" exact component={ContactUs} />
-    <Route path="/changePassword" exact component={ChangePassword} />
-    <Route path="/changeUsername" exact component={ChangeUsername} />
-    <Route path="/explore" exact component={ExplorePlatforms} />
-    <Route path="/platform" exact component={Platform} />
-    <Route path="/platform/:id">
-      <Platform />
-    </Route>
-    <Route path="/game/:id">
-      <PlayGame />
-    </Route>
-    <Route path="/search/:keywords">
-      <Search />
-    </Route>
-  </div>
-)
-
-function PublicLoginRoutes({ component: Component, isAuth, setIsAuth }) {
-  return (
-    <Route
-      render={(props) => isAuth === false
-        ? <Login isAuth={isAuth} setIsAuth={setIsAuth} />
-        : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />}
-    />
-  )
-}
-
-function PublicRegisterRoutes({ component: Component, isAuth, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={(props) => isAuth === false
-        ? <Component {...props} />
-        : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />}
-    />
-  )
-}
-
-function ProtectedRoutes({ component: Component, isAuth, setIsAuth }) {
-  return (
-    <Route
-      render={(props) => isAuth === true
-        ? <Component isAuth={isAuth} setIsAuth={setIsAuth} />
-        : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
-    />
-  )
-}
+const jwt = require('jsonwebtoken')
 
 function App() {
   const [isAuth, setIsAuth] = useState(false)
+
   useEffect(() => {
-    const token_exists = localStorage.getItem('token')
-    if (token_exists) {
-      console.log('Token exists, authorized')
-      setIsAuth(true)
-    } else {
+    const token = localStorage.getItem('token')
+    if (!token) {
       console.log('Token does not exist, unauthorized')
       setIsAuth(false)
+    } else {
+      try {
+        var decoded = jwt.verify(token, 'smarties_key')
+        console.log('Token exists and is valid, authorized')
+        setIsAuth(true)
+      } catch (err) {
+        console.log('Token invalid, unauthorized')
+        localStorage.removeItem('token')
+        setIsAuth(false)
+      }
     }
   })
+
+  function Verifytoken() {
+    console.log('Verifytoken')
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('Token does not exist, unauthorized')
+      setIsAuth(false)
+    } else {
+      try {
+        var decoded = jwt.verify(token, 'smarties_key')
+        console.log('Token exists and is valid, authorized')
+        setIsAuth(true)
+      } catch (err) {
+        console.log('Token invalid, unauthorized')
+        localStorage.removeItem('token')
+        setIsAuth(false)
+      }
+    }
+  }
+
+  const ForgotPasswordContainer = () => (
+    <div>
+      <Route exact path="/" render={() => <Redirect to="/forgotPassword" />} />
+      <Route path="/forgotPassword" component={ForgotPassword} />
+    </div>
+  )
+
+  const DefaultContainer = (props) => (
+    <div>
+      <Navbar isAuth={props.isAuth} setIsAuth={props.setIsAuth} />
+      <Route path="/home" exact component={Home} />
+      <Route path="/shop" exact component={Shop} />
+      <Route path="/settings" exact component={Settings} />
+      <Route path="/profile/:username">
+        <Profile />
+      </Route>
+      <Route path="/test">
+        <div>hi</div>
+      </Route>
+      <Route path="/favorites" exact component={Favorites} />
+      <Route path="/myPlatforms" exact component={MyPlatforms} />
+      <Route path="/inventory" exact component={Inventory} />
+      <Route path="/contactus" exact component={ContactUs} />
+      <Route path="/changePassword" exact component={ChangePassword} />
+      <Route path="/changeUsername" exact component={ChangeUsername} />
+      <Route path="/explore" exact component={ExplorePlatforms} />
+      <Route path="/platform" exact component={Platform} />
+      <Route path="/platform/:id">
+        <Platform />
+      </Route>
+      <Route path="/game/:id">
+        <PlayGame />
+      </Route>
+      <Route path="/search/:keywords">
+        <Search />
+      </Route>
+    </div>
+  )
+
+  function PublicLoginRoutes({ component: Component, isAuth, setIsAuth }) {
+    return (
+      <Route
+        render={(props) => isAuth === false
+          ? <Login isAuth={isAuth} setIsAuth={setIsAuth} />
+          : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />}
+      />
+    )
+  }
+
+  function PublicRegisterRoutes({ component: Component, isAuth, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={(props) => isAuth === false
+          ? <Component {...props} />
+          : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />}
+      />
+    )
+  }
+
+  function ProtectedRoutes({ component: Component, isAuth, setIsAuth }) {
+    return (
+      <Route
+        render={(props) => isAuth === true
+          ? <Component isAuth={isAuth} setIsAuth={setIsAuth} />
+          : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
+      />
+    )
+  }
+
   return (
     <div>
       <SnackbarProvider maxSnack={20}>

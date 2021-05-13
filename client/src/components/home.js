@@ -144,16 +144,12 @@ export default function Home() {
       </Grid>
     );
   }
-  const handle2 = () => {
-    history.push("/profile/lobster");
-  };
 
   if (ownedPlatforms != null && favorites != null) {
     return (
       <div style={{ display: 'flex', marginTop: "64px" }}>
         <LeftPanel />
         <Container className={classes.container}>
-          <button onClick={handle2} >click me</button>
           <Container className={classes.section}>
             <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Typography>
             {recentlyUsed.length === 0

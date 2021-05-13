@@ -40,7 +40,7 @@ router.route('/getByUsername/:username').get((req, res) => {
 // get user profile information
 // used for visiting user profiles
 router.route('/getProfile/:username').get((req, res) => {
-  User.findOne({ 'username': req.params.username }, '-password -email -coin -favorites -completedGames -inventory')
+  User.findOne({ 'username': req.params.username }, '-password -email -coin -favorites -inventory')
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error: ' + err))
 })
