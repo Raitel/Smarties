@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +19,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -89,23 +90,38 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iconButton: {
-    padding:2
+    padding: 2
   },
   margin: {
     margin: theme.spacing(1),
   },
-  subcontainer:{
+  subcontainer: {
     width: "600px",
-},
+  },
 }));
 
 export default function PrimarySearchAppBar(props) {
   const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [token, setToken] = useState('');
   const isMenuOpen = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+  })
+  useEffect(() => {
+    if (token != '') {
+      const options = {
+        headers: { 'X-Auth-Token': token }
+      };
+      axios.get('/users/auth/user', options).then(res => {
+        setUserData(res.data);
+      });
+    }
+  }, [token]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -124,10 +140,11 @@ export default function PrimarySearchAppBar(props) {
   };
 
   const handleMyProfile = () => {
-    history.push("/profile")
+    console.log(userData)
+    history.push("/profile/" + userData.username)
     setAnchorEl(null);
   };
-  
+
   const handleAccountSetting = () => {
     history.push("/settings")
     setAnchorEl(null);
@@ -147,13 +164,13 @@ export default function PrimarySearchAppBar(props) {
   };
   const handleSearch = (e) => {
     console.log((e.target.value));
-    if(e.key === 'Enter' || e.keyCode === 13){
+    if (e.key === 'Enter' || e.keyCode === 13) {
       const url = (e.target.value).split(' ').join('&');
       history.push("/search/" + url);
     }
-    
+
   };
- 
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <MenuList
@@ -164,7 +181,7 @@ export default function PrimarySearchAppBar(props) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-      style={{zIndex: 10001}}
+      style={{ zIndex: 10001 }}
     >
       <MenuItem onClick={handleMyProfile} >My Profile</MenuItem>
       <MenuItem onClick={handleAccountSetting} >Settings</MenuItem>
@@ -174,40 +191,40 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar  className={classes.appBar} style={{backgroundColor:'#212197', maxHeight: 64, position: "fixed"}}> 
+      <AppBar className={classes.appBar} style={{ backgroundColor: '#212197', maxHeight: 64, position: "fixed" }}>
         <Toolbar variant="dense">
-          <Button disableRipple disableFocusRipple style={{textTransform: 'none', color: 'white', fontSize: 24}} className={classes.margin} onClick={handleHome}>
-          <img src={logo} alt="logo"></img>
+          <Button disableRipple disableFocusRipple style={{ textTransform: 'none', color: 'white', fontSize: 24 }} className={classes.margin} onClick={handleHome}>
+            <img src={logo} alt="logo"></img>
             Smarties
           </Button>
-          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleHome}>
+          <Button style={{ textTransform: 'none', color: 'white', fontSize: 16 }} onClick={handleHome}>
             Home
           </Button>
-          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleClickOpen}>
+          <Button style={{ textTransform: 'none', color: 'white', fontSize: 16 }} onClick={handleClickOpen}>
             Create a Platform
           </Button>
-          <Button style={{textTransform: 'none', color: 'white', fontSize: 16}} onClick={handleExplore}>
+          <Button style={{ textTransform: 'none', color: 'white', fontSize: 16 }} onClick={handleExplore}>
             Explore Platforms
           </Button>
           <Box>
-          <div className={classes.search} >
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+            <div className={classes.search} >
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                onKeyPress={(e) => handleSearch(e)}
+                placeholder="Search Platforms…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              onKeyPress ={(e) => handleSearch(e)}
-              placeholder="Search Platforms…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
           </Box>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            
+
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -216,7 +233,7 @@ export default function PrimarySearchAppBar(props) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle/>
+              <AccountCircle />
             </IconButton>
           </div>
         </Toolbar>
@@ -224,12 +241,12 @@ export default function PrimarySearchAppBar(props) {
       {renderMenu}
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="600px">
         <DialogTitle>
-          <Typography variant="h5" gutterBottom style={{color:'#212197',fontWeight: 'Bold'}}>Create a New Platform:</Typography>
+          <Typography variant="h5" gutterBottom style={{ color: '#212197', fontWeight: 'Bold' }}>Create a New Platform:</Typography>
         </DialogTitle>
         <DialogContent>
 
           <Container className={classes.subcontainer}>
-            <Typography variant="h6"  style={{color:'#212197',fontWeight: 'Bold'}}>Title:</Typography>
+            <Typography variant="h6" style={{ color: '#212197', fontWeight: 'Bold' }}>Title:</Typography>
             <TextField
               autoFocus
               margin="dense"
@@ -241,7 +258,7 @@ export default function PrimarySearchAppBar(props) {
             />
           </Container>
           <Container className={classes.subcontainer}>
-            <Typography variant="h6"  style={{color:'#212197',fontWeight: 'Bold'}}>Description:</Typography>
+            <Typography variant="h6" style={{ color: '#212197', fontWeight: 'Bold' }}>Description:</Typography>
             <TextField
               autoFocus
               margin="dense"
