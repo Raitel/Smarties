@@ -29,25 +29,10 @@ function App() {
   const [isAuth, setIsAuth] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      console.log('Token does not exist, unauthorized')
-      setIsAuth(false)
-    } else {
-      try {
-        var decoded = jwt.verify(token, 'smarties_key')
-        console.log('Token exists and is valid, authorized')
-        setIsAuth(true)
-      } catch (err) {
-        console.log('Token invalid, unauthorized')
-        localStorage.removeItem('token')
-        setIsAuth(false)
-      }
-    }
+    Verifytoken();
   })
 
   function Verifytoken() {
-    console.log('Verifytoken')
     const token = localStorage.getItem('token')
     if (!token) {
       console.log('Token does not exist, unauthorized')
@@ -75,14 +60,11 @@ function App() {
   const DefaultContainer = (props) => (
     <div>
       <Navbar isAuth={props.isAuth} setIsAuth={props.setIsAuth} />
-      <Route path="/home" exact component={Home} />
+      <Route path="/home" exact component={Home} isAuth={props.isAuth} setIsAuth={props.setIsAuth} />
       <Route path="/shop" exact component={Shop} />
       <Route path="/settings" exact component={Settings} />
       <Route path="/profile/:username">
         <Profile />
-      </Route>
-      <Route path="/test">
-        <div>hi</div>
       </Route>
       <Route path="/favorites" exact component={Favorites} />
       <Route path="/myPlatforms" exact component={MyPlatforms} />
@@ -104,11 +86,11 @@ function App() {
       <Route path="/editGame/:id">
         <EditGame />
       </Route>
- 
     </div>
   )
 
   function PublicLoginRoutes({ component: Component, isAuth, setIsAuth }) {
+    Verifytoken();
     return (
       <Route
         render={(props) => isAuth === false
@@ -119,6 +101,7 @@ function App() {
   }
 
   function PublicRegisterRoutes({ component: Component, isAuth, ...rest }) {
+    Verifytoken();
     return (
       <Route
         {...rest}
@@ -130,6 +113,7 @@ function App() {
   }
 
   function ProtectedRoutes({ component: Component, isAuth, setIsAuth }) {
+    Verifytoken();
     return (
       <Route
         render={(props) => isAuth === true
