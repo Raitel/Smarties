@@ -20,6 +20,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -108,6 +109,11 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const [open, setOpen] = React.useState(false);
   const [userData, setUserData] = useState(null);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     setToken(localStorage.getItem('token'));
@@ -117,9 +123,8 @@ export default function PrimarySearchAppBar(props) {
       const options = {
         headers: { 'X-Auth-Token': token }
       };
-      axios.get('/users/auth/user', options).then(res => {
-        setUserData(res.data);
-      });
+      axios.get('/users/auth/user', options)
+        .then(res => { setUserData(res.data); });
     }
   }, [token]);
 
@@ -130,6 +135,37 @@ export default function PrimarySearchAppBar(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleCreate = async (e) => {
+    e.preventDefault()
+    setTitleError(false)
+    setDescriptionError(false)
+    if (title == '') {
+      setTitleError(true)
+    }
+    if (description == '') {
+      setDescriptionError(true)
+    }
+    if (title && description) {
+      console.log(title, description)
+      const data = {
+        title: title,
+        description: description
+      }
+      const config = {
+        headers: { 'X-Auth-Token': token },
+      }
+      axios.put('http://localhost:5000/platforms/push', data, config)
+        .then(res => {
+          console.log(res.data)
+          history.push("/platform/" + res.data.platform_id)
+          handleClose()
+        })
+        .catch(err => {
+          enqueueSnackbar('Something bad happend', { variant: 'error' });
+        })
+    }
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -249,18 +285,21 @@ export default function PrimarySearchAppBar(props) {
             <Typography variant="h6" style={{ color: '#212197', fontWeight: 'Bold' }}>Title:</Typography>
             <TextField
               autoFocus
+              onChange={(e) => setTitle(e.target.value)}
               margin="dense"
               id="platform title"
               label="Title"
               type="title"
               variant="outlined"
               fullWidth
+              error={titleError}
             />
           </Container>
           <Container className={classes.subcontainer}>
             <Typography variant="h6" style={{ color: '#212197', fontWeight: 'Bold' }}>Description:</Typography>
             <TextField
               autoFocus
+              onChange={(e) => setDescription(e.target.value)}
               margin="dense"
               id="platform description"
               label="Description"
@@ -269,6 +308,7 @@ export default function PrimarySearchAppBar(props) {
               fullWidth
               multiline
               rows={4}
+              error={descriptionError}
             />
           </Container>
         </DialogContent>
@@ -276,7 +316,7 @@ export default function PrimarySearchAppBar(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCreate} color="primary">
             Save
           </Button>
         </DialogActions>
