@@ -8,7 +8,9 @@ import TextField from '@material-ui/core/TextField';
 import { useSnackbar } from 'notistack';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -141,6 +143,23 @@ const useStyles = makeStyles((theme) => ({
         marginRight:'10px',
         borderRadius: '10px'
     }, 
+    multipleChoiceCorrectAnswerImage:{
+        //backgroundImage: `url(https://lh3.googleusercontent.com/v3d5H5kVAW3JEqEcszLFIezk6A2_2AdAT9_a2zHXUysUuLnEWAKNfLA-68LcWBkFTAFvLSOwTa_jJiTArzqAMuZRVTrcA5pYBPsUclV3ovODfSqpJGLTbWDnvf9dCJyn31An0z5jnoPmEpe6vzGjBfisUFmDL0Kf3GAHfwfbvVMrllwxpCu1rFdLacxzoTq2lqTcIgKzUa132NHwJIIEq9Qsm6gGOhVCeTWRhMiyVtyD0Wh2wkFq0FJdnmAHYVYbdtUm8L3tD-tsaM4h6h4Vxn8rnfejRlS75DCXvq_O6H9yM-KbTnjX_av3vmPA4SknD6AELTECOtShUJXiEHVOtSID-NRumxRt_-mv2medd9TyOoCCbpGXixnYlLGnEW7qFLmh2Tidv69zcAsEsVvKtWXKu1z0pi0bdFWhGE9H7CPAXkqmfNgnsyM5wyDyYVPG4dm_6_sokjRWK0SgECrVWHurJ_ra1XlM-rq4xE0rt3ko2-Jv_91n4nWBfWLowYlpIistDBv0I4flH2ndAhwkZGTni6wFCl7p0kSWWrDP-pl0-J_6jHfg1EB5omJEXMuwZWvMtkKT-6imPlPx-csLIus2V2cLDI-TPt4yUqFafRU7uGJQ7BehaRrTpJYPh6PRS4IUT7rKLlSSG1TyvE9EMLQurAEpo4TWLC1dRyylWeJHRh0gdkfM-8BHfjfqPXBua4A6kMG1nBfTeFl8fPmcwLs=w400-h75-no?authuser=0)`,
+        background: 'linear-gradient(45deg, #71c1e9 30%, #80ced7 90%)',
+        height:'75px',
+        width: '400px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+        borderRadius: '10px'
+        
+    }, 
+
     ConstructionAnswerImage:{
         //backgroundImage: `url(https://lh3.googleusercontent.com/v3d5H5kVAW3JEqEcszLFIezk6A2_2AdAT9_a2zHXUysUuLnEWAKNfLA-68LcWBkFTAFvLSOwTa_jJiTArzqAMuZRVTrcA5pYBPsUclV3ovODfSqpJGLTbWDnvf9dCJyn31An0z5jnoPmEpe6vzGjBfisUFmDL0Kf3GAHfwfbvVMrllwxpCu1rFdLacxzoTq2lqTcIgKzUa132NHwJIIEq9Qsm6gGOhVCeTWRhMiyVtyD0Wh2wkFq0FJdnmAHYVYbdtUm8L3tD-tsaM4h6h4Vxn8rnfejRlS75DCXvq_O6H9yM-KbTnjX_av3vmPA4SknD6AELTECOtShUJXiEHVOtSID-NRumxRt_-mv2medd9TyOoCCbpGXixnYlLGnEW7qFLmh2Tidv69zcAsEsVvKtWXKu1z0pi0bdFWhGE9H7CPAXkqmfNgnsyM5wyDyYVPG4dm_6_sokjRWK0SgECrVWHurJ_ra1XlM-rq4xE0rt3ko2-Jv_91n4nWBfWLowYlpIistDBv0I4flH2ndAhwkZGTni6wFCl7p0kSWWrDP-pl0-J_6jHfg1EB5omJEXMuwZWvMtkKT-6imPlPx-csLIus2V2cLDI-TPt4yUqFafRU7uGJQ7BehaRrTpJYPh6PRS4IUT7rKLlSSG1TyvE9EMLQurAEpo4TWLC1dRyylWeJHRh0gdkfM-8BHfjfqPXBua4A6kMG1nBfTeFl8fPmcwLs=w400-h75-no?authuser=0)`,
         background: 'linear-gradient(45deg, #71c1e9 30%, #80ced7 90%)',
@@ -162,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
     ConstructionInputAnswerImage:{
         //backgroundImage: `url(https://lh3.googleusercontent.com/AcX4isuEYjw_PMMJ5TWu2Wj9D-Rq3mGK44Ktdhpf4TRgnk6GVSctF27yCnnkPQI8mVpsDsYMKIVvgQNgKeRe1RICUA1Adzi5YlqlJboG_gl97gpcN9TIvhV06imWqlTpYP_m76DBr6xN1SvM4x931CW7rwH3bMtxTXWCuiIJpUpRtBy6SWlHRQC5SSA53rbhU-jDeloKOyvFjTyZEX9SaBxw70WPFOWvZGFlZDGquQpLXyW2PMPH-3eYrH0wWlOIhgsUtXmbA0aHmPPg7VE75MrIKIndYMD_3TbzJVwTebh7XCa0j2fqhjn74llQxJMNbkVxYQgTZhcYrrRx0vow-o3bAGzy_Ku2ULQVn8RwvvpaRj6krqx4aE75vXxefX2b9itSiA2ELAzQZfjNWrsvi_UsUanm6b_A3S61mPN8Jcc3LmG8ZXdWyOYgI7Z4Oc6rmRpEr_wbW5P_GFHkw1pCDx_Q8yCbd5U_UBLcWZWqBSQGjp7ADe_6wcN35QzTxwTyihBCCnguUNUvf2OaPEJMxY6-IFggtb0Bjm12AMJtWf7bdV7cAT9yFti5fFMrz4ZQ-KDl2pgKdBCsIt1c_ZZpZn6HEprQfp2snIU5Cx1CBun8ueeqUjV3rVneY7rBa2Pngyln-VPlGo14UsIN8HAnYoNyefxfacgAUe0iptp2cO1RfmCPvBB7yiq0361c8EcjlQQ9DvamqIqWhXNEugeVqOE=w500-h150-no?authuser=0)`,
         background: 'linear-gradient(45deg, #159794 30%, #53b1af 90%)',
-        height:'75px',
+        height:'150px',
         width: '500px',
         display:'flex',
         justifyContent: 'center',
@@ -244,7 +263,7 @@ const useStyles = makeStyles((theme) => ({
     },
     modifyStage:{
         height:'150px',
-        width: '800px',
+        width: '1200px',
         display:'flex',
         justifyContent: 'center',
         alignItems:'center',
@@ -256,9 +275,9 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '10px'
     },
     stageIndex:{
-        background: 'linear-gradient(45deg, #159794 30%, #53b1af 90%)',
-        height:'15px',
-        //width: '500px',
+        background: 'linear-gradient(45deg, #4dccc6 30%, #96e4df 90%)',
+        height:'20px',
+        width: '40px',
         display:'flex',
         justifyContent: 'center',
         alignItems:'center',
@@ -270,17 +289,17 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '10px'
     },
     saveChanges:{
-        background: 'linear-gradient(45deg, #159794 30%, #53b1af 90%)',
-        height:'15px',
-        //width: '500px',
+        background: 'linear-gradient(45deg, #f9aba4 30%, #e99ba6 90%)',
+        height:'30px',
+        width: '200px',
         display:'flex',
         justifyContent: 'center',
         alignItems:'center',
         flexDirection:'column',
         //marginTop:'10px',
-        marginBottom:'10px',
-        marginLeft:'10px',
-        marginRight:'10px',
+        //marginBottom:'10px',
+        marginLeft:'20px',
+        marginRight:'20px',
         borderRadius: '10px'
     },
 }))
@@ -421,7 +440,7 @@ export default function EditGameStages(props) {
         .then(res => {
           console.log(res)
           if (res.status === 200){
-            enqueueSnackbar('Succes!', {variant:'success'});
+            enqueueSnackbar('Success!!', {variant:'success'});
           }else if (res.status === 400){
             enqueueSnackbar('400 error', {variant:'warning'});
           }else{
@@ -464,9 +483,9 @@ export default function EditGameStages(props) {
                                     justify="center"
                                     alignItems="center"
                                     >
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleAddStage()} disabled={testQuestions.length > 9} >{"Add a Stage"}</Button>
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleDeleteStage()} disabled={testQuestions.length <=1}>{"Delete current Stage"}</Button>
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleSaveChanges()}>{"Save Changes"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleAddStage()} disabled={testQuestions.length > 9} ><AddCircleOutlineOutlinedIcon/>{"Add a Stage"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleDeleteStage()} disabled={testQuestions.length <=1}><HighlightOffOutlinedIcon/>{"Delete Current Stage"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSaveChanges()}><SaveOutlinedIcon/>{"Save Changes"}</Button>
                                 </Grid>
                             </Container>
                             <Container className={classes.modifyStage}>
@@ -480,9 +499,9 @@ export default function EditGameStages(props) {
                                     alignItems="center"
                                     >
                                     
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleSetMultipleChoice()} disabled={testQuestions[currentQuestion].type === "Multiple Choice"}>{"Multiple Choice"}</Button>
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleSetConstruction()}  disabled={testQuestions[currentQuestion].type === "Construction"}>{"Construction"}</Button>
-                                    <Button className={classes.saveChanges} variant="contained" onClick={() => handleSetTextBox()}  disabled={testQuestions[currentQuestion].type === "Textbox"}>{"Textbox"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSetMultipleChoice()} disabled={testQuestions[currentQuestion].type === "Multiple Choice"}>{"Multiple Choice"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSetConstruction()}  disabled={testQuestions[currentQuestion].type === "Construction"}>{"Construction"}</Button>
+                                    <Button className={classes.saveChanges} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSetTextBox()}  disabled={testQuestions[currentQuestion].type === "Textbox"}>{"Textbox"}</Button>
                                 </Grid>
                             </Container>
                         </Container>
@@ -558,7 +577,7 @@ export default function EditGameStages(props) {
                                 alignItems="center"
                                 >
 
-                                    <Container className={classes.multipleChoiceAnswerImage} style={{textTransform: 'none'}}>
+                                    <Container className={classes.multipleChoiceCorrectAnswerImage} style={{textTransform: 'none'}}>
                                         <TextField
                                         onChange={(e) => handleChoice1(e.target.value)}
                                         variant="outlined"

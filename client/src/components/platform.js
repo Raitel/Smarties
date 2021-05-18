@@ -89,6 +89,25 @@ export default function Platform() {
     const [bannerOffset, setbannerOffset] = useState(50)
     const [anchorEl, setAnchorEl] = React.useState(null);
 
+    const [enableEditMode, setEnableEditMode] = useState(false);
+
+    const [token, setToken] = useState('');
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+      setToken(localStorage.getItem('token'));
+    }, []);
+  
+    useEffect(() => {
+      if (token != '') {
+        const options = {
+          headers: { 'X-Auth-Token': token }
+        };
+        axios.get('/users/auth/user', options).then(data => {
+          setUserData(data);
+        });
+      }
+    }, [token]);
+
     useEffect(() => {
         getPlatform();
     }, []);
@@ -112,6 +131,10 @@ export default function Platform() {
     
     const handleGame = (id) => {
         history.push("/game/"+id);
+    };
+
+    const handleEditGame = (id) => {
+        history.push("/editGame/"+id);
     };
     
     const setPhoto = (id, fullURL) => {
@@ -161,6 +184,38 @@ export default function Platform() {
         )
       }
 
+      function DisplayEditGameCard(props){
+        const game = props.game;
+        return (
+            <Card className={classes.game} style={{
+                marginTop:'25px',
+                marginBottom:'25px',
+                marginLeft:'25px',
+                marginRight:'25px',
+                }}>
+                <CardActionArea onClick={() => handleEditGame(game._id)}>
+                    <CardHeader
+                     title={"Edit: " + game.title}
+                    />
+                    <CardContent>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {game.description ? "Edit: " + game.description :"No description"}
+                        </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                    {/* <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                        align="right"
+                    >
+                        {game.nestedStages.length == 0 ? "No Stage": "Total Stages: " + game.nestedStages.length}
+                    </Typography> */}
+                    </CardActions>
+                </CardActionArea>
+            </Card>
+        )
+      }
     function PopulateTags(props){
         const tags = props.tags;
         const counter = 0
@@ -198,6 +253,22 @@ export default function Platform() {
         );
     }
 
+    function PopulateEditGames(props){
+        const games = props.games;
+        const listGames = games.map((game) => 
+          <DisplayEditGameCard game={game} />
+        );
+        return (
+            <Grid
+            container
+            direction="row"
+            justify="flex-start"
+          >
+            {listGames}
+          </Grid>
+        );
+    }
+
     function fetchUnsplash(e){
         e.preventDefault();
         console.log('search with query: ' + searchInput)
@@ -216,7 +287,7 @@ export default function Platform() {
             }) 
     } 
     
-    if(platformData != null){
+    if(platformData != null && userData!=null){
         return(
         <div style={{display:'flex', marginTop:"64px"}}>
             <LeftPanel/>
@@ -319,11 +390,29 @@ export default function Platform() {
                     <Typography>
                         Downvotes: {platformData.data.downvotes}
                     </Typography>
+                    {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
+                    &&
+                    <Button variant="contained" color="primary" onClick={() => setEnableEditMode(true)} >Enable Edit Mode</Button>
+                    }
+                    {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                    &&
+                    <Button variant="contained" color="primary" onClick={() => setEnableEditMode(false)} >Exit Edit Mode</Button>
+                    }
+                    
                     <PopulateTags tags={platformData.data.tags}/>
                 </Container>
 
                 <Container className = {classes.container}>
+                    {enableEditMode === false
+                    &&
                     <Populate games={platformData.data.games} />
+                    }
+                    {enableEditMode === true
+                    &&
+                    <PopulateEditGames games={platformData.data.games} />
+                    }
+                    
+                    
                 </Container>
             </div>
         </div>
