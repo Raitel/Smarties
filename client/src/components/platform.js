@@ -28,6 +28,8 @@ import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer:{
@@ -133,6 +135,8 @@ export default function Platform() {
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState(null);
     const [completedGameIds, setCompletedGameIds] = useState([]);
+    const [isPublic, setIsPublic] = useState(false);
+
     useEffect(() => {
       setToken(localStorage.getItem('token'));
     }, []);
@@ -154,7 +158,6 @@ export default function Platform() {
     const getPlatform = () => {
         axios.get("/platforms/" + id).then( data => {
             setPlatformData(data);
-
         });
     }
 
@@ -172,6 +175,7 @@ export default function Platform() {
             setTitle(platformData.data.title);
             setDescription(platformData.data.description);
             setTags(platformData.data.tags.join(" "));
+            setIsPublic(platformData.data.isPublic);
         }
 
     }, [platformData]);
@@ -217,7 +221,7 @@ export default function Platform() {
         handleClose()
     }
     const handleSaveChanges = () => {
-        axios.patch('/platforms/update/' + platformData.data._id, {title: title, description: description, tags: tags.split(" ")})
+        axios.patch('/platforms/update/' + platformData.data._id, {title: title, description: description, tags: tags.split(" "), isPublic: isPublic})
         .then(res => {
           console.log(res)
           if (res.status === 200){
@@ -570,6 +574,13 @@ export default function Platform() {
                                 </Button>
                                 }
 
+                                {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                &&
+                                <FormControlLabel
+                                    control={<Switch checked={isPublic} onChange={e => (setIsPublic(e.target.checked))} name="setPublic" />}
+                                    label="Set Public"
+                                />
+                                }
 
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&

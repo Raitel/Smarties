@@ -403,6 +403,8 @@ router.route('/update/:id').patch((req, res) => {
         if (req.body.downvotes) { retrievedPlatform.downvotes = req.body.downvotes }
         if (req.body.tags) { retrievedPlatform.tags = req.body.tags }
         if (req.body.games) { retrievedPlatform.games = req.body.games }
+        if (req.body.isPublic) { retrievedPlatform.isPublic = req.body.isPublic }
+        else if (req.body.isPublic === false){ retrievedPlatform.isPublic = req.body.isPublic }
         retrievedPlatform.save(function (err, updatedPlatform) {
           if (err) {
             console.log(err);
