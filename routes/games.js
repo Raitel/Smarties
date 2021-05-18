@@ -92,7 +92,20 @@ router.put('/push', auth, (req, res) => {
     .then(retrievedPlatform => {
       const newGame = new Game({
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
+        nestedStages: [{
+          "type": "Multiple Choice",
+          "question": "Please Input a Question",
+          "answer": "Please Input the Answer",
+          "tip1": "Please Input Tip 1",
+          "tip2": "Please Input Tip 2",
+          "choice1": "Please Input the Answer",
+          "choice2": "Please Input a wrong Answer (1)",
+          "choice3": "Please Input a wrong Answer (2)",
+          "choice4": "Please Input a wrong Answer (3)",
+          "choice5": "Please Input a wrong Answer (4)",
+          "letters": [],
+        }]
       })
       newGame.save()
         .then(game => {

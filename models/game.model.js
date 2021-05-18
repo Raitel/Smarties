@@ -9,16 +9,16 @@ const defaultTipCard = "606e7b59bee1d0599ca713b7";
 const defaultAnswerCard = "606e7b59bee1d0599ca713b7";
 
 const nestedStageSchema = new Schema({
-  type: { type: String, default: "MultipleChoice"},
-  question: { type: String, default: ""},
-  answer: { type: String, default: ""},
-  tip1: { type: String, default: ""},
-  tip2: { type: String, default: ""},
-  choice1: { type: String, default: ""},
-  choice2: { type: String, default: ""},
-  choice3: { type: String, default: ""},
-  choice4: { type: String, default: ""},
-  choice5: { type: String, default: ""},
+  type: { type: String, default: "Multiple Choice"},
+  question: { type: String, default: "Please Input a Question"},
+  answer: { type: String, default: "Please Input the Answer"},
+  tip1: { type: String, default: "Please Input Tip 1"},
+  tip2: { type: String, default: "Please Input Tip 2"},
+  choice1: { type: String, default: "Please Input the Answer"},
+  choice2: { type: String, default: "Please Input a wrong Answer (1)"},
+  choice3: { type: String, default: "Please Input a wrong Answer (2)"},
+  choice4: { type: String, default: "Please Input a wrong Answer (3)"},
+  choice5: { type: String, default: "Please Input a wrong Answer (4)"},
   letters: [String]
 });
 
