@@ -25,12 +25,15 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Popover from '@material-ui/core/Popover';
 import { useSnackbar } from 'notistack';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer:{
         //backgroundImage: `url(${Background})`,
+        background: 'linear-gradient(45deg, #7c98b3 30%, #e99ba6 90%)',
         width:'1200px',
-        height:'250px',
+        height:'300px',
         marginTop:'64px',
         marginLeft:'64px',
         display:'flex',
@@ -39,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid black'
     },
     container:{
-        background: 'linear-gradient(45deg, #8b939a 30%, #5b6467 90%)',
+        background: 'linear-gradient(45deg, #8b939a 30%, #caccd1 90%)',
         width:'1200px',
         minHeight: '65px',
         //height:'600px',
@@ -80,19 +83,19 @@ const useStyles = makeStyles((theme) => ({
         width: "250px"
     },
     titleContainer:{
-        height: '200px',
-        border: '1px solid #000',
-        marginTop: '10px',
+        marginTop:'50px',
+        height: '75px',
+        //border: '1px solid #000',
     },
     descriptionContainer:{
-        height: '400px',
-        border: '1px solid #000',
-        marginTop: '10px',
+        //marginTop:'0px',
+        height: '75px',
+        //border: '1px solid #000',
     },
     subBannerContainer:{
-        height: '200px',
-        border: '1px solid #000',
-        marginTop: '10px',
+        marginTop:'25px',
+        height: '75px',
+        //border: '1px solid #000',
     },
     titleTextField:{
         width: '600px'
@@ -448,13 +451,13 @@ export default function Platform() {
                     <Container className = {classes.titleContainer}>
                         {!enableEditMode
                         &&
-                        <Typography variant="subtitle2">
+                        <Typography variant="subtitle2" style={{color: '#FFFFFF'}}>
                             Title:
                         </Typography>
                         }
                         {!enableEditMode
                         &&
-                        <Typography variant="h5">
+                        <Typography variant="h5" style={{color: '#FFFFFF'}}>
                             {platformData.data.title}
                         </Typography>
                         }
@@ -469,20 +472,20 @@ export default function Platform() {
                         value={title}
                         className={classes.titleTextField}
                         rowsMax={1}
-                        inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
+                        inputProps={{style: { fontSize: 18, fontWeight: 'Bold', verticalAlign: "middle"}}}
                         />
                         }
                     </Container>
                     <Container className = {classes.descriptionContainer}>
                         {!enableEditMode
                         &&
-                        <Typography variant="subtitle2">
+                        <Typography variant="subtitle2" style={{color: '#FFFFFF'}}>
                             Description:
                         </Typography>
                         }
                         {!enableEditMode
                         &&
-                        <Typography>
+                        <Typography style={{color: '#FFFFFF'}}>
                             {platformData.data.description}
                         </Typography>
                         }
@@ -514,7 +517,7 @@ export default function Platform() {
                         <Grid item>
                             {!enableEditMode
                             &&
-                            <Typography variant="subtitle2">Tags:</Typography>
+                            <Typography variant="subtitle2" style={{color: '#FFFFFF'}}>Tags:</Typography>
                             }
                             {!enableEditMode
                             &&
@@ -550,7 +553,7 @@ export default function Platform() {
                                 </Typography>
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
                                 &&
-                                <Button variant="contained" color="primary" onClick={() => setEnableEditMode(true)} >Enable Edit Mode</Button>
+                                <Button variant="contained" color="primary" onClick={() => setEnableEditMode(true)} startIcon={<EditOutlinedIcon />} style={{textTransform: 'none'}}>Enable Edit Mode</Button>
                                 }
                                 
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
@@ -563,7 +566,7 @@ export default function Platform() {
 
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&
-                                <Button variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} >Exit Edit Mode</Button>
+                                <Button variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} startIcon={<ExitToAppIcon />} style={{textTransform: 'none'}}>Exit Edit Mode</Button>
                                 }
                                 </Grid>
                             </Container>
