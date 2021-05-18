@@ -149,6 +149,7 @@ export default function Platform() {
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
+        getPlatform();
     }, []);
 
     useEffect(() => {
@@ -163,16 +164,6 @@ export default function Platform() {
     }, [token]);
 
     useEffect(() => {
-        getPlatform();
-    }, []);
-
-    const getPlatform = () => {
-        axios.get("/platforms/" + id).then(data => {
-            setPlatformData(data);
-        });
-    }
-
-    useEffect(() => {
         if (userData != null) {
             userData.data.completedGames.map((id) =>
                 setCompletedGameIds([...completedGameIds, id.toString()])
@@ -182,6 +173,7 @@ export default function Platform() {
     }, [userData]);
 
     useEffect(() => {
+        console.log(platformData)
         if (platformData != null) {
             setTitle(platformData.data.title);
             setDescription(platformData.data.description);
@@ -198,6 +190,11 @@ export default function Platform() {
 
     }, [enableEditMode]);
 
+    const getPlatform = () => {
+        axios.get("/platforms/" + id).then(data => {
+            setPlatformData(data);
+        });
+    }
     const handleClickOpen = () => {
         setOpenDialog(true);
     };
@@ -237,6 +234,20 @@ export default function Platform() {
                 })
         }
     };
+    const setPhoto = (e, image_id, fullURL) => {
+        e.preventDefault()
+        console.log(image_id, fullURL)
+        console.log(id)
+        axios.patch("/platforms/set_banner/" + id, { bannerURL: fullURL })
+            .then(res => {
+                console.log(res.data)
+                platformData.data.bannerURL = res.data
+                handleClose()
+            })
+            .catch(err => {
+                enqueueSnackbar('Something bad happend', { variant: 'error' });
+            })
+    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -256,12 +267,6 @@ export default function Platform() {
     const handleEditGame = (id) => {
         history.push("/editGame/" + id);
     };
-
-    const setPhoto = (id, fullURL) => {
-        console.log(id, fullURL)
-        setbannerURL(fullURL)
-        handleClose()
-    }
 
     function adjustBanner(props) {
         console.log('adjustBanner')
@@ -409,7 +414,7 @@ export default function Platform() {
                 setimageResult([])
                 res.data.results.forEach(photo => {
                     setimageResult(oldArray => [...oldArray,
-                    <GridListTile key={photo.id} cols={1} onClick={() => setPhoto(photo.id, photo.urls.full)}>
+                    <GridListTile key={photo.id} cols={1} onClick={(e) => setPhoto(e, photo.id, photo.urls.full)}>
                         <img src={photo.urls.thumb} alt={'alt pic'} />
                     </GridListTile>
                     ])
@@ -424,10 +429,10 @@ export default function Platform() {
                 <LeftPanel />
                 <div>
                     <div className={classes.bannerTest}>
-                        {bannerURL ? <img className={classes.coverTest} src={bannerURL} alt="Banner image" /> : null}
+                        {platformData.data.bannerURL ? <img className={classes.coverTest} src={platformData.data.bannerURL} alt="Banner image" /> : null}
                     </div>
 
-                    {!bannerURL ?
+                    {!platformData.data.bannerURL ?
                         <div>
                             <Button aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add Cover</Button>
                             <Popover

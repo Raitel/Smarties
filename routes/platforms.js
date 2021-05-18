@@ -384,6 +384,23 @@ router.route('/remove_downvote/:id').patch((req, res) => {
   })
 });
 
+router.route('/set_banner/:id').patch((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.json({ msg: ":id must be of ObjectId type" })
+  }
+  if (!req.body.bannerURL) {
+    res.json({ msg: 'bannerURL required' })
+  }
+  Platform.findById(req.params.id)
+    .then(retrievedPlatform => {
+      retrievedPlatform.bannerURL = req.body.bannerURL
+      retrievedPlatform.save()
+        .then(updatedPlatform => res.send(updatedPlatform.bannerURL))
+        .catch(err => res.status(400).json({ msg: 'Unable to save platform' }))
+    })
+    .catch(err => res.status(400).json({ msg: 'Platform not found' }))
+});
+
 // update platform
 router.route('/update/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -404,7 +421,7 @@ router.route('/update/:id').patch((req, res) => {
         if (req.body.tags) { retrievedPlatform.tags = req.body.tags }
         if (req.body.games) { retrievedPlatform.games = req.body.games }
         if (req.body.isPublic) { retrievedPlatform.isPublic = req.body.isPublic }
-        else if (req.body.isPublic === false){ retrievedPlatform.isPublic = req.body.isPublic }
+        else if (req.body.isPublic === false) { retrievedPlatform.isPublic = req.body.isPublic }
         retrievedPlatform.save(function (err, updatedPlatform) {
           if (err) {
             console.log(err);
