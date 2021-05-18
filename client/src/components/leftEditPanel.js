@@ -155,7 +155,6 @@ export default function LeftEditPanel(props) {
             <TextField
             onChange={(e) => setDescription(e.target.value)}
             variant="outlined"
-            required
             placeholder="Description"
             value={description}
             className={classes.descriptionTextField}
@@ -171,7 +170,6 @@ export default function LeftEditPanel(props) {
             <TextField
             onChange={(e) => setTags(e.target.value)}
             variant="outlined"
-            required
             placeholder="Tags"
             value={tags}
             className={classes.tagsTextField}

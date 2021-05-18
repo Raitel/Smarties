@@ -23,6 +23,8 @@ import TextField from '@material-ui/core/TextField';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Popover from '@material-ui/core/Popover';
+import { useSnackbar } from 'notistack';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer:{
@@ -39,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     container:{
         background: 'linear-gradient(45deg, #8b939a 30%, #5b6467 90%)',
         width:'1200px',
-        height:'600px',
+        minHeight: '65px',
+        //height:'600px',
         marginLeft:'64px',
         display:'flex',
         alignItems:'center',
@@ -91,6 +94,15 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid #000',
         marginTop: '10px',
     },
+    titleTextField:{
+        width: '600px'
+    },
+    descriptionTextField:{
+        width: '600px'
+    },
+    tagsTextField:{
+        width: '600px'
+    },
 
 }));
 
@@ -109,6 +121,10 @@ export default function Platform() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const [enableEditMode, setEnableEditMode] = useState(false);
+    const [title, setTitle] = useState(null);
+    const [description, setDescription] = useState(null);
+    const [tags, setTags] = useState([]);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState(null);
@@ -133,8 +149,25 @@ export default function Platform() {
     const getPlatform = () => {
         axios.get("/platforms/" + id).then( data => {
             setPlatformData(data);
+
         });
     }
+
+    useEffect(() => {
+        if(platformData != null){
+            setTitle(platformData.data.title);
+            setDescription(platformData.data.description);
+            setTags(platformData.data.tags.join(" "));
+        }
+
+    }, [platformData]);
+
+    useEffect(() => {
+        if(enableEditMode === false){
+            getPlatform();
+        }
+
+    }, [enableEditMode]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -169,6 +202,22 @@ export default function Platform() {
         setbannerURL('')
         handleClose()
     }
+    const handleSaveChanges = () => {
+        axios.patch('/platforms/update/' + platformData.data._id, {title: title, description: description, tags: tags.split(" ")})
+        .then(res => {
+          console.log(res)
+          if (res.status === 200){
+            enqueueSnackbar('Success!!', {variant:'success'});
+          }else if (res.status === 400){
+            enqueueSnackbar('400 error', {variant:'warning'});
+          }else{
+            enqueueSnackbar('Hm, something is not right', {variant:'error'});
+          }
+        })
+        .catch(() => {
+          enqueueSnackbar('Hm, something is not right', {variant:'error'});
+        })
+    };
 
 
     function DisplayCard(props){
@@ -246,14 +295,12 @@ export default function Platform() {
             )
         }
         return(
-            <Container>
-                <Typography variant="h6">Tags:</Typography>
-                <Grid
-                    container
-                >
-                    {listTags}
-                </Grid>
-            </Container>
+                
+            <Grid
+                container
+            >
+                {listTags}
+            </Grid>
         )
     }
 
@@ -399,14 +446,62 @@ export default function Platform() {
                 }
                 <Container className = {classes.subcontainer}>
                     <Container className = {classes.titleContainer}>
-                        <Typography>
-                            Title: {platformData.data.title}
+                        {!enableEditMode
+                        &&
+                        <Typography variant="subtitle2">
+                            Title:
                         </Typography>
+                        }
+                        {!enableEditMode
+                        &&
+                        <Typography variant="h5">
+                            {platformData.data.title}
+                        </Typography>
+                        }
+                        {enableEditMode
+                        &&
+                        <TextField
+                        onChange={(e) => setTitle(e.target.value)}
+                        variant="outlined"
+                        required
+                        placeholder="Title"
+                        label='Title'
+                        value={title}
+                        className={classes.titleTextField}
+                        rowsMax={1}
+                        inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
+                        />
+                        }
                     </Container>
                     <Container className = {classes.descriptionContainer}>
-                        <Typography>
-                            Description: {platformData.data.description}
+                        {!enableEditMode
+                        &&
+                        <Typography variant="subtitle2">
+                            Description:
                         </Typography>
+                        }
+                        {!enableEditMode
+                        &&
+                        <Typography>
+                            {platformData.data.description}
+                        </Typography>
+                        }
+                        {enableEditMode
+                        &&
+                        <TextField
+                        onChange={(e) => setDescription(e.target.value)}
+                        variant="outlined"
+                        label='Description'
+                        placeholder="Description"
+                        value={description}
+                        className={classes.descriptionTextField}
+                        multiline
+                        rows={3}
+                        rowsMax={3}
+                        inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
+                        />
+                        }
+
                     </Container>
                     <Container className = {classes.subBannerContainer}>
                     <Grid
@@ -417,7 +512,29 @@ export default function Platform() {
                     container
                     >
                         <Grid item>
-                        <PopulateTags tags={platformData.data.tags}/>
+                            {!enableEditMode
+                            &&
+                            <Typography variant="subtitle2">Tags:</Typography>
+                            }
+                            {!enableEditMode
+                            &&
+                            <PopulateTags tags={platformData.data.tags}/>
+                            }
+                            {enableEditMode
+                            &&
+                            <TextField
+                            onChange={(e) => setTags(e.target.value)}
+                            variant="outlined"
+                            required
+                            placeholder="Tags"
+                            value={tags}
+                            className={classes.tagsTextField}
+                            multiline
+                            rows={1}
+                            rowsMax={1}
+                            inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
+                            />
+                            }
                         </Grid>
                         <Grid item>
                             <Container>
@@ -429,15 +546,21 @@ export default function Platform() {
                                 container
                                 >
                                 <Typography>
-                                    Upvotes: {platformData.data.upvotes}
-                                </Typography>
-                                <Typography>
-                                    Downvotes: {platformData.data.downvotes}
+                                    Upvotes: {platformData.data.upvotes} Downvotes: {platformData.data.downvotes}
                                 </Typography>
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
                                 &&
                                 <Button variant="contained" color="primary" onClick={() => setEnableEditMode(true)} >Enable Edit Mode</Button>
                                 }
+                                
+                                {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                &&
+                                <Button variant="contained" color="secondary" onClick={handleSaveChanges} startIcon={<SaveOutlinedIcon />} style={{textTransform: 'none'}}>
+                                Save Changes
+                                </Button>
+                                }
+
+
                                 {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&
                                 <Button variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} >Exit Edit Mode</Button>
