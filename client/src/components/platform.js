@@ -647,7 +647,7 @@ export default function Platform() {
 
 
                     <Container className={classes.container}>
-                        <div style={{ marginTop: '15px' }}>
+                        <div style={{ width: '100%', marginTop: '15px', display: 'flex', justifyContent: 'flex-end' }}>
                             <Button variant="contained" onClick={handleClickOpen}>Add a game</Button>
                             <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">New Game</DialogTitle>
