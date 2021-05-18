@@ -27,6 +27,7 @@ import { useSnackbar } from 'notistack';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import CheckCircleOutlineOutlinedIcon from '@material-ui/icons/CheckCircleOutlineOutlined';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer:{
@@ -131,6 +132,7 @@ export default function Platform() {
 
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState(null);
+    const [completedGameIds, setCompletedGameIds] = useState([]);
     useEffect(() => {
       setToken(localStorage.getItem('token'));
     }, []);
@@ -155,6 +157,15 @@ export default function Platform() {
 
         });
     }
+
+    useEffect(() => {
+        if(userData != null){
+            userData.data.completedGames.map((id) =>
+            setCompletedGameIds([...completedGameIds,id.toString()])
+            )
+        }
+
+    }, [userData]);
 
     useEffect(() => {
         if(platformData != null){
@@ -242,14 +253,10 @@ export default function Platform() {
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                    {/* <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                        align="right"
-                    >
-                        {game.nestedStages.length == 0 ? "No Stage": "Total Stages: " + game.nestedStages.length}
-                    </Typography> */}
+                    {completedGameIds.includes(game._id.toString())
+                    &&
+                    <CheckCircleOutlineOutlinedIcon style={{color: 'green'}}/>
+                    }
                     </CardActions>
                 </CardActionArea>
             </Card>
@@ -570,6 +577,7 @@ export default function Platform() {
                                 }
                                 </Grid>
                             </Container>
+                            
 
                         </Grid>
                     </Grid>
