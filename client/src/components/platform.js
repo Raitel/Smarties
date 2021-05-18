@@ -71,6 +71,11 @@ const useStyles = makeStyles((theme) => ({
         height: 450,
     },
     game:{
+        background: 'linear-gradient(45deg, #b8d3fe 30%, #f6f2f2 90%)',
+        width: "250px"
+    },
+    editGame:{
+        background: 'linear-gradient(45deg, #f9aba4 30%, #e99ba6 90%)',
         width: "250px"
     },
 }));
@@ -151,6 +156,7 @@ export default function Platform() {
         handleClose()
     }
 
+
     function DisplayCard(props){
         const game = props.game;
         return (
@@ -187,7 +193,7 @@ export default function Platform() {
       function DisplayEditGameCard(props){
         const game = props.game;
         return (
-            <Card className={classes.game} style={{
+            <Card className={classes.editGame} style={{
                 marginTop:'25px',
                 marginBottom:'25px',
                 marginLeft:'25px',
@@ -199,7 +205,7 @@ export default function Platform() {
                     />
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            {game.description ? "Edit: " + game.description :"No description"}
+                            {game.description ? game.description :"No description"}
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
@@ -396,7 +402,7 @@ export default function Platform() {
                     }
                     {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                     &&
-                    <Button variant="contained" color="primary" onClick={() => setEnableEditMode(false)} >Exit Edit Mode</Button>
+                    <Button variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} >Exit Edit Mode</Button>
                     }
                     
                     <PopulateTags tags={platformData.data.tags}/>
