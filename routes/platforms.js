@@ -83,7 +83,7 @@ router.route('/getPlatformsByKeywordAll/:keyword').get((req, res) => {
       { 'isPublic': true },
       { $and: check }
     ]
-  })
+  }).sort({ 'updatedAt': -1 })
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -113,7 +113,7 @@ router.route('/getPlatformsByKeyword/:page/:keyword').get((req, res) => {
       { 'isPublic': true },
       { $and: check }
     ]
-  }).limit(12).skip(req.params.page * 12)
+  }).sort({ 'updatedAt': -1 }).limit(12).skip(req.params.page * 12)
     .then(platforms => res.json(platforms))
     .catch(err => res.status(400).json('Error: ' + err));
 });
