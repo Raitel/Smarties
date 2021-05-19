@@ -757,20 +757,6 @@ export default function Platform() {
                                         {
                                             //upvote and downvote   
                                         }
-<<<<<<< HEAD
-                                        {enableEditMode === false && upvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUpvote} startIcon={<ThumbUpIcon />} style={{ background: 'linear-gradient(45deg, #fb8085 30%, #fb8085 90%)', textTransform: 'none' }}>{platformData.data.downvotes}</Button>
-                                        }
-                                        {enableEditMode === false && !downvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbDownAltOutlinedIcon />} style={{ textTransform: 'none' }}>{platformData.data.upvotes}</Button>
-                                        }
-                                        {enableEditMode === false && downvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbDownIcon />} style={{ background: 'linear-gradient(45deg, #fb8085 30%, #fb8085 90%)', textTransform: 'none' }}>{platformData.data.downvotes}</Button>
-                                        } 
-=======
                                         {
                                             enableEditMode ? null :
                                                 <Button
@@ -799,7 +785,6 @@ export default function Platform() {
                                                     {platformData.data.downvotes}
                                                 </Button>
                                         }
->>>>>>> feature
 
                                         {
                                             //favorites
