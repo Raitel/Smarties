@@ -37,10 +37,16 @@ router.route('/getByUsername/:username').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/getUsernameById/:id').get((req, res) => {
+  User.findById(req.params.id).select('username')
+    .then(user => res.json(user))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // get user profile information
 // used for visiting user profiles
 router.route('/getProfile/:username').get((req, res) => {
-  User.findOne({ 'username': req.params.username }, '-password -email -coin -favorites -inventory').populate('ownedPlatforms')
+  User.findOne({ 'username': req.params.username }, '-password -email -favorites -inventory').populate('ownedPlatforms')
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error: ' + err))
 })

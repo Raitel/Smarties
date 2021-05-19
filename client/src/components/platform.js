@@ -43,13 +43,14 @@ import ThumbDownAltOutlinedIcon from '@material-ui/icons/ThumbDownAltOutlined';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer: {
         //backgroundImage: `url(${Background})`,
         background: 'linear-gradient(45deg, #7c98b3 30%, #e99ba6 90%)',
         width: '1200px',
-        height: '300px',
+        //height: '300px',
         marginTop: '64px',
         marginLeft: '64px',
         display: 'flex',
@@ -102,17 +103,17 @@ const useStyles = makeStyles((theme) => ({
     },
     titleContainer: {
         marginTop: '50px',
-        height: '75px',
+        //height: '75px',
         //border: '1px solid #000',
     },
     descriptionContainer: {
-        //marginTop:'0px',
-        height: '75px',
+        marginTop: '25px',
+        //height: '75px',
         //border: '1px solid #000',
     },
     subBannerContainer: {
         marginTop: '25px',
-        height: '75px',
+        //height: '75px',
         //border: '1px solid #000',
     },
     titleTextField: {
@@ -131,6 +132,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '10px',
         marginLeft: '10px',
         marginRight: '10px',
+    },
+    creatorContainer:{
+        marginTop: '25px',
+        marginBottom: '25px',
+        //height: '75px',
     }
 
 }));
@@ -168,6 +174,7 @@ export default function Platform() {
     const [openDialog, setOpenDialog] = useState(false);
     const [voting, setVoting] = useState(false);
     const [favoritedTrigger, setFavoritedTrigger] = useState(false);
+    const [platformOwnerUsername, setPlatformOwnerUsername] = useState('');
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
@@ -228,6 +235,7 @@ export default function Platform() {
             setDescription(platformData.data.description);
             setTags(platformData.data.tags.join(" "));
             setIsPublic(platformData.data.isPublic);
+            getUsername();
         }
 
     }, [platformData]);
@@ -257,6 +265,12 @@ export default function Platform() {
             setPlatformData(data);
         });
     }
+    const getUsername = () => {
+        axios.get("/users/getUsernameById/" + platformData.data.ownerId).then(data => {
+            setPlatformOwnerUsername(data.data.username);
+        });
+    }
+
     const handleClickOpen = () => {
         setOpenDialog(true);
     };
@@ -429,6 +443,10 @@ export default function Platform() {
 
     const handleEditGame = (id) => {
         history.push("/editGame/" + id);
+    };
+
+    const handleProfile = (username) => {
+        history.push("/profile/" + username);
     };
 
 
@@ -779,6 +797,20 @@ export default function Platform() {
                                             rowsMax={1}
                                             inputProps={{ style: { color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
                                         />
+                                    }
+                                </Container>
+                                <Container className={classes.creatorContainer}>
+                                    {!enableEditMode
+                                        &&
+                                        <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>Platform Creator:</Typography>
+                                    }
+                                    {!enableEditMode && platformOwnerUsername != ''
+                                        &&
+                                        <Link onClick={() => handleProfile(platformOwnerUsername)}>
+                                            {
+                                                platformOwnerUsername
+                                            }
+                                        </Link>
                                     }
                                 </Container>
                             </Grid>
