@@ -54,48 +54,45 @@ router.route('/getProfile/:username').get((req, res) => {
 router.post('/auth/register', (req, res) => {
   const { username, email, password } = req.body
   // validation
-  if (!username || !email || !password) {
-    return res.status(400).json({ msg: 'Missing Fields' })
-  }
+  // if (!username || !email || !password) {
+  //   return res.status(400).json({ msg: 'Missing Fields' })
+  // }
 
   // Check for existing user
-  User.findOne({ $or: [{ email: email }, { username: username }] })
-    .then(user => {
-      if (user) return res.status(400).json({ msg: 'User already exists' });
-
-      const newUser = new User({
-        username,
-        email,
-        password
-      });
-
-      // Create salt & hash
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          newUser.save()
-            .then(user => {
-              jwt.sign(
-                { id: user._id },
-                config.get('jwtSecret'),
-                { expiresIn: 3600 },
-                (err, token) => {
-                  if (err) throw err;
-                  res.json({
-                    token,
-                    user: {
-                      id: user._id,
-                      username: user.username,
-                      email: user.email
-                    }
-                  });
-                }
-              )
-            })
-        })
+  User.findOne({ $or: [{ email: email }, { username: username }] }, function (err, retrievedUser) {
+    if (retrievedUser) return res.json({ status: false, code: 1, msg: 'User already exists' })
+    const newUser = new User({
+      username,
+      email,
+      password
+    });
+    // Create salt & hash
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, (err, hash) => {
+        if (err) throw err;
+        newUser.password = hash;
+        newUser.save()
+          .then(user => {
+            jwt.sign(
+              { id: user._id },
+              config.get('jwtSecret'),
+              { expiresIn: 3600 },
+              (err, token) => {
+                if (err) throw err;
+                res.json({
+                  token,
+                  user: {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email
+                  }
+                });
+              }
+            )
+          })
       })
     })
+  })
 })
 
 router.post('/auth/login', (req, res) => {
@@ -235,18 +232,18 @@ router.put('/updateRecent', auth, (req, res) => {
 
       var recent = retrievedUser.recent;
       recent.unshift(platformId);
-      recent = recent.filter(function(item, pos) {
+      recent = recent.filter(function (item, pos) {
         return recent.indexOf(item) == pos;
       })
-      recent = recent.slice(0,5);
-      
+      recent = recent.slice(0, 5);
+
       retrievedUser.recent = recent;
 
       retrievedUser.save()
-      .then(user => res.json({
-        msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
-      }))
-      .catch(err => res.status(400).json({msg: 'Error adding to user favorites' }))
+        .then(user => res.json({
+          msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
+        }))
+        .catch(err => res.status(400).json({ msg: 'Error adding to user favorites' }))
     })
     .catch(err => res.json(400).json({ msg: 'User not found' }));
 })
