@@ -124,13 +124,13 @@ const useStyles = makeStyles((theme) => ({
     tagsTextField: {
         width: '600px'
     },
-    button:{
+    button: {
         //height:'30px',
         //width: '200px',
-        marginTop:'10px',
-        marginBottom:'10px',
-        marginLeft:'10px',
-        marginRight:'10px',
+        marginTop: '10px',
+        marginBottom: '10px',
+        marginLeft: '10px',
+        marginRight: '10px',
     }
 
 }));
@@ -140,7 +140,6 @@ export default function Platform() {
     const history = useHistory();
     const { id } = useParams();
     const [platformData, setPlatformData] = useState(null);
-    const [imageURL, setimageURL] = useState(null)
     const [searchInput, setsearchInput] = useState('')
     const access_key = 'JJwuG0hMuTaes4G5QEwMyWZWxhCdr2udfk_QFR0DJq0';
     const secret_key = 'ZXRZlY5kOzfMdbvt9Iy2E7Q63Q7ICl_28Qopl4x3SJY';
@@ -167,6 +166,7 @@ export default function Platform() {
     const [newGameTitleError, setNewGameTitleError] = useState(false);
     const [newGameDescriptionError, setNewGameDescriptionError] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [voting, setVoting] = useState(false);
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
@@ -213,7 +213,7 @@ export default function Platform() {
 
             // console.log(completedGameIds)
             // console.log(favoritedPlatformIds)
-        
+
         }
 
     }, [userData]);
@@ -236,6 +236,16 @@ export default function Platform() {
 
     }, [enableEditMode]);
 
+    useEffect(() => {
+        const options = {
+            headers: { 'X-Auth-Token': token }
+        };
+        axios.get('/users/auth/user', options).then(data => {
+            setUserData(data);
+        });
+        getPlatform();
+    }, [voting]);
+
     const getPlatform = () => {
         axios.get("/platforms/" + id).then(data => {
             setPlatformData(data);
@@ -249,23 +259,57 @@ export default function Platform() {
         setOpenDialog(false);
     };
     const handleDeletePlatform = () => {
-        
+
     };
     const handleUpvote = () => {
-        if(downvotedPlatformIds.includes(platformData.data._id.toString())){
-            //upvoting a downvoted platform
+        console.log('upvote')
+        setVoting(true)
+        const data = {
+            platform: platformData.data._id,
+            upvoted: upvotedPlatformIds.includes(platformData.data._id.toString()),
+            downvoted: downvotedPlatformIds.includes(platformData.data._id.toString()),
+            upvoteTarget: true,
+            downvoteTarget: false
         }
-        else{
-            //upvoting a platform
+        const config = {
+            headers: { 'X-Auth-Token': token },
         }
+        axios.patch("/platforms/vote", data, config)
+            .then(res => {
+                console.log(res)
+                if (data.upvoted) { enqueueSnackbar('Withdrew Upvote', { variant: 'success' }) }
+                else { enqueueSnackbar('Upvoted!', { variant: 'success' }) }
+                setVoting(false)
+            })
+            .catch(err => {
+                enqueueSnackbar('Something bad happend', { variant: 'error' })
+                setVoting(false)
+            })
     };
     const handleDownvote = () => {
-        if(upvotedPlatformIds.includes(platformData.data._id.toString())){
-            //downvoting an upvoted platform
+        console.log('downvote')
+        setVoting(true)
+        const data = {
+            platform: platformData.data._id,
+            upvoted: upvotedPlatformIds.includes(platformData.data._id.toString()),
+            downvoted: downvotedPlatformIds.includes(platformData.data._id.toString()),
+            upvoteTarget: false,
+            downvoteTarget: true
         }
-        else{
-            //downvoting a platform
-        } 
+        const config = {
+            headers: { 'X-Auth-Token': token },
+        }
+        axios.patch("/platforms/vote", data, config)
+            .then(res => {
+                console.log(res)
+                if (data.downvoted) { enqueueSnackbar('Withdrew Downvote', { variant: 'success' }) }
+                else { enqueueSnackbar('Downvoted!', { variant: 'success' }) }
+                setVoting(false)
+            })
+            .catch(err => {
+                enqueueSnackbar('Something bad happend', { variant: 'error' })
+                setVoting(false)
+            })
     };
     const handleFavorites = (id) => {
         //add to favorites
@@ -346,6 +390,7 @@ export default function Platform() {
         console.log('adjustBanner')
     }
     function removeBanner(props) {
+        console.log('removeBanner')
         setbannerURL('')
         handleClose()
     }
@@ -605,104 +650,98 @@ export default function Platform() {
                             container
                         >
                             <Grid item>
-                            <Container className={classes.titleContainer}>
-                                {!enableEditMode
-                                    &&
-                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
-                                        Title:
+                                <Container className={classes.titleContainer}>
+                                    {!enableEditMode
+                                        &&
+                                        <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
+                                            Title:
                                     </Typography>
-                                }
-                                {!enableEditMode
-                                    &&
-                                    <Typography variant="h5" style={{ color: '#FFFFFF' }}>
-                                        {platformData.data.title}
+                                    }
+                                    {!enableEditMode
+                                        &&
+                                        <Typography variant="h5" style={{ color: '#FFFFFF' }}>
+                                            {platformData.data.title}
+                                        </Typography>
+                                    }
+                                    {enableEditMode
+                                        &&
+                                        <TextField
+                                            onChange={(e) => setTitle(e.target.value)}
+                                            variant="outlined"
+                                            required
+                                            placeholder="Title"
+                                            label='Title'
+                                            value={title}
+                                            className={classes.titleTextField}
+                                            rowsMax={1}
+                                            inputProps={{ style: { color: '#FFFFFF', fontSize: 18, fontWeight: 'Bold', verticalAlign: "middle" } }}
+                                        />
+                                    }
+                                </Container>
+                                <Container className={classes.descriptionContainer}>
+                                    {!enableEditMode
+                                        &&
+                                        <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
+                                            Description:
                                     </Typography>
-                                }
-                                {enableEditMode
-                                    &&
-                                    <TextField
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        variant="outlined"
-                                        required
-                                        placeholder="Title"
-                                        label='Title'
-                                        value={title}
-                                        className={classes.titleTextField}
-                                        rowsMax={1}
-                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 18, fontWeight: 'Bold', verticalAlign: "middle" } }}
-                                    />
-                                }
-                            </Container>
-                            <Container className={classes.descriptionContainer}>
-                                {!enableEditMode
-                                    &&
-                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
-                                        Description:
-                                    </Typography>
-                                }
-                                {!enableEditMode
-                                    &&
-                                    <Typography style={{ color: '#FFFFFF' }}>
-                                        {platformData.data.description}
-                                    </Typography>
-                                }
-                                {enableEditMode
-                                    &&
-                                    <TextField
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        variant="outlined"
-                                        label='Description'
-                                        placeholder="Description"
-                                        value={description}
-                                        className={classes.descriptionTextField}
-                                        multiline
-                                        rows={3}
-                                        rowsMax={3}
-                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
-                                    />
-                                }
+                                    }
+                                    {!enableEditMode
+                                        &&
+                                        <Typography style={{ color: '#FFFFFF' }}>
+                                            {platformData.data.description}
+                                        </Typography>
+                                    }
+                                    {enableEditMode
+                                        &&
+                                        <TextField
+                                            onChange={(e) => setDescription(e.target.value)}
+                                            variant="outlined"
+                                            label='Description'
+                                            placeholder="Description"
+                                            value={description}
+                                            className={classes.descriptionTextField}
+                                            multiline
+                                            rows={3}
+                                            rowsMax={3}
+                                            inputProps={{ style: { color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
+                                        />
+                                    }
 
-                            </Container>
-                            <Container className={classes.subBannerContainer}>
-
-                                {!enableEditMode
-                                    &&
-                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>Tags:</Typography>
-                                }
-                                {!enableEditMode
-                                    &&
-                                    <PopulateTags tags={platformData.data.tags} />
-                                }
-
-                                {enableEditMode
-                                    &&
-                                    <TextField
-                                        onChange={(e) => setTags(e.target.value)}
-                                        variant="outlined"
-                                        required
-                                        placeholder="Tags"
-                                        value={tags}
-                                        className={classes.tagsTextField}
-                                        multiline
-                                        rows={1}
-                                        rowsMax={1}
-                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
-                                    />
-                                }
-                                
-
-
-                            </Container>
+                                </Container>
+                                <Container className={classes.subBannerContainer}>
+                                    {!enableEditMode
+                                        &&
+                                        <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>Tags:</Typography>
+                                    }
+                                    {!enableEditMode
+                                        &&
+                                        <PopulateTags tags={platformData.data.tags} />
+                                    }
+                                    {enableEditMode
+                                        &&
+                                        <TextField
+                                            onChange={(e) => setTags(e.target.value)}
+                                            variant="outlined"
+                                            required
+                                            placeholder="Tags"
+                                            value={tags}
+                                            className={classes.tagsTextField}
+                                            multiline
+                                            rows={1}
+                                            rowsMax={1}
+                                            inputProps={{ style: { color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
+                                        />
+                                    }
+                                </Container>
                             </Grid>
                             <Grid item>
-
                                 <Container>
                                     {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                         &&
                                         <FormControlLabel
                                             style={{
-                                                marginLeft:'10px',
-                                                marginRight:'10px',
+                                                marginLeft: '10px',
+                                                marginRight: '10px',
                                             }}
                                             control={<Switch checked={isPublic} onChange={e => (setIsPublic(e.target.checked))} name="setPublic" />}
                                             label="Set Public"
@@ -715,27 +754,37 @@ export default function Platform() {
                                         alignItems="center"
                                         container
                                     >
-
-
                                         {
-                                            //upvote and downvote
+                                            //upvote and downvote   
                                         }
-                                        {enableEditMode === false && !upvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUpvote} startIcon={<ThumbUpAltOutlinedIcon />} style={{ textTransform: 'none' }}>{platformData.data.upvotes}</Button>
+                                        {
+                                            enableEditMode ? null :
+                                                <Button
+                                                    disabled={voting}
+                                                    className={classes.button}
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    onClick={handleUpvote}
+                                                    startIcon={upvotedPlatformIds.includes(platformData.data._id.toString()) ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />}
+                                                    style={{ textTransform: 'none' }}
+                                                >
+                                                    {platformData.data.upvotes}
+                                                </Button>
                                         }
-                                        {enableEditMode === false && upvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbUpIcon />} style={{ textTransform: 'none' }}>{platformData.data.downvotes}</Button>
+                                        {
+                                            enableEditMode ? null :
+                                                <Button
+                                                    disabled={voting}
+                                                    className={classes.button}
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    onClick={handleDownvote}
+                                                    startIcon={downvotedPlatformIds.includes(platformData.data._id.toString()) ? <ThumbDownIcon /> : <ThumbDownAltOutlinedIcon />}
+                                                    style={{ textTransform: 'none' }}
+                                                >
+                                                    {platformData.data.downvotes}
+                                                </Button>
                                         }
-                                        {enableEditMode === false && !downvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUpvote} startIcon={<ThumbDownAltOutlinedIcon />} style={{ textTransform: 'none' }}>{platformData.data.upvotes}</Button>
-                                        }
-                                        {enableEditMode === false && downvotedPlatformIds.includes(platformData.data._id.toString())
-                                            &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbDownIcon />} style={{ textTransform: 'none' }}>{platformData.data.downvotes}</Button>
-                                        } 
 
                                         {
                                             //favorites
@@ -747,7 +796,7 @@ export default function Platform() {
                                         {enableEditMode === false && favoritedPlatformIds.includes(platformData.data._id.toString())
                                             &&
                                             <Button className={classes.button} variant="contained" color="secondary" onClick={handleUnfavorites} startIcon={<FavoriteOutlinedIcon />} style={{ textTransform: 'none' }}>Favorited</Button>
-                                        }  
+                                        }
 
                                         {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                             &&
@@ -779,10 +828,10 @@ export default function Platform() {
 
                     <Container className={classes.container}>
                         <div style={{ width: '100%', marginTop: '15px', display: 'flex', justifyContent: 'flex-end' }}>
-                            
+
                             {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
-                            &&
-                            <Button variant="contained" color="secondary" onClick={handleClickOpen} startIcon={<AddCircleOutlineOutlinedIcon/>} style={{ textTransform: 'none' }} >Add a game</Button>
+                                &&
+                                <Button variant="contained" color="secondary" onClick={handleClickOpen} startIcon={<AddCircleOutlineOutlinedIcon />} style={{ textTransform: 'none' }} >Add a game</Button>
                             }
 
                             <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
@@ -828,31 +877,31 @@ export default function Platform() {
                         {platformData.data.games.length === 0
                             &&
                             <Grid
-                            container
-                            direction="row"
-                            justify="flex-start"
+                                container
+                                direction="row"
+                                justify="flex-start"
                             >
                                 <Container style={{
-                                background: '#ffffff',
-                                height: '175px',
-                                width: '250px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                flexDirection: 'column',
-                                marginTop: '15px',
-                                marginBottom: '15px',
-                                marginLeft: '15px',
-                                marginRight: '15px',
-                                borderRadius: '5px',
-                                border: '1px solid grey'
+                                    background: '#ffffff',
+                                    height: '175px',
+                                    width: '250px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flexDirection: 'column',
+                                    marginTop: '15px',
+                                    marginBottom: '15px',
+                                    marginLeft: '15px',
+                                    marginRight: '15px',
+                                    borderRadius: '5px',
+                                    border: '1px solid grey'
                                 }}>
                                     <Typography style={{ textAlign: "center" }}>
-                                    There exists no game in the platform.
+                                        There exists no game in the platform.
                                     </Typography>
                                 </Container>
                             </Grid>
-                            }
+                        }
                     </Container>
                 </div>
             </div>
