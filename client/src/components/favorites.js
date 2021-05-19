@@ -112,7 +112,7 @@ function DisplayCard(props){
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <FavoriteIcon />
+                  <FavoriteIcon style={{ margin: '10px'}}/>
                     <Typography
                     variant="body2"
                     color="textSecondary"

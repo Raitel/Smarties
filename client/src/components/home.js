@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   section: {
-    height: '300px',
+    //height: '300px',
     // marginTop: '50px',
     // marginBottom: '50px',
     //border: '1px solid black'
@@ -63,6 +64,9 @@ export default function Home() {
   const [favorites, setFavorites] = useState(null);
   const [recent, setRecent] = useState(null);
   
+  const [favoritedPlatformIds, setFavoritedPlatformIds] = useState(null);
+
+
   useEffect(() => {
     setToken(localStorage.getItem('token'));
   }, []);
@@ -83,6 +87,11 @@ export default function Home() {
       setOwnedPlatforms(userData.data.ownedPlatforms.reverse().slice(0, 4));
       setFavorites(userData.data.favorites.reverse().slice(0, 4));
       setRecent(userData.data.recent.slice(0, 4));
+      var favorites = [];
+        userData.data.favorites.map((platform) =>
+            favorites.push(platform._id.toString())
+        );
+      setFavoritedPlatformIds(favorites);
     };
   }, [userData]);
 
@@ -115,11 +124,11 @@ export default function Home() {
               {platform.description ? platform.description : "No description"}
             </Typography>
           </CardContent>
+          
           <CardActions disableSpacing>
-            {/* {userData.data.favorites.includes(platform._id)
-            &&
-            <FavoriteIcon />
-            } */}
+
+            {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon style={{ margin: '10px'}}/> : <FavoriteBorderOutlinedIcon style={{ margin: '10px'}}/>}
+            
             
             <Typography
               variant="body2"

@@ -17,6 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Box from "@material-ui/core/Box";
 import axios from 'axios';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -53,8 +54,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: red[500]
     },
     card: {
-        width: "250px",
-        height: '200px'
+        width: "250px"
     },
 }));
 
@@ -138,7 +138,7 @@ export default function Profile() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon /> : null}
+                            {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon style={{ margin: '10px'}}/> : <FavoriteBorderOutlinedIcon style={{ margin: '10px'}}/>}
                             
                             <Typography
                                 variant="body2"

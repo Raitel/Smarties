@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,6 +62,8 @@ export default function MyPlatforms() {
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState(null);
   const [ownedPlatforms, setOwnedPlatforms] = useState(null);
+  const [favoritedPlatformIds, setFavoritedPlatformIds] = useState(null);
+
   useEffect(() => {
     setToken(localStorage.getItem('token'));
 },[]);
@@ -79,6 +82,11 @@ export default function MyPlatforms() {
   useEffect(() => {
     if(userData != null){
       setOwnedPlatforms(userData.data.ownedPlatforms)
+      var favorites = [];
+      userData.data.favorites.map((platform) =>
+          favorites.push(platform._id.toString())
+      );
+    setFavoritedPlatformIds(favorites);
   };
 },[userData]);
 
@@ -112,7 +120,8 @@ function DisplayCard(props){
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <FavoriteIcon />
+                  {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon style={{ margin: '10px'}}/> : <FavoriteBorderOutlinedIcon style={{ margin: '10px'}}/>}
+
                     <Typography
                     variant="body2"
                     color="textSecondary"

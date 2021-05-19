@@ -11,8 +11,8 @@ import axios from 'axios';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-
-
+import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
+import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 const useStyles = makeStyles((theme) => ({
     background:{
         backgroundImage: `url(https://z3.ax1x.com/2021/05/02/gZaj2Q.png)`,
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
     stageCount:{
         marginTop:'10px',
-        height:'200px',
+        //height:'200px',
         marginBottom:'10px',
         display:'flex',
         alignItems:'center',
@@ -262,14 +262,14 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '10px'
     },
     modifyStage:{
-        height:'150px',
+        //height:'150px',
         width: '1200px',
         display:'flex',
         justifyContent: 'center',
         alignItems:'center',
         flexDirection:'column',
-        marginTop:'10px',
-        marginBottom:'10px',
+        marginTop:'5px',
+        marginBottom:'5px',
         marginLeft:'10px',
         marginRight:'10px',
         borderRadius: '10px'
@@ -292,6 +292,20 @@ const useStyles = makeStyles((theme) => ({
         background: 'linear-gradient(45deg, #f9aba4 30%, #e99ba6 90%)',
         height:'30px',
         width: '200px',
+        display:'flex',
+        justifyContent: 'center',
+        alignItems:'center',
+        flexDirection:'column',
+        //marginTop:'10px',
+        //marginBottom:'10px',
+        marginLeft:'20px',
+        marginRight:'20px',
+        borderRadius: '10px'
+    },
+    arrow:{
+        background: 'linear-gradient(45deg, #4dccc6 30%, #96e4df 90%)',
+        height:'30px',
+        width: '250px',
         display:'flex',
         justifyContent: 'center',
         alignItems:'center',
@@ -360,6 +374,20 @@ export default function EditGameStages(props) {
     const handleSetConstruction = () => {
         testQuestions[currentQuestion].type = "Construction";
         handleUpdate();
+	};
+    const handleSetForward = () => {
+        const temp = testQuestions[currentQuestion];
+        testQuestions[currentQuestion] = testQuestions[currentQuestion - 1]
+        testQuestions[currentQuestion - 1] = temp;
+        handleSetCurrentStage(null, currentQuestion - 1)
+        //console.log(currentQuestion - 1);
+	};
+    const handleSetBackward = () => {
+        const temp = testQuestions[currentQuestion];
+        testQuestions[currentQuestion] = testQuestions[currentQuestion + 1]
+        testQuestions[currentQuestion + 1] = temp;
+        handleSetCurrentStage(null, currentQuestion + 1)
+        //console.log(currentQuestion + 1);
 	};
 
     const handleAddStage = () => {
@@ -474,6 +502,15 @@ export default function EditGameStages(props) {
                                 {testQuestions.map((letter, index) => (
                                     <Button className={classes.stageIndex} variant="contained" onClick={() => handleSetCurrentStage(letter, index)} disabled={index === currentQuestion}>{ index + 1 }</Button>
                                 ))}
+                                </Grid>
+                                <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                                >
+                                <Button  className={classes.arrow} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSetForward()} disabled={currentQuestion === 0}><KeyboardArrowLeftOutlinedIcon/>Move Stage Forward</Button>
+                                <Button  className={classes.arrow} style={{textTransform: 'none'}} variant="contained" onClick={() => handleSetBackward()} disabled={currentQuestion >= testQuestions.length - 1}><KeyboardArrowRightOutlinedIcon/>Move Stage Backward</Button>
                                 </Grid>
                             </Container>
                             <Container className={classes.modifyStage}>

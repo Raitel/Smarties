@@ -481,7 +481,7 @@ export default function Platform() {
                     <CardActions disableSpacing>
                         {completedGameIds.includes(game._id.toString())
                             &&
-                            <CheckCircleOutlineOutlinedIcon style={{ color: 'green' }} />
+                            <CheckCircleOutlineOutlinedIcon style={{ color: 'green' ,  margin: '10px'}} />
                         }
                     </CardActions>
                 </CardActionArea>
