@@ -119,6 +119,15 @@ export default function FormPropsTextFields() {
             setCurrentPasswordError(true)
             currentPasswordValid = false
         }
+        if (newPassword.trim().length < 8) {
+            enqueueSnackbar('Password must be at least 8 characters in length', { variant: 'error' })
+            setNewPasswordError(true)
+            newPasswordValid = false
+        }
+        if (confirmNewPassword.trim().length < 8) {
+            setConfirmNewPasswordError(true)
+            confirmNewPasswordValid = false
+        }
         if (newPassword == '' || newPassword.trim() == '') {
             setNewPasswordError(true)
             newPasswordValid = false
@@ -143,7 +152,10 @@ export default function FormPropsTextFields() {
             axios.put("/users/updatePassword", data, config)
                 .then(res => {
                     console.log(res)
-                    // enqueueSnackbar('Sucess!', { variant: 'success' })
+                    if (res.data.user_id) {
+                        enqueueSnackbar('Sucess!', { variant: 'success' })
+                        history.push("/settings")
+                    }
                 })
                 .catch(err => enqueueSnackbar('Something bad happend', { variant: 'error' }))
         } else {

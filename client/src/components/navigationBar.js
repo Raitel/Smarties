@@ -190,6 +190,7 @@ export default function PrimarySearchAppBar(props) {
     setAnchorEl(null);
     props.setIsAuth(false)
     localStorage.removeItem('token')
+    history.push("/login")
   };
 
   const handleHome = () => {
