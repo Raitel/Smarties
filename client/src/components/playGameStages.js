@@ -538,10 +538,18 @@ export default function PlayGameStages(props) {
                         <Typography>
                             You got {score} questions correct out of {testQuestions.length} questions.
                         </Typography>
-
+                        {!completedGameIds.includes(gameId.toString())
+                        &&
                         <Typography>
                             You obtained {point} points from completing the game.
                         </Typography>
+                        }
+                        {completedGameIds.includes(gameId.toString())
+                        &&
+                        <Typography>
+                            Since you have already completed the game, you did not earn any points.
+                        </Typography>
+                        }
                     </Container>
 				</Container>
 			) : (
@@ -560,8 +568,15 @@ export default function PlayGameStages(props) {
                             alignItems:'center',
                             color: "#FFFFFF"
                             }}>
-                            <ToysOutlinedIcon style={{ color: "#FFFFFF" }}/>
-                            Current Obtained Points: {point}.
+                            <ToysOutlinedIcon style={{ color: "#FFFFFF", marginRight: '10px'}}/>
+                            {!completedGameIds.includes(gameId.toString())
+                            &&
+                            "Current Obtained Points:" + point
+                            }
+                            {completedGameIds.includes(gameId.toString())
+                            &&
+                            "No points because already completed the game"
+                            }
                         </Typography>
                         </Container>
                         <Container id='stage-count' className={classes.stageCount}>
