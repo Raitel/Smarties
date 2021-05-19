@@ -130,7 +130,7 @@ function App() {
       <Route
         render={(props) => isAuth === true
           ? <Component isAuth={isAuth} setIsAuth={setIsAuth} />
-          : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />}
+          : <Redirect to={{ pathname: '/landing', state: { from: props.location } }} />}
       />
     )
   }
