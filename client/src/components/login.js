@@ -57,45 +57,49 @@ export default function Login(props) {
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  
+
   const handleSubmit = async (e) => {
-      e.preventDefault()
-      setEmailError(false)
-      setPasswordError(false)
-      if(email == ''){
-          setEmailError(true)
-      }
-      if(password == ''){
-          setPasswordError(true)
-      }
-      const user = {
-        email: email, 
-        password: password
-      }
-      if(email && password){
-          console.log(email, password)
-          axios.post('/users/auth/login', user)
-          .then(res => {
-            console.log(res.data)
+    e.preventDefault()
+    setEmailError(false)
+    setPasswordError(false)
+    if (email == '') {
+      setEmailError(true)
+    }
+    if (password == '') {
+      setPasswordError(true)
+    }
+    const user = {
+      email: email,
+      password: password
+    }
+    if (email && password) {
+      console.log(email, password)
+      axios.post('/users/auth/login', user)
+        .then(res => {
+          console.log(res)
+          if (res.data.token) {
             localStorage.removeItem('token')
             localStorage.setItem('token', res.data.token)
             props.setIsAuth(true)
-            if (res.status === 200){
-              enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
-            }else if (res.status === 204){
+            enqueueSnackbar('Succes! Redirecting...', { variant: 'success' });
+          } else if (res.data.code) {
+            if (res.data.code === 1) {
               setEmailError(true)
               setPasswordError(true)
-              enqueueSnackbar('User not found', {variant:'error'});
-            }else if (res.status === 205){
+              enqueueSnackbar('No User Found', { variant: 'error' });
+            } else if (res.data.code === 2) {
               setPasswordError(true)
-              enqueueSnackbar('Invalid Password', {variant:'error'});
+              enqueueSnackbar('Invalid Password', { variant: 'error' });
             }
-          })
-          .catch(err => {
-            console.log(err)
-            enqueueSnackbar('Something bad happend', {variant:'error'});
-          })
-      }
+          } else {
+            enqueueSnackbar('Something bad happend', { variant: 'error' });
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          enqueueSnackbar('Something bad happend', { variant: 'error' });
+        })
+    }
   }
 
   const handleForgot = (e) => {
