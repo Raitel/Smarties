@@ -174,4 +174,56 @@ router.route('/update/:id').patch((req, res) => {
   })
 })
 
+router.put("/updateUsername", auth, (req, res) => {
+  console.log('Update Username Request')
+  console.log('Target User: ', req.user.id)
+  console.log('Username: ', req.body.username)
+  User.findOne(req.body.username)
+    .then(retrievedUser => {
+      if (retrievedUser) { res.json({ status: false, msg: 'Username in use' }) }
+    })
+    .catch(err => {
+      User.findById(req.user.id)
+        .then(targetUser => {
+          targetUser.username = req.body.username
+          targetUser.save()
+            .then(sucessUser => res.json({
+              status: true,
+              msg: "Changed " + req.user.id + " username to " + req.body.username,
+              user_id: req.user.id
+            }))
+            .catch(err => res.json({ msg: 'Error saving target user' }))
+        })
+        .catch(err => res.json({ msg: 'Error finding target user' }))
+    })
+})
+
+router.put("/updatePassword", auth, (req, res) => {
+  console.log('Update Password Request')
+  console.log('Target User: ', req.user.id)
+  console.log('Cur Password: ', req.body.password)
+  console.log('New Password: ', req.body.newPassword)
+  User.findById(req.user.id, function (err, retrievedUser) {
+    if (err) return res.json({ msg: 'Error finding target user' })
+    bcrypt.compare(req.body.password, retrievedUser.password)
+      .then(isMatch => {
+        if (!isMatch) return res.json({ status: false, code: 1, msg: 'password mismatch?' })
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+            if (err) { throw err }
+            retrievedUser.password = hash;
+            retrievedUser.save()
+              .then(sucessUser => res.json({
+                status: true,
+                msg: "Changed password for user " + req.user.id,
+                user_id: req.user.id
+              }))
+              .catch(err => res.json({ msg: 'Error saving new password' }))
+          })
+        })
+      })
+      .catch(err => res.json({ msg: 'Bcrypt Error' }))
+  })
+})
+
 module.exports = router;
