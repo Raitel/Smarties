@@ -541,4 +541,30 @@ router.put('/favorite', auth, (req, res) => {
     .catch(err => res.json(400).json({ msg: 'User not found' }));
 })
 
+router.put('/deletePlatform', auth, (req, res) => {
+  // req.user.id passed from auth middlware
+  console.log('Delete Platform Request')
+  console.log('Target User: ', req.user.id)
+
+  User.findById(req.user.id)
+  .then((retrievedUser) => {// a user has been found
+    const platformId = req.body.platformId;
+
+    var filteredAry = retrievedUser.ownedPlatforms.filter(platform => platform != platformId)
+    retrievedUser.ownedPlatforms = filteredAry;
+
+    retrievedUser.save()
+    .then(user => res.json({
+      msg: 'Removed' + platformId + ' from user ' + retrievedUser._id
+    }))
+    .catch(err => res.status(400).json({msg: 'Error removing platforms from user' }))
+  })
+  .catch(err => res.json(400).json({ msg: 'User not found' }));
+
+  Platform.findByIdAndDelete(req.body.platformId)
+  .then(() => res.json('Platform deleted'))
+  .catch(err => res.status(400).json('Error: ' + err));
+
+})
+
 module.exports = router;
