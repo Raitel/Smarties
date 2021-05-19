@@ -138,7 +138,7 @@ export default function Profile() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            {favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon /> : null}
+                            {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon /> : null}
                             
                             <Typography
                                 variant="body2"
