@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -12,6 +12,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
 import ToysOutlinedIcon from '@material-ui/icons/ToysOutlined';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     background:{
@@ -237,6 +238,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayGameStages(props) {
     const classes = useStyles();
     const testQuestions = props.value;
+    const gameId = props.gameId;
 
     const [progress, setProgress] = useState(0);
 
@@ -262,7 +264,37 @@ export default function PlayGameStages(props) {
     const [constructionSubmitButtonDisabled, setConstructionSubmitButtonDisabled] = useState(false)
     const [constructionLetters, setConstructionLetters] = useState(shuffle(testQuestions[currentQuestion].letters.map(x => x)));
 
+    const [token, setToken] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [completedGameIds, setCompletedGameIds] = useState([]);
 
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    }, []);
+
+    useEffect(() => {
+        if (token != '') {
+            const options = {
+                headers: { 'X-Auth-Token': token }
+            };
+            axios.get('/users/auth/user', options).then(data => {
+                setUserData(data);
+            });
+        }
+    }, [token]);
+
+    useEffect(() => {
+        if (userData != null) {
+            var completed = [];
+
+            userData.data.completedGames.map((id) =>
+                completed.push(id.toString())
+            );
+
+            setCompletedGameIds(completed);
+        }
+
+    }, [userData]);
 
 	const handleAnswerOptionClick = (isCorrect) => {
         if(isCorrect){
@@ -290,12 +322,34 @@ export default function PlayGameStages(props) {
 	};
 
     const action = key => (
-            <IconButton onClick={() => { closeSnackbar(key) }}>
-                <CloseIcon />
-            </IconButton>
+        <IconButton onClick={() => { closeSnackbar(key) }}>
+            <CloseIcon />
+        </IconButton>
     );
 
+    const handleCompleteGame = (points) => {
+        //axios push to completed game
+        //axios update coin
+        const data = {
+            points: points,
+            gameId: gameId
+          }
+        const config = {
+        headers: { 'X-Auth-Token': token },
+        }
+        axios.put('/games/completedGame', data, config)
+        .then(res => {
+        })
+        .catch(err => {
+          enqueueSnackbar('Something bad happend', { variant: 'error' });
+        })
+
+
+    };
+
+
 	const handleNextQuestion = (isCorrect) => {
+        var total = point;
 		if (isCorrect) {
             var extraPoints = 0;
 			setScore(score + 1);
@@ -308,6 +362,7 @@ export default function PlayGameStages(props) {
             }
 
             setPoint(point + 10 + extraPoints);
+            total = point + 10 + extraPoints;
 		}
 
 		const nextQuestion = currentQuestion + 1;
@@ -332,8 +387,13 @@ export default function PlayGameStages(props) {
             setProgress(Math.floor((100 * nextQuestion)/testQuestions.length));
             
 		} else {
+            if(!completedGameIds.includes(gameId.toString())){
+                handleCompleteGame(total);
+            }
+
             setProgress(Math.floor((100 * nextQuestion)/testQuestions.length));
 			setShowScore(true);
+
 		}
 	};
 
@@ -478,6 +538,7 @@ export default function PlayGameStages(props) {
                         <Typography>
                             You got {score} questions correct out of {testQuestions.length} questions.
                         </Typography>
+
                         <Typography>
                             You obtained {point} points from completing the game.
                         </Typography>

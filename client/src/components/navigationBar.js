@@ -155,7 +155,7 @@ export default function PrimarySearchAppBar(props) {
       const config = {
         headers: { 'X-Auth-Token': token },
       }
-      axios.put('http://localhost:5000/platforms/push', data, config)
+      axios.put('/platforms/push', data, config)
         .then(res => {
           console.log(res.data)
           history.push("/platform/" + res.data.platform_id)

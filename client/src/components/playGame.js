@@ -42,7 +42,7 @@ export default function PlayGame() {
         <div style={{display:'flex', marginTop:"64px"}}>
             
             { <LeftGamePanel value={gameData.data} platformId={platformData.data._id}/> }
-            { <PlayGameStages value={gameData.data.nestedStages}/>}
+            { <PlayGameStages value={gameData.data.nestedStages} gameId={gameData.data._id}/>}
 
         </div>
         )

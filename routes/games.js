@@ -2,6 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 let Game = require('../models/game.model');
 let Platform = require('../models/platform.model');
+let User = require('../models/user.model');
 const auth = require('../middleware/auth');
 
 // GAME API
@@ -300,5 +301,24 @@ router.route('/:id/deleteStage/:index').delete((req, res) => {
     };
   });
 });
+
+router.put('/completedGame', auth, (req, res) => {
+  // req.user.id passed from auth middlware
+
+  User.findById(req.user.id)
+    .then((retrievedUser) => {// a user has been found
+      const newPoints = req.body.points + retrievedUser.coin;
+      const gameId = req.body.gameId;
+
+      retrievedUser.coin = newPoints;
+      retrievedUser.completedGames.push(gameId);
+      retrievedUser.save()
+      .then(user => res.json({
+        msg: 'Added Game ' + gameId + ' to user ' + retrievedUser._id
+      }))
+      .catch(err => res.status(400).json('Error adding to user completedGames'))
+    })
+    .catch(err => res.json(400).json({ msg: 'User not found' }));
+})
 
 module.exports = router;
