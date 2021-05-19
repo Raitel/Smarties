@@ -148,10 +148,6 @@ export default function Login(props) {
             autoComplete="current-password"
             error={passwordError}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth

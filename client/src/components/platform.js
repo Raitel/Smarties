@@ -133,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: '10px',
         marginRight: '10px',
     },
-    creatorContainer:{
+    creatorContainer: {
         marginTop: '25px',
         marginBottom: '25px',
         //height: '75px',
@@ -175,6 +175,7 @@ export default function Platform() {
     const [voting, setVoting] = useState(false);
     const [favoritedTrigger, setFavoritedTrigger] = useState(false);
     const [platformOwnerUsername, setPlatformOwnerUsername] = useState('');
+    const [bannerTrigger, setBannerTrigger] = useState(false);
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
@@ -248,7 +249,7 @@ export default function Platform() {
     }, [enableEditMode]);
 
     useEffect(() => {
-        if(token != ''){
+        if (token != '') {
             const options = {
                 headers: { 'X-Auth-Token': token }
             };
@@ -258,7 +259,7 @@ export default function Platform() {
             getPlatform();
         }
 
-    }, [voting, favoritedTrigger]);
+    }, [voting, favoritedTrigger, bannerTrigger]);
 
     const getPlatform = () => {
         axios.get("/platforms/" + id).then(data => {
@@ -346,34 +347,34 @@ export default function Platform() {
             .then(res => {
                 console.log(res.data)
                 setFavoritedTrigger(false);
-                if(favoritedPlatformIds.includes(platformData.data._id.toString())){
+                if (favoritedPlatformIds.includes(platformData.data._id.toString())) {
                     enqueueSnackbar('Unfavorited!', { variant: 'success' })
                 }
-                else{
+                else {
                     enqueueSnackbar('Favorited!', { variant: 'success' })
                 }
             })
             .catch(err => {
                 enqueueSnackbar('Something bad happend', { variant: 'error' });
-        })
+            })
     };
 
     const handleRecent = () => {
-        if(token != '' && platformData != null){
+        if (token != '' && platformData != null) {
             const data = {
                 platformId: platformData.data._id,
             }
-    
+
             const config = {
                 headers: { 'X-Auth-Token': token },
             }
-    
+
             axios.put('/users/updateRecent', data, config)
                 .then(res => {
                 })
                 .catch(err => {
                     //enqueueSnackbar('Something bad happend', { variant: 'error' });
-            })
+                })
 
         }
     };
@@ -413,6 +414,7 @@ export default function Platform() {
     };
     const setPhoto = (e, image_id, fullURL) => {
         e.preventDefault()
+        setBannerTrigger(true)
         console.log(image_id, fullURL)
         console.log(id)
         axios.patch("/platforms/set_banner/" + id, { bannerURL: fullURL })
@@ -420,9 +422,11 @@ export default function Platform() {
                 console.log(res.data)
                 platformData.data.bannerURL = res.data
                 handleClose()
+                setBannerTrigger(false)
             })
             .catch(err => {
                 enqueueSnackbar('Something bad happend', { variant: 'error' });
+                setBannerTrigger(false)
             })
     }
     const handleClick = (event) => {
@@ -449,15 +453,26 @@ export default function Platform() {
         history.push("/profile/" + username);
     };
 
-
-
     function adjustBanner(props) {
         console.log('adjustBanner')
     }
     function removeBanner(props) {
         console.log('removeBanner')
-        setbannerURL('')
-        handleClose()
+        setBannerTrigger(true)
+        axios.patch("/platforms/remove_banner/" + id)
+            .then(res => {
+                console.log(res.data)
+                platformData.data.bannerURL = ''
+                handleClose()
+                enqueueSnackbar('Banner removed', { variant: 'success' });
+                setBannerTrigger(false)
+            })
+            .catch(err => {
+                handleClose()
+                enqueueSnackbar('Something bad happend', { variant: 'error' });
+                setBannerTrigger(false)
+            })
+
     }
     const handleSaveChanges = () => {
         axios.patch('/platforms/update/' + platformData.data._id, { title: title, description: description, tags: tags.split(" "), isPublic: isPublic })
@@ -499,7 +514,7 @@ export default function Platform() {
                     <CardActions disableSpacing>
                         {completedGameIds.includes(game._id.toString())
                             &&
-                            <CheckCircleOutlineOutlinedIcon style={{ color: 'green' ,  margin: '10px'}} />
+                            <CheckCircleOutlineOutlinedIcon style={{ color: 'green', margin: '10px' }} />
                         }
                     </CardActions>
                 </CardActionArea>

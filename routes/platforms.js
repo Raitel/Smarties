@@ -401,6 +401,20 @@ router.route('/set_banner/:id').patch((req, res) => {
     .catch(err => res.status(400).json({ msg: 'Platform not found' }))
 });
 
+router.route('/remove_banner/:id').patch((req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.json({ msg: ":id must be of ObjectId type" })
+  }
+  Platform.findById(req.params.id)
+    .then(retrievedPlatform => {
+      retrievedPlatform.bannerURL = ''
+      retrievedPlatform.save()
+        .then(updatedPlatform => res.send(updatedPlatform))
+        .catch(err => res.status(400).json({ msg: 'Unable to save platform' }))
+    })
+    .catch(err => res.status(400).json({ msg: 'Platform not found' }))
+});
+
 // update platform
 router.route('/update/:id').patch((req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -525,18 +539,18 @@ router.put('/favorite', auth, (req, res) => {
       const platformId = req.body.platformId;
       const favorited = req.body.favorited;
 
-      if(favorited){
+      if (favorited) {
         var filteredAry = retrievedUser.favorites.filter(platform => platform != platformId)
         retrievedUser.favorites = filteredAry;
       }
-      else{
+      else {
         retrievedUser.favorites.push(platformId);
       }
       retrievedUser.save()
-      .then(user => res.json({
-        msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
-      }))
-      .catch(err => res.status(400).json({msg: 'Error adding to user favorites' }))
+        .then(user => res.json({
+          msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
+        }))
+        .catch(err => res.status(400).json({ msg: 'Error adding to user favorites' }))
     })
     .catch(err => res.json(400).json({ msg: 'User not found' }));
 })
