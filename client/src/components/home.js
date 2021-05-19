@@ -57,12 +57,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const history = useHistory();
-  const [recentlyUsed, setRecentlyUsed] = useState([]);
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState(null);
   const [ownedPlatforms, setOwnedPlatforms] = useState(null);
   const [favorites, setFavorites] = useState(null);
-
+  const [recent, setRecent] = useState(null);
   
   useEffect(() => {
     setToken(localStorage.getItem('token'));
@@ -82,7 +81,8 @@ export default function Home() {
   useEffect(() => {
     if (userData != null) {
       setOwnedPlatforms(userData.data.ownedPlatforms.reverse().slice(0, 4));
-      setFavorites(userData.data.favorites.reverse().slice(0, 4))
+      setFavorites(userData.data.favorites.reverse().slice(0, 4));
+      setRecent(userData.data.recent.slice(0, 4));
     };
   }, [userData]);
 
@@ -158,7 +158,7 @@ export default function Home() {
         <Container className={classes.container}>
           <Container className={classes.section}>
             <Typography fontWeight="fontWeightBold" className={classes.subtitle}>Recently Used:</Typography>
-            {recentlyUsed.length === 0
+            {recent.length === 0
               &&
               <Container style={{
                 background: '#ffffff',
@@ -180,7 +180,7 @@ export default function Home() {
                   </Typography>
               </Container>
             }
-            <Populate platforms={recentlyUsed} />
+            <Populate platforms={recent} />
           </Container>
 
           <Container className={classes.section}>
@@ -212,7 +212,7 @@ export default function Home() {
 
           <Container className={classes.section}>
 
-            <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Games:</Typography>
+            <Typography fontWeight="fontWeightBold" className={classes.subtitle}>My Platforms:</Typography>
             {ownedPlatforms.length === 0
               &&
               <Container style={{

@@ -40,7 +40,7 @@ router.route('/getByUsername/:username').get((req, res) => {
 // get user profile information
 // used for visiting user profiles
 router.route('/getProfile/:username').get((req, res) => {
-  User.findOne({ 'username': req.params.username }, '-password -email -coin -favorites -inventory')
+  User.findOne({ 'username': req.params.username }, '-password -email -coin -favorites -inventory').populate('ownedPlatforms')
     .then(user => res.json(user))
     .catch(err => res.status(400).json('Error: ' + err))
 })
@@ -123,7 +123,7 @@ router.post('/auth/login', (req, res) => {
 })
 
 router.get('/auth/user', auth, (req, res) => {
-  User.findById(req.user.id).populate('ownedPlatforms').populate('favorites')
+  User.findById(req.user.id).populate('ownedPlatforms').populate('favorites').populate('recent')
     .select('-password')
     .then(user => res.json(user))
 })
@@ -218,6 +218,31 @@ router.put("/updatePassword", auth, (req, res) => {
       })
       .catch(err => res.json({ msg: 'Bcrypt Error' }))
   })
+})
+
+router.put('/updateRecent', auth, (req, res) => {
+  // req.user.id passed from auth middlware
+
+  User.findById(req.user.id)
+    .then((retrievedUser) => {// a user has been found
+      const platformId = req.body.platformId;
+
+      var recent = retrievedUser.recent;
+      recent.unshift(platformId);
+      recent = recent.filter(function(item, pos) {
+        return recent.indexOf(item) == pos;
+      })
+      recent = recent.slice(0,5);
+      
+      retrievedUser.recent = recent;
+
+      retrievedUser.save()
+      .then(user => res.json({
+        msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
+      }))
+      .catch(err => res.status(400).json({msg: 'Error adding to user favorites' }))
+    })
+    .catch(err => res.json(400).json({ msg: 'User not found' }));
 })
 
 module.exports = router;

@@ -172,6 +172,7 @@ export default function Platform() {
     useEffect(() => {
         setToken(localStorage.getItem('token'));
         getPlatform();
+        handleRecent();
     }, []);
 
     useEffect(() => {
@@ -222,6 +223,7 @@ export default function Platform() {
     useEffect(() => {
         //console.log(platformData)
         if (platformData != null) {
+            handleRecent();
             setTitle(platformData.data.title);
             setDescription(platformData.data.description);
             setTags(platformData.data.tags.join(" "));
@@ -238,13 +240,16 @@ export default function Platform() {
     }, [enableEditMode]);
 
     useEffect(() => {
-        const options = {
-            headers: { 'X-Auth-Token': token }
-        };
-        axios.get('/users/auth/user', options).then(data => {
-            setUserData(data);
-        });
-        getPlatform();
+        if(token != ''){
+            const options = {
+                headers: { 'X-Auth-Token': token }
+            };
+            axios.get('/users/auth/user', options).then(data => {
+                setUserData(data);
+            });
+            getPlatform();
+        }
+
     }, [voting, favoritedTrigger]);
 
     const getPlatform = () => {
@@ -339,6 +344,26 @@ export default function Platform() {
         })
     };
 
+    const handleRecent = () => {
+        if(token != '' && platformData != null){
+            const data = {
+                platformId: platformData.data._id,
+            }
+    
+            const config = {
+                headers: { 'X-Auth-Token': token },
+            }
+    
+            axios.put('/users/updateRecent', data, config)
+                .then(res => {
+                })
+                .catch(err => {
+                    //enqueueSnackbar('Something bad happend', { variant: 'error' });
+            })
+
+        }
+    };
+
 
     const handleCreate = async (e) => {
         e.preventDefault()
@@ -360,7 +385,7 @@ export default function Platform() {
             const config = {
                 headers: { 'X-Auth-Token': token },
             }
-            axios.put('http://localhost:5000/games/push', data, config)
+            axios.put('/games/push', data, config)
                 .then(res => {
                     console.log(res.data)
                     // history.push("/platform/" + res.data.platform_id)

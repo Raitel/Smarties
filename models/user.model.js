@@ -18,6 +18,7 @@ const userSchema = new Schema({
   downvoted: [{type: Schema.Types.ObjectId, ref: 'Platform'}],
   ownedPlatforms: [{type: Schema.Types.ObjectId, ref: 'Platform'}],
   completedGames: [{type: Schema.Types.ObjectId, ref: 'Game'}],
+  recent: [{type: Schema.Types.ObjectId, ref: 'Platform'}],
   inventory: {type: [{type: Schema.Types.ObjectId, ref: 'Card'}], default: [defaultQuestionCard, defaultTipCard, defaultAnswerCard]},
   icon: {type: Number, default: 0}
 }, {
