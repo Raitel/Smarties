@@ -92,6 +92,7 @@ export default function FormPropsTextFields() {
                     console.log(res)
                     if (res.data.user_id) {
                         enqueueSnackbar('Sucess!', { variant: 'success' })
+                        history.push("/settings")
                     }
                 })
                 .catch(err => enqueueSnackbar('Something bad happend', { variant: 'error' }))
