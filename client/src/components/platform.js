@@ -167,6 +167,7 @@ export default function Platform() {
     const [newGameDescriptionError, setNewGameDescriptionError] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [voting, setVoting] = useState(false);
+    const [favoritedTrigger, setFavoritedTrigger] = useState(false);
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
@@ -244,7 +245,7 @@ export default function Platform() {
             setUserData(data);
         });
         getPlatform();
-    }, [voting]);
+    }, [voting, favoritedTrigger]);
 
     const getPlatform = () => {
         axios.get("/platforms/" + id).then(data => {
@@ -311,13 +312,34 @@ export default function Platform() {
                 setVoting(false)
             })
     };
-    const handleFavorites = (id) => {
+    const handleFavorites = () => {
         //add to favorites
+        setFavoritedTrigger(true);
+        const data = {
+            platformId: platformData.data._id,
+            favorited: favoritedPlatformIds.includes(platformData.data._id.toString()),
+        }
+        const config = {
+            headers: { 'X-Auth-Token': token },
+        }
+        //console.log(favoritedPlatformIds.includes(platformData.data._id.toString()))
+        axios.put('/platforms/favorite', data, config)
+            .then(res => {
+                console.log(res.data)
+                setFavoritedTrigger(false);
+                if(favoritedPlatformIds.includes(platformData.data._id.toString())){
+                    enqueueSnackbar('Unfavorited!', { variant: 'success' })
+                }
+                else{
+                    enqueueSnackbar('Favorited!', { variant: 'success' })
+                }
+            })
+            .catch(err => {
+                enqueueSnackbar('Something bad happend', { variant: 'error' });
+        })
     };
-    const handleUnfavorites = (id) => {
-        //remove from favorites
 
-    };
+
     const handleCreate = async (e) => {
         e.preventDefault()
         setNewGameTitleError(false)
@@ -791,11 +813,11 @@ export default function Platform() {
                                         }
                                         {enableEditMode === false && !favoritedPlatformIds.includes(platformData.data._id.toString())
                                             &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleFavorites} startIcon={<FavoriteBorderOutlinedIcon />} style={{ textTransform: 'none' }}>Add to Favorites</Button>
+                                            <Button disabled={favoritedTrigger} className={classes.button} variant="contained" color="secondary" onClick={handleFavorites} startIcon={<FavoriteBorderOutlinedIcon />} style={{ textTransform: 'none' }}>Add to Favorites</Button>
                                         }
                                         {enableEditMode === false && favoritedPlatformIds.includes(platformData.data._id.toString())
                                             &&
-                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUnfavorites} startIcon={<FavoriteOutlinedIcon />} style={{ textTransform: 'none' }}>Favorited</Button>
+                                            <Button disabled={favoritedTrigger} className={classes.button} variant="contained" color="secondary" onClick={handleFavorites} startIcon={<FavoriteOutlinedIcon />} style={{ textTransform: 'none' }}>Favorited</Button>
                                         }
 
                                         {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true

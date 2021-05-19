@@ -53,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: red[500]
     },
     card: {
-        width: "250px"
+        width: "250px",
+        height: '200px'
     },
 }));
 
@@ -63,10 +64,18 @@ export default function Profile() {
     const { username } = useParams();
     const [userData, setUserData] = useState(null);
     const [owned, setOwned] = useState([])
+    const [currentUserData, setCurrentUserData] = useState(null);
+    const [favoritedPlatformIds, setFavoritedPlatformIds] = useState(null);
+    const [token, setToken] = useState('');
+
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+      }, []);    
 
     useEffect(() => {
         getProfile();
     }, []);
+
     const getProfile = () => {
         axios.get("/users/getProfile/" + username)
             .then(res => {
@@ -75,12 +84,46 @@ export default function Profile() {
             })
     }
 
+    useEffect(() => {
+        if(userData != null){
+            setOwned(userData.ownedPlatforms);
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        if (token != '') {
+          const options = {
+            headers: { 'X-Auth-Token': token }
+          };
+          axios.get('/users/auth/user', options).then(data => {
+            setCurrentUserData(data);
+          });
+        }
+      }, [token]);
+    
+      useEffect(() => {
+        if (currentUserData != null) {
+            var favorites = [];
+
+            currentUserData.data.favorites.map((platform) =>
+                favorites.push(platform._id.toString())
+                //setFavoritedPlatformIds([...favoritedPlatformIds, platform._id.toString()])
+            );
+            setFavoritedPlatformIds(favorites);
+        }
+
+    }, [currentUserData]);  
+
+    const handlePlatform = (id) => {
+        history.push("/platform/" + id);
+    };
+    
     function DisplayCard(props) {
         const platform = props.platform;
         return (
             <Box p={1}>
                 <Card className={classes.card}>
-                    <CardActionArea>
+                    <CardActionArea onClick={() => handlePlatform(platform._id)}>
                         <CardHeader
                             avatar={
                                 <Avatar aria-label="recipe" className={classes.avatar}>
@@ -95,9 +138,8 @@ export default function Profile() {
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
+                            {favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon /> : null}
+                            
                             <Typography
                                 variant="body2"
                                 color="textSecondary"

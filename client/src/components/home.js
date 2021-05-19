@@ -62,6 +62,8 @@ export default function Home() {
   const [userData, setUserData] = useState(null);
   const [ownedPlatforms, setOwnedPlatforms] = useState(null);
   const [favorites, setFavorites] = useState(null);
+
+  
   useEffect(() => {
     setToken(localStorage.getItem('token'));
   }, []);
@@ -79,8 +81,8 @@ export default function Home() {
 
   useEffect(() => {
     if (userData != null) {
-      setOwnedPlatforms(userData.data.ownedPlatforms.slice(0, 3));
-      setFavorites(userData.data.favorites.slice(0, 3))
+      setOwnedPlatforms(userData.data.ownedPlatforms.reverse().slice(0, 4));
+      setFavorites(userData.data.favorites.reverse().slice(0, 4))
     };
   }, [userData]);
 
@@ -114,7 +116,11 @@ export default function Home() {
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
+            {/* {userData.data.favorites.includes(platform._id)
+            &&
             <FavoriteIcon />
+            } */}
+            
             <Typography
               variant="body2"
               color="textSecondary"
@@ -226,7 +232,7 @@ export default function Home() {
               }}>
                 <Typography style={{ textAlign: "center" }}>
                   You do not have any platform.
-                  </Typography>
+                </Typography>
               </Container>
             }
             <Populate platforms={ownedPlatforms} />

@@ -517,4 +517,28 @@ router.patch("/vote", auth, (req, res) => {
   })
 })
 
+router.put('/favorite', auth, (req, res) => {
+  // req.user.id passed from auth middlware
+
+  User.findById(req.user.id)
+    .then((retrievedUser) => {// a user has been found
+      const platformId = req.body.platformId;
+      const favorited = req.body.favorited;
+
+      if(favorited){
+        var filteredAry = retrievedUser.favorites.filter(platform => platform != platformId)
+        retrievedUser.favorites = filteredAry;
+      }
+      else{
+        retrievedUser.favorites.push(platformId);
+      }
+      retrievedUser.save()
+      .then(user => res.json({
+        msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
+      }))
+      .catch(err => res.status(400).json({msg: 'Error adding to user favorites' }))
+    })
+    .catch(err => res.json(400).json({ msg: 'User not found' }));
+})
+
 module.exports = router;
