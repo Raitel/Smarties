@@ -93,39 +93,33 @@ router.post('/auth/register', (req, res) => {
 })
 
 router.post('/auth/login', (req, res) => {
-  const { email, password } = req.body
-  // validation
-  if (!email || !password) {
-    return res.status(400).json({ msg: 'Missing Fields' })
-  }
-
-  // Check for existing user
-  User.findOne({ email })
-    .then(user => {
-      if (!user) return res.status(400).json({ msg: 'User does not exist' });
-
-      // Validate password
-      bcrypt.compare(password, user.password)
-        .then(isMatch => {
-          if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' })
-          jwt.sign(
-            { id: user._id },
-            config.get('jwtSecret'),
-            { expiresIn: 3600 },
-            (err, token) => {
-              if (err) throw err;
-              res.json({
-                token,
-                user: {
-                  id: user._id,
-                  username: user.username,
-                  email: user.email
-                }
-              });
-            }
-          )
-        })
-    })
+  console.log(req.body.email)
+  console.log(req.body.password)
+  User.findOne({ 'email': req.body.email }, function (err, retrievedUser) {
+    if (!retrievedUser) return res.json({ status: false, code: 1, msg: 'no user found' })
+    bcrypt.compare(req.body.password, retrievedUser.password)
+      .then(isMatch => {
+        if (!isMatch) return res.json({ status: false, code: 2, msg: 'Invalid Password' })
+        console.log('here')
+        jwt.sign(
+          { id: retrievedUser._id },
+          config.get('jwtSecret'),
+          { expiresIn: 3600 },
+          (err, token) => {
+            if (err) throw err;
+            res.json({
+              token,
+              user: {
+                id: retrievedUser._id,
+                username: retrievedUser.username,
+                email: retrievedUser.email
+              }
+            });
+          }
+        )
+      })
+      .catch(err => res.json({ msg: 'Bcrypt Error' }))
+  })
 })
 
 router.get('/auth/user', auth, (req, res) => {
