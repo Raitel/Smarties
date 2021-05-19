@@ -121,11 +121,11 @@ export default function LeftGamePanel(props) {
             <ListItemText primary="Game Description:" className={classes.subtitle}/>
             <ListItemText primary={gameData.description}/>
           </ListItem>
-          <ListItem className={classes.drawerSection}>
+          {/* <ListItem className={classes.drawerSection}>
             <ListItemText primary="Tags:" className={classes.subtitle}/>
-            {/* <Populate tags={game.tags}/> */}
+            <Populate tags={game.tags}/>
             <Populate tags={gameData.tags}/>
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         <Container className={classes.subfooter}>

@@ -447,6 +447,7 @@ export default function Platform() {
                 console.log(res)
                 if (res.status === 200) {
                     enqueueSnackbar('Success!!', { variant: 'success' });
+                    setEnableEditMode(false);
                 } else if (res.status === 400) {
                     enqueueSnackbar('400 error', { variant: 'warning' });
                 } else {

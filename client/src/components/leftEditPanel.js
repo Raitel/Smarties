@@ -164,7 +164,7 @@ export default function LeftEditPanel(props) {
             inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
             />
           </ListItem>
-          <ListItem className={classes.drawerSection}>
+          {/* <ListItem className={classes.drawerSection}>
             <ListItemText primary="Tags:" className={classes.subtitle}/>
             <Typography style={{fontSize: 12, fontStyle:"italic", textAlign: "center",  verticalAlign: "middle", color: '#666666'}}>*Please separate tags by a space*</Typography>
             <TextField
@@ -178,7 +178,7 @@ export default function LeftEditPanel(props) {
             rowsMax={3}
             inputProps={{style: { fontSize: 16, verticalAlign: "middle"}}}
             />
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         <Container className={classes.subfooter}>
