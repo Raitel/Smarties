@@ -22,6 +22,7 @@ import Platform from "./components/platform.js";
 import Search from "./components/searchScreen.js";
 import { SnackbarProvider } from 'notistack';
 import EditGame from "./components/editGame.js";
+import Landing from "./components/landing.js";
 
 const jwt = require('jsonwebtoken')
 
@@ -100,6 +101,17 @@ function App() {
     )
   }
 
+  function PublicLanding({ component: Component, isAuth, setIsAuth }) {
+    Verifytoken();
+    return (
+      <Route
+        render={(props) => isAuth === false
+          ? <Landing isAuth={isAuth} setIsAuth={setIsAuth} />
+          : <Redirect to={{ pathname: '/home', state: { from: props.location } }} />}
+      />
+    )
+  }
+
   function PublicRegisterRoutes({ component: Component, isAuth, ...rest }) {
     Verifytoken();
     return (
@@ -128,6 +140,7 @@ function App() {
       <SnackbarProvider maxSnack={20}>
         <Router>
           <Switch>
+            <PublicLanding exact path='/landing' isAuth={isAuth} setIsAuth={setIsAuth} component={Login} />
             <PublicLoginRoutes exact path='/login' isAuth={isAuth} setIsAuth={setIsAuth} component={Login} />
             <PublicRegisterRoutes exact path="/(register)" isAuth={isAuth} component={Register} />
             <Route exact path="/(forgotPassword)" component={ForgotPasswordContainer} />
