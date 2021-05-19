@@ -93,7 +93,7 @@ export default function ClippedDrawer() {
           </ListItem>
         </List>
         <Divider />
-        <List>
+        {/* <List>
           <ListItem button onClick={handleShop}>
             <ListItemIcon>
               <StorefrontOutlinedIcon/>
@@ -106,7 +106,7 @@ export default function ClippedDrawer() {
             </ListItemIcon>
             <ListItemText primary="Inventory"/>
           </ListItem>
-        </List>
+        </List> */}
       </div>
     </Drawer>
     

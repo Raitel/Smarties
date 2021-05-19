@@ -141,11 +141,11 @@ export default function LeftGamePanel(props) {
                   Quit Game
           </Button>
         </Container>
-        <Container className={classes.footer}>
+        {/* <Container className={classes.footer}>
             <Typography>
                 Report Game
             </Typography>
-        </Container>
+        </Container> */}
       </div>
     </Drawer>
     
