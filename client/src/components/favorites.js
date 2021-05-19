@@ -111,7 +111,7 @@ function DisplayCard(props){
                     title={platform.title}
                 />
                 <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
+                    <Typography noWrap variant="body2" color="textSecondary" component="p">
                     {platform.description ? platform.description :"No description"}
                     </Typography>
                 </CardContent>
