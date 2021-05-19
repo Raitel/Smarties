@@ -277,6 +277,22 @@ export default function Profile() {
                                                 </Grid>
                                             </Grid>
                                         </Container>
+                                        <Container style={{ marginBottom: '10px', marginTop: "10px" }}>
+                                            <Grid container spacing={3}
+                                                justify="space-between"
+                                                alignItems="center">
+                                                <Grid item>
+                                                    <Typography className={classes.text}>
+                                                        Total Earned Points:
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography className={classes.text}>
+                                                        {userData.coin}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Container>
                                     </Container>
                                 </Container>
                             </Grid>
