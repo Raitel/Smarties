@@ -35,6 +35,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
+import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+import ThumbDownAltOutlinedIcon from '@material-ui/icons/ThumbDownAltOutlined';
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 const useStyles = makeStyles((theme) => ({
     subcontainer: {
@@ -84,11 +92,13 @@ const useStyles = makeStyles((theme) => ({
     },
     game: {
         background: 'linear-gradient(45deg, #b8d3fe 30%, #f6f2f2 90%)',
-        width: "250px"
+        width: "250px",
+        minHeight: "175px"
     },
     editGame: {
         background: 'linear-gradient(45deg, #f9aba4 30%, #e99ba6 90%)',
-        width: "250px"
+        width: "250px",
+        minHeight: "175px"
     },
     titleContainer: {
         marginTop: '50px',
@@ -114,6 +124,14 @@ const useStyles = makeStyles((theme) => ({
     tagsTextField: {
         width: '600px'
     },
+    button:{
+        //height:'30px',
+        //width: '200px',
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px',
+        marginRight:'10px',
+    }
 
 }));
 
@@ -140,6 +158,9 @@ export default function Platform() {
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState(null);
     const [completedGameIds, setCompletedGameIds] = useState([]);
+    const [favoritedPlatformIds, setFavoritedPlatformIds] = useState([]);
+    const [upvotedPlatformIds, setUpvotedPlatformIds] = useState([]);
+    const [downvotedPlatformIds, setDownvotedPlatformIds] = useState([]);
     const [isPublic, setIsPublic] = useState(false);
     const [newGameTitle, setNewGameTitle] = useState('');
     const [newGameDescription, setNewGameDescription] = useState('');
@@ -165,15 +186,40 @@ export default function Platform() {
 
     useEffect(() => {
         if (userData != null) {
+            var completed = [];
+            var favorites = [];
+            var upvoted = [];
+            var downvoted = [];
+
             userData.data.completedGames.map((id) =>
-                setCompletedGameIds([...completedGameIds, id.toString()])
-            )
+                completed.push(id.toString())
+                //setCompletedGameIds([...completedGameIds, id.toString()])
+            );
+
+            userData.data.favorites.map((platform) =>
+                favorites.push(platform._id.toString())
+                //setFavoritedPlatformIds([...favoritedPlatformIds, platform._id.toString()])
+            );
+            userData.data.upvoted.map((id) =>
+                upvoted.push(id.toString())
+            );
+            userData.data.downvoted.map((id) =>
+                downvoted.push(id.toString())
+            );
+            setCompletedGameIds(completed);
+            setFavoritedPlatformIds(favorites);
+            setUpvotedPlatformIds(upvoted);
+            setDownvotedPlatformIds(downvoted);
+
+            // console.log(completedGameIds)
+            // console.log(favoritedPlatformIds)
+        
         }
 
     }, [userData]);
 
     useEffect(() => {
-        console.log(platformData)
+        //console.log(platformData)
         if (platformData != null) {
             setTitle(platformData.data.title);
             setDescription(platformData.data.description);
@@ -201,6 +247,32 @@ export default function Platform() {
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
+    };
+    const handleDeletePlatform = () => {
+        
+    };
+    const handleUpvote = () => {
+        if(downvotedPlatformIds.includes(platformData.data._id.toString())){
+            //upvoting a downvoted platform
+        }
+        else{
+            //upvoting a platform
+        }
+    };
+    const handleDownvote = () => {
+        if(upvotedPlatformIds.includes(platformData.data._id.toString())){
+            //downvoting an upvoted platform
+        }
+        else{
+            //downvoting a platform
+        } 
+    };
+    const handleFavorites = (id) => {
+        //add to favorites
+    };
+    const handleUnfavorites = (id) => {
+        //remove from favorites
+
     };
     const handleCreate = async (e) => {
         e.preventDefault()
@@ -268,6 +340,8 @@ export default function Platform() {
         history.push("/editGame/" + id);
     };
 
+
+
     function adjustBanner(props) {
         console.log('adjustBanner')
     }
@@ -297,10 +371,10 @@ export default function Platform() {
         const game = props.game;
         return (
             <Card className={classes.game} style={{
-                marginTop: '25px',
-                marginBottom: '25px',
-                marginLeft: '25px',
-                marginRight: '25px',
+                marginTop: '15px',
+                marginBottom: '15px',
+                marginLeft: '15px',
+                marginRight: '15px',
             }}>
                 <CardActionArea onClick={() => handleGame(game._id)}>
                     <CardHeader
@@ -326,10 +400,10 @@ export default function Platform() {
         const game = props.game;
         return (
             <Card className={classes.editGame} style={{
-                marginTop: '25px',
-                marginBottom: '25px',
-                marginLeft: '25px',
-                marginRight: '25px',
+                marginTop: '15px',
+                marginBottom: '15px',
+                marginLeft: '15px',
+                marginRight: '15px',
             }}>
                 <CardActionArea onClick={() => handleEditGame(game._id)}>
                     <CardHeader
@@ -434,7 +508,10 @@ export default function Platform() {
 
                     {!platformData.data.bannerURL ?
                         <div>
-                            <Button aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add Cover</Button>
+                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                &&
+                                <Button className={classes.button} style={{ textTransform: 'none' }} aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add a Banner</Button>
+                            }
                             <Popover
                                 popup_id={popup_id}
                                 open={open}
@@ -470,12 +547,15 @@ export default function Platform() {
                         </div>
                         :
                         <div>
-                            <Button variant="contained" onClick={adjustBanner} >
+                            {/* <Button className={classes.button} style={{ textTransform: 'none' }} variant="contained" onClick={adjustBanner} >
                                 Adjust Image
-                            </Button>
-                            <Button variant="contained" aria-describedby={popup_id} onClick={handleClick}>
-                                Change Cover
-                            </Button>
+                            </Button> */}
+                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                &&
+                                <Button className={classes.button} style={{ textTransform: 'none' }} variant="contained" color="primary" aria-describedby={popup_id} onClick={handleClick}>
+                                    Change the Banner
+                                </Button>
+                            }
                             <Popover
                                 popup_id={popup_id}
                                 open={open}
@@ -508,173 +588,229 @@ export default function Platform() {
                                     </GridList>
                                 </div>
                             </Popover>
-                            <Button variant="contained" onClick={removeBanner} >
-                                Remove Banner
-                            </Button>
+                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                &&
+                                <Button className={classes.button} style={{ textTransform: 'none' }} color="primary" variant="contained" onClick={removeBanner} >
+                                    Remove Banner
+                                </Button>
+                            }
                         </div>
                     }
                     <Container className={classes.subcontainer}>
-                        <Container className={classes.titleContainer}>
-                            {!enableEditMode
-                                &&
-                                <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
-                                    Title:
-                                </Typography>
-                            }
-                            {!enableEditMode
-                                &&
-                                <Typography variant="h5" style={{ color: '#FFFFFF' }}>
-                                    {platformData.data.title}
-                                </Typography>
-                            }
-                            {enableEditMode
-                                &&
-                                <TextField
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    variant="outlined"
-                                    required
-                                    placeholder="Title"
-                                    label='Title'
-                                    value={title}
-                                    className={classes.titleTextField}
-                                    rowsMax={1}
-                                    inputProps={{ style: { fontSize: 18, fontWeight: 'Bold', verticalAlign: "middle" } }}
-                                />
-                            }
-                        </Container>
-                        <Container className={classes.descriptionContainer}>
-                            {!enableEditMode
-                                &&
-                                <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
-                                    Description:
-                        </Typography>
-                            }
-                            {!enableEditMode
-                                &&
-                                <Typography style={{ color: '#FFFFFF' }}>
-                                    {platformData.data.description}
-                                </Typography>
-                            }
-                            {enableEditMode
-                                &&
-                                <TextField
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    variant="outlined"
-                                    label='Description'
-                                    placeholder="Description"
-                                    value={description}
-                                    className={classes.descriptionTextField}
-                                    multiline
-                                    rows={3}
-                                    rowsMax={3}
-                                    inputProps={{ style: { fontSize: 16, verticalAlign: "middle" } }}
-                                />
-                            }
+                        <Grid
+                            container
+                            direction="row"
+                            justify="space-between"
+                            alignItems="center"
+                            container
+                        >
+                            <Grid item>
+                            <Container className={classes.titleContainer}>
+                                {!enableEditMode
+                                    &&
+                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
+                                        Title:
+                                    </Typography>
+                                }
+                                {!enableEditMode
+                                    &&
+                                    <Typography variant="h5" style={{ color: '#FFFFFF' }}>
+                                        {platformData.data.title}
+                                    </Typography>
+                                }
+                                {enableEditMode
+                                    &&
+                                    <TextField
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        variant="outlined"
+                                        required
+                                        placeholder="Title"
+                                        label='Title'
+                                        value={title}
+                                        className={classes.titleTextField}
+                                        rowsMax={1}
+                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 18, fontWeight: 'Bold', verticalAlign: "middle" } }}
+                                    />
+                                }
+                            </Container>
+                            <Container className={classes.descriptionContainer}>
+                                {!enableEditMode
+                                    &&
+                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>
+                                        Description:
+                                    </Typography>
+                                }
+                                {!enableEditMode
+                                    &&
+                                    <Typography style={{ color: '#FFFFFF' }}>
+                                        {platformData.data.description}
+                                    </Typography>
+                                }
+                                {enableEditMode
+                                    &&
+                                    <TextField
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        variant="outlined"
+                                        label='Description'
+                                        placeholder="Description"
+                                        value={description}
+                                        className={classes.descriptionTextField}
+                                        multiline
+                                        rows={3}
+                                        rowsMax={3}
+                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
+                                    />
+                                }
 
-                        </Container>
-                        <Container className={classes.subBannerContainer}>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="center"
-                                container
-                            >
-                                <Grid item>
-                                    {!enableEditMode
+                            </Container>
+                            <Container className={classes.subBannerContainer}>
+
+                                {!enableEditMode
+                                    &&
+                                    <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>Tags:</Typography>
+                                }
+                                {!enableEditMode
+                                    &&
+                                    <PopulateTags tags={platformData.data.tags} />
+                                }
+
+                                {enableEditMode
+                                    &&
+                                    <TextField
+                                        onChange={(e) => setTags(e.target.value)}
+                                        variant="outlined"
+                                        required
+                                        placeholder="Tags"
+                                        value={tags}
+                                        className={classes.tagsTextField}
+                                        multiline
+                                        rows={1}
+                                        rowsMax={1}
+                                        inputProps={{ style: {color: '#FFFFFF', fontSize: 16, verticalAlign: "middle" } }}
+                                    />
+                                }
+                                
+
+
+                            </Container>
+                            </Grid>
+                            <Grid item>
+
+                                <Container>
+                                    {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                         &&
-                                        <Typography variant="subtitle2" style={{ color: '#FFFFFF' }}>Tags:</Typography>
-                                    }
-                                    {!enableEditMode
-                                        &&
-                                        <PopulateTags tags={platformData.data.tags} />
-                                    }
-                                    {enableEditMode
-                                        &&
-                                        <TextField
-                                            onChange={(e) => setTags(e.target.value)}
-                                            variant="outlined"
-                                            required
-                                            placeholder="Tags"
-                                            value={tags}
-                                            className={classes.tagsTextField}
-                                            multiline
-                                            rows={1}
-                                            rowsMax={1}
-                                            inputProps={{ style: { fontSize: 16, verticalAlign: "middle" } }}
+                                        <FormControlLabel
+                                            style={{
+                                                marginLeft:'10px',
+                                                marginRight:'10px',
+                                            }}
+                                            control={<Switch checked={isPublic} onChange={e => (setIsPublic(e.target.checked))} name="setPublic" />}
+                                            label="Set Public"
                                         />
                                     }
-                                </Grid>
-                                <Grid item>
-                                    <Container>
-                                        <Grid
-                                            container
-                                            direction="row"
-                                            justify="space-evenly"
-                                            alignItems="center"
-                                            container
-                                        >
-                                            <Typography>
-                                                Upvotes: {platformData.data.upvotes} Downvotes: {platformData.data.downvotes}
-                                            </Typography>
-                                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
-                                                &&
-                                                <Button variant="contained" color="primary" onClick={() => setEnableEditMode(true)} startIcon={<EditOutlinedIcon />} style={{ textTransform: 'none' }}>Enable Edit Mode</Button>
-                                            }
-
-                                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
-                                                &&
-                                                <Button variant="contained" color="secondary" onClick={handleSaveChanges} startIcon={<SaveOutlinedIcon />} style={{ textTransform: 'none' }}>
-                                                    Save Changes
-                                                </Button>
-                                            }
-
-                                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
-                                                &&
-                                                <FormControlLabel
-                                                    control={<Switch checked={isPublic} onChange={e => (setIsPublic(e.target.checked))} name="setPublic" />}
-                                                    label="Set Public"
-                                                />
-                                            }
-
-                                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
-                                                &&
-                                                <Button variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} startIcon={<ExitToAppIcon />} style={{ textTransform: 'none' }}>Exit Edit Mode</Button>
-                                            }
-                                        </Grid>
-                                    </Container>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justify="space-evenly"
+                                        alignItems="center"
+                                        container
+                                    >
 
 
-                                </Grid>
+                                        {
+                                            //upvote and downvote
+                                        }
+                                        {enableEditMode === false && !upvotedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUpvote} startIcon={<ThumbUpAltOutlinedIcon />} style={{ textTransform: 'none' }}>{platformData.data.upvotes}</Button>
+                                        }
+                                        {enableEditMode === false && upvotedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbUpIcon />} style={{ textTransform: 'none' }}>{platformData.data.downvotes}</Button>
+                                        }
+                                        {enableEditMode === false && !downvotedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUpvote} startIcon={<ThumbDownAltOutlinedIcon />} style={{ textTransform: 'none' }}>{platformData.data.upvotes}</Button>
+                                        }
+                                        {enableEditMode === false && downvotedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDownvote} startIcon={<ThumbDownIcon />} style={{ textTransform: 'none' }}>{platformData.data.downvotes}</Button>
+                                        } 
+
+                                        {
+                                            //favorites
+                                        }
+                                        {enableEditMode === false && !favoritedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleFavorites} startIcon={<FavoriteBorderOutlinedIcon />} style={{ textTransform: 'none' }}>Add to Favorites</Button>
+                                        }
+                                        {enableEditMode === false && favoritedPlatformIds.includes(platformData.data._id.toString())
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleUnfavorites} startIcon={<FavoriteOutlinedIcon />} style={{ textTransform: 'none' }}>Favorited</Button>
+                                        }  
+
+                                        {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleSaveChanges} startIcon={<SaveOutlinedIcon />} style={{ textTransform: 'none' }}>
+                                                Save Changes
+                                            </Button>
+                                        }
+                                        {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                            &&
+                                            <Button className={classes.button} variant="contained" color="secondary" onClick={handleDeletePlatform} startIcon={<HighlightOffOutlinedIcon />} style={{ textTransform: 'none' }}>
+                                                Delete the Platform
+                                            </Button>
+                                        }
+
+                                    </Grid>
+                                    {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                                        &&
+                                        <Button className={classes.button} variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} startIcon={<ExitToAppIcon />} style={{ textTransform: 'none' }}>Exit Edit Mode</Button>
+                                    }
+                                    {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
+                                        &&
+                                        <Button className={classes.button} variant="contained" color="primary" onClick={() => setEnableEditMode(true)} startIcon={<EditOutlinedIcon />} style={{ textTransform: 'none' }}>Enable Edit Mode</Button>
+                                    }
+                                </Container>
                             </Grid>
-                        </Container>
+                        </Grid>
                     </Container>
 
 
                     <Container className={classes.container}>
                         <div style={{ width: '100%', marginTop: '15px', display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button variant="contained" onClick={handleClickOpen}>Add a game</Button>
+                            
+                            {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
+                            &&
+                            <Button variant="contained" color="secondary" onClick={handleClickOpen} startIcon={<AddCircleOutlineOutlinedIcon/>} style={{ textTransform: 'none' }} >Add a game</Button>
+                            }
+
                             <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">New Game</DialogTitle>
+                                <DialogTitle id="form-dialog-title">New Game:</DialogTitle>
                                 <DialogContent>
                                     <TextField
                                         onChange={(e) => setNewGameTitle(e.target.value)}
                                         autoFocus
+                                        variant="outlined"
                                         margin="dense"
                                         id="title"
                                         label="Game Title"
                                         type="title"
                                         fullWidth
+                                        multiline
                                         error={newGameTitleError}
                                     />
                                     <TextField
                                         onChange={(e) => setNewGameDescription(e.target.value)}
                                         autoFocus
+                                        variant="outlined"
                                         margin="dense"
                                         id="description"
                                         label="Game Description"
                                         type="description"
                                         fullWidth
+                                        multiline
+                                        rows={5}
                                         error={newGameDescriptionError}
                                     />
                                 </DialogContent>
@@ -689,7 +825,34 @@ export default function Platform() {
                             </Dialog>
                         </div>
                         {enableEditMode ? <PopulateEditGames games={platformData.data.games} /> : <Populate games={platformData.data.games} />}
-
+                        {platformData.data.games.length === 0
+                            &&
+                            <Grid
+                            container
+                            direction="row"
+                            justify="flex-start"
+                            >
+                                <Container style={{
+                                background: '#ffffff',
+                                height: '175px',
+                                width: '250px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'column',
+                                marginTop: '15px',
+                                marginBottom: '15px',
+                                marginLeft: '15px',
+                                marginRight: '15px',
+                                borderRadius: '5px',
+                                border: '1px solid grey'
+                                }}>
+                                    <Typography style={{ textAlign: "center" }}>
+                                    There exists no game in the platform.
+                                    </Typography>
+                                </Container>
+                            </Grid>
+                            }
                     </Container>
                 </div>
             </div>
