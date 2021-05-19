@@ -194,7 +194,7 @@ export default function Profile() {
             </Grid>
         );
     }
-    if (userData) {
+    if (userData != null && currentUserData != null) {
         return (
             <div style={{ display: 'flex', marginTop: "64px" }}>
                 <LeftPanel />
