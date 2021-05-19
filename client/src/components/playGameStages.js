@@ -239,6 +239,7 @@ export default function PlayGameStages(props) {
     const classes = useStyles();
     const testQuestions = props.value;
     const gameId = props.gameId;
+    const ownerId = props.ownerId;
 
     const [progress, setProgress] = useState(0);
 
@@ -267,6 +268,7 @@ export default function PlayGameStages(props) {
     const [token, setToken] = useState('');
     const [userData, setUserData] = useState(null);
     const [completedGameIds, setCompletedGameIds] = useState([]);
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         setToken(localStorage.getItem('token'));
@@ -290,7 +292,7 @@ export default function PlayGameStages(props) {
             userData.data.completedGames.map((id) =>
                 completed.push(id.toString())
             );
-
+            setUserId(userData.data._id);
             setCompletedGameIds(completed);
         }
 
@@ -330,8 +332,12 @@ export default function PlayGameStages(props) {
     const handleCompleteGame = (points) => {
         //axios push to completed game
         //axios update coin
+        var point = points;
+        if(ownerId.toString() === userId.toString()){
+            point = 0;
+        }
         const data = {
-            points: points,
+            points: point,
             gameId: gameId
           }
         const config = {
@@ -535,19 +541,19 @@ export default function PlayGameStages(props) {
 			{showScore ? (
 				<Container className={classes.backgroundScore}>
                     <Container className={classes.score}>
-                        <Typography>
+                        <Typography style={{ textAlign: "center",  verticalAlign: "middle" }}>
                             You got {score} questions correct out of {testQuestions.length} questions.
                         </Typography>
-                        {!completedGameIds.includes(gameId.toString())
+                        {!completedGameIds.includes(gameId.toString()) && ownerId.toString() !== userId.toString()
                         &&
-                        <Typography>
+                        <Typography style={{ textAlign: "center",  verticalAlign: "middle" }}>
                             You obtained {point} points from completing the game.
                         </Typography>
                         }
-                        {completedGameIds.includes(gameId.toString())
+                        {!(!completedGameIds.includes(gameId.toString()) && ownerId.toString() !== userId.toString())
                         &&
-                        <Typography>
-                            Since you have already completed the game, you did not earn any points.
+                        <Typography style={{ textAlign: "center",  verticalAlign: "middle" }}>
+                            Since you have already completed the game or you are the game owner, you did not earn any points.
                         </Typography>
                         }
                     </Container>
@@ -575,7 +581,7 @@ export default function PlayGameStages(props) {
                             }
                             {completedGameIds.includes(gameId.toString())
                             &&
-                            "No points because already completed the game"
+                            "No points because already completed the game or you are the owner"
                             }
                         </Typography>
                         </Container>
