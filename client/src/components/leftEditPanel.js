@@ -117,6 +117,29 @@ export default function LeftEditPanel(props) {
       enqueueSnackbar('Hm, something is not right', {variant:'error'});
     })
 };
+  const handleDelete = (e) => {
+
+    axios.put('/games/deleteGame', {platformId: platformId, gameId: gameData._id})
+    .then(res => {
+      console.log(res)
+      if (res.status === 200){
+        enqueueSnackbar('Success!!', {variant:'success'});
+      }else if (res.status === 400){
+        enqueueSnackbar('400 error', {variant:'warning'});
+      }else{
+        enqueueSnackbar('Hm, something is not right', {variant:'error'});
+      }
+    })
+    .catch(() => {
+      enqueueSnackbar('Hm, something is not right', {variant:'error'});
+    })
+    
+    
+
+    history.push("/platform/" + platformId);
+  };
+
+
 
   return (
     <Drawer
@@ -190,6 +213,9 @@ export default function LeftEditPanel(props) {
           >
           <Button className={classes.button} onClick={handleSaveChanges} startIcon={<SaveOutlinedIcon />} style={{textTransform: 'none'}}>
             Save Changes
+          </Button>
+          <Button className={classes.button} onClick={() => handleDelete()} startIcon={<ExitToAppIcon />} style={{textTransform: 'none'}}>
+            Delete the Game
           </Button>
 
           <Button className={classes.button} onClick={handleQuit} startIcon={<ExitToAppIcon />} style={{textTransform: 'none'}}>

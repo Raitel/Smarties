@@ -244,9 +244,9 @@ router.put('/updateRecent', auth, (req, res) => {
 
       retrievedUser.save()
       .then(user => res.json({
-        msg: '(Un)favorites' + platformId + ' to user ' + retrievedUser._id
+        msg: 'Add recently used platform' + platformId + ' to user ' + retrievedUser._id
       }))
-      .catch(err => res.status(400).json({msg: 'Error adding to user favorites' }))
+      .catch(err => res.status(400).json({msg: 'Error adding to user recently used' }))
     })
     .catch(err => res.json(400).json({ msg: 'User not found' }));
 })

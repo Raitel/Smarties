@@ -321,4 +321,28 @@ router.put('/completedGame', auth, (req, res) => {
     .catch(err => res.json(400).json({ msg: 'User not found' }));
 })
 
+router.put('/deleteGame', (req, res) => {
+  // req.user.id passed from auth middlware
+
+  Platform.findById(req.body.platformId)
+    .then((retrievedPlatform) => {// a user has been found
+      const gameId = req.body.gameId;
+
+      var filteredAry = retrievedPlatform.games.filter(game => game != gameId)
+      retrievedPlatform.games = filteredAry;
+
+      retrievedPlatform.save()
+      .then(platform => res.json({
+        msg: 'Removed game ' + req.body.gameId + ' from platform ' + req.body.platformId
+      }))
+      .catch(err => res.status(400).json('Error removing from platform games'))
+    })
+    .catch(err => res.json(400).json({ msg: 'User not found' }));
+  
+    Game.findByIdAndDelete(req.body.gameId)
+    .then(() => res.json('Game deleted'))
+    .catch(err => res.status(400).json('Error: ' + err));
+
+})
+
 module.exports = router;
