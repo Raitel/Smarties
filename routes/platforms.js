@@ -442,4 +442,79 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// handle vote
+router.patch("/vote", auth, (req, res) => {
+  console.log("Vote Request")
+  console.log('Target User: ', req.user.id)
+  console.log('body:', req.body)
+  console.log(req.body.platform)
+  Platform.findById(req.body.platform, function (platformErr, retrievedPlatform) {
+    if (platformErr) return res.json({ msg: 'Platform.findById error' })
+    if (!retrievedPlatform) return res.json({ msg: 'No platform found error' })
+    User.findById(req.user.id, function (userErr, retrievedUser) {
+      if (userErr) return res.json({ msg: 'User.findById error' })
+      if (!retrievedUser) return res.json({ msg: 'No user found error' })
+      var index = -1;
+      // Handle voting logic here
+      // Case 1: Standard upvote/downvote
+      if (!req.body.upvoted && !req.body.downvoted) {
+        if (req.body.upvoteTarget) {// Standard Upvote
+          console.log('Standard Upvote')
+          retrievedPlatform.upvotes = retrievedPlatform.upvotes + 1
+          retrievedUser.upvoted.push(req.body.platform)
+        } else { // Standard Downvote
+          console.log('Standard Downvote')
+          retrievedPlatform.downvotes = retrievedPlatform.downvotes + 1
+          retrievedUser.downvoted.push(req.body.platform)
+        }
+      } else if (req.body.upvoteTarget) {
+        // Case 2: Withdrawing upvote
+        console.log('Withdrawing upvote')
+        if (req.body.upvoted) {
+          retrievedPlatform.upvotes = retrievedPlatform.upvotes - 1
+          index = retrievedUser.upvoted.indexOf(req.body.platform)
+          retrievedUser.upvoted.splice(index, 1)
+        } else { // Case 3: Withdraw downvote and assign upvote
+          console.log('Withdraw downvote and assign upvote')
+          retrievedPlatform.downvotes = retrievedPlatform.downvotes - 1
+          index = retrievedUser.downvoted.indexOf(req.body.platform)
+          retrievedUser.downvoted.splice(index, 1)
+          retrievedPlatform.upvotes = retrievedPlatform.upvotes + 1
+          retrievedUser.upvoted.push(req.body.platform)
+        }
+      } else if (req.body.downvoteTarget) {
+        // Case 4: Withdrawing downvote
+        console.log('Withdrawing downvote')
+        if (req.body.downvoted) {
+          retrievedPlatform.downvotes = retrievedPlatform.downvotes - 1
+          index = retrievedUser.downvoted.indexOf(req.body.platform)
+          retrievedUser.downvoted.splice(index, 1)
+        } else { // Case 5: Withdraw upvote and assign downvote
+          console.log('Withdraw upvote and assign downvote')
+          retrievedPlatform.upvotes = retrievedPlatform.upvotes - 1
+          index = retrievedUser.upvoted.indexOf(req.body.platform)
+          retrievedUser.upvoted.splice(index, 1)
+          retrievedPlatform.downvotes = retrievedPlatform.downvotes + 1
+          retrievedUser.downvoted.push(req.body.platform)
+        }
+      }
+
+      retrievedPlatform.save(function (pltErr) {
+        if (pltErr) return res.json({ msg: 'error saving platform' })
+        retrievedUser.save(function (usrErr) {
+          if (usrErr) return res.json({ msg: 'error saving user' })
+          res.json({
+            status: true,
+            msg: 'handled vote',
+            user_id: retrievedUser._id,
+            platform_id: retrievedPlatform._id,
+          })
+        })
+      })
+
+
+    })
+  })
+})
+
 module.exports = router;
