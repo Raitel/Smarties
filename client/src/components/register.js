@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-  progressBar_disabled:{
-    display:'none'
+  progressBar_disabled: {
+    display: 'none'
   }
 }));
 
@@ -79,7 +79,7 @@ export default function SignUp() {
   const [reveal, setReveal] = useState(false)
   const [loading, setLoading] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  
+
   useEffect(() => {
     console.log(localStorage.getItem('token'))
   });
@@ -91,50 +91,58 @@ export default function SignUp() {
     setEmailError(false)
     setPasswordError(false)
     setPasswordConfirmError(false)
-    if(username == ''){
-        setUsernameError(true)
-        enqueueSnackbar('Username Required', {variant:'error'});
+    var usernameValid, emailValid, passwordValid, confirmpasswordValid;
+    usernameValid = emailValid = passwordValid = confirmpasswordValid = true
+    if (username == '') {
+      setUsernameError(true)
+      enqueueSnackbar('Username Required', { variant: 'error' });
+      usernameValid = false
     }
-    if(email == ''){
-        setEmailError(true)
-        enqueueSnackbar('Email Required', {variant:'error'});
+    if (email == '') {
+      setEmailError(true)
+      enqueueSnackbar('Email Required', { variant: 'error' });
+      emailValid = false
     }
-    if(password == ''){
-        setPasswordError(true)
-        enqueueSnackbar('Password Required', {variant:'error'});
+    if (password == '') {
+      setPasswordError(true)
+      enqueueSnackbar('Password Required', { variant: 'error' });
+      passwordValid = false
     }
-    if(confirmPassword == ''){
-        setPasswordConfirmError(true)
-        enqueueSnackbar('Confirm Password Required', {variant:'error'});
+    if (confirmPassword == '') {
+      setPasswordConfirmError(true)
+      enqueueSnackbar('Confirm Password Required', { variant: 'error' });
+      confirmpasswordValid = false
     }
-    if ((password && confirmPassword) && (password !== confirmPassword)){
+    if ((passwordValid && confirmpasswordValid) && (password !== confirmPassword)) {
       setPasswordError(true)
       setPasswordConfirmError(true)
-      enqueueSnackbar('Password Mismatch', {variant:'warning'});
+      passwordValid = false
+      confirmpasswordValid = false
+      enqueueSnackbar('Password Mismatch', { variant: 'warning' });
     }
-    if(username && email && password === confirmPassword){
-        console.log(username, email, password, confirmPassword)
-        axios.post('/users/auth/register', {username: username, email: email, password: password})
-          .then(res => {
-            console.log(res)
-            if (res.status === 200){
-              enqueueSnackbar('Succes! Redirecting...', {variant:'success'});
-              // Redirect to where we want
-              history.push("/login")
-            }else if (res.status === 400){
-              enqueueSnackbar('400 error', {variant:'warning'});
-            }else{
-              enqueueSnackbar('Hm, something is not right', {variant:'error'});
-            }
-          })
-          .catch(() => {
-            enqueueSnackbar('Hm, something is not right', {variant:'error'});
-          })
+    if (usernameValid && emailValid && passwordValid && confirmpasswordValid && password === confirmPassword) {
+      console.log(username, email, password, confirmPassword)
+      axios.post('/users/auth/register', { username: username, email: email, password: password })
+        .then(res => {
+          console.log(res)
+          if (res.data.code == 1) {
+            enqueueSnackbar('User already exists', { variant: 'error' });
+          } else if (res.data.token) {
+            enqueueSnackbar('Succes! Redirecting...', { variant: 'success' });
+            // Redirect to where we want
+            history.push("/login")
+          } else {
+            enqueueSnackbar('Hm, something is not right', { variant: 'error' });
+          }
+        })
+        .catch(() => {
+          enqueueSnackbar('Hm, something is not right', { variant: 'error' });
+        })
     }
     // Set loading to false
     setLoading(false)
   }
-  
+
   const handleLogin = (e) => {
     e.preventDefault()
     history.push("/login")
@@ -150,7 +158,7 @@ export default function SignUp() {
 
   return (
     <div>
-      <LinearProgress className={loading ? classes.progressBar : classes.progressBar_disabled}/>
+      <LinearProgress className={loading ? classes.progressBar : classes.progressBar_disabled} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -202,17 +210,17 @@ export default function SignUp() {
                   id="password"
                   autoComplete="current-password"
                   InputProps={{
-                      endAdornment:(
-                          <InputAdornment position="end">
-                              <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              >
-                              {reveal ? <Visibility /> : <VisibilityOff />}
-                              </IconButton>
-                          </InputAdornment>
-                      )
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {reveal ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
                   }}
                 />
               </Grid>
@@ -229,17 +237,17 @@ export default function SignUp() {
                   id="confirmPassword"
                   autoComplete="confirm-password"
                   InputProps={{
-                      endAdornment:(
-                          <InputAdornment position="end">
-                              <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              >
-                              {reveal ? <Visibility /> : <VisibilityOff />}
-                              </IconButton>
-                          </InputAdornment>
-                      )
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                        >
+                          {reveal ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
                   }}
                 />
               </Grid>
