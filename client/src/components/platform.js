@@ -104,16 +104,19 @@ const useStyles = makeStyles((theme) => ({
     titleContainer: {
         marginTop: '50px',
         //height: '75px',
+        width: '600px',
         //border: '1px solid #000',
     },
     descriptionContainer: {
         marginTop: '25px',
         //height: '75px',
+        width: '600px',
         //border: '1px solid #000',
     },
     subBannerContainer: {
         marginTop: '25px',
         //height: '75px',
+        width: '600px',
         //border: '1px solid #000',
     },
     titleTextField: {
@@ -279,9 +282,7 @@ export default function Platform() {
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
-    const handleDeletePlatform = () => {
 
-    };
     const handleUpvote = () => {
         console.log('upvote')
         setVoting(true)
@@ -379,6 +380,28 @@ export default function Platform() {
         }
     };
 
+    const handleDeletePlatform = () => {
+        if(token != '' && platformData != null){
+            const data = {
+                platformId: platformData.data._id,
+            }
+    
+            const config = {
+                headers: { 'X-Auth-Token': token },
+            }
+    
+            axios.put('/platforms/deletePlatform', data, config)
+                .then(res => {
+                    handleHome();
+                    enqueueSnackbar('Platform Deleted!', { variant: 'error' });
+                })
+                .catch(err => {
+                    enqueueSnackbar('Something bad happend', { variant: 'error' });
+            })
+
+        }
+    };
+
 
     const handleCreate = async (e) => {
         e.preventDefault()
@@ -451,6 +474,9 @@ export default function Platform() {
 
     const handleProfile = (username) => {
         history.push("/profile/" + username);
+    };
+    const handleHome = () => {
+        history.push("/home");
     };
 
     function adjustBanner(props) {
