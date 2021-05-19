@@ -120,6 +120,10 @@ export default function Profile() {
     
     function DisplayCard(props) {
         const platform = props.platform;
+        if(platform.description.length > 50){
+            platform.description = platform.description.slice(0,50);
+            platform.description = platform.description + '...';
+        }
         return (
             <Box p={1}>
                 <Card className={classes.card}>

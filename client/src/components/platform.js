@@ -393,7 +393,7 @@ export default function Platform() {
             axios.put('/platforms/deletePlatform', data, config)
                 .then(res => {
                     handleHome();
-                    enqueueSnackbar('Platform Deleted!', { variant: 'error' });
+                    enqueueSnackbar('Platform Deleted!', { variant: 'success' });
                 })
                 .catch(err => {
                     enqueueSnackbar('Something bad happend', { variant: 'error' });

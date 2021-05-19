@@ -13,6 +13,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import { red } from "@material-ui/core/colors";
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,12 +42,47 @@ export default function SearchFunction(prop){
     const history = useHistory();
     const platformData = prop.platformData
 
+    const [token, setToken] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [favoritedPlatformIds, setFavoritedPlatformIds] = useState(null);
+
+    
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+    },[]);
+
+    useEffect(() => {
+        if(token != ''){
+            const options = {
+            headers: {'X-Auth-Token': token}
+            };
+        axios.get('/users/auth/user', options).then( data => {
+            setUserData(data);
+        });
+        }
+    },[token]);
+
+    useEffect(() => {
+        if(userData != null){
+            var favorites = [];
+            userData.data.favorites.map((platform) =>
+                favorites.push(platform._id.toString())
+            );
+        setFavoritedPlatformIds(favorites);
+        };
+    },[userData]);
+
     const handlePlatform = (id) => {
         history.push("/platform/" + id);
     };
 
     function DisplayCard(props){
         const platform = props.platform;
+        if(platform.description.length > 50){
+            platform.description = platform.description.slice(0,50);
+            platform.description = platform.description + '...';
+        }
+
         return (
             <Card className={classes.card}
             style={{
@@ -67,11 +103,14 @@ export default function SearchFunction(prop){
                     />
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
+
                         {platform.description ? platform.description :"No description"}
+
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        <FavoriteIcon />
+                        {favoritedPlatformIds != null && favoritedPlatformIds.includes(platform._id.toString()) ? <FavoriteIcon style={{ margin: '10px'}}/> : <FavoriteBorderOutlinedIcon style={{ margin: '10px'}}/>}
+
                         <Typography
                         variant="body2"
                         color="textSecondary"

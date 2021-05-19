@@ -96,6 +96,10 @@ export default function MyPlatforms() {
 
 function DisplayCard(props){
     const platform = props.platform;
+    if(platform.description.length > 50){
+      platform.description = platform.description.slice(0,50);
+      platform.description = platform.description + '...';
+    }
     return (
         <Card className={classes.card}
         style={{
