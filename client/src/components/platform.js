@@ -381,15 +381,15 @@ export default function Platform() {
     };
 
     const handleDeletePlatform = () => {
-        if(token != '' && platformData != null){
+        if (token != '' && platformData != null) {
             const data = {
                 platformId: platformData.data._id,
             }
-    
+
             const config = {
                 headers: { 'X-Auth-Token': token },
             }
-    
+
             axios.put('/platforms/deletePlatform', data, config)
                 .then(res => {
                     handleHome();
@@ -397,7 +397,7 @@ export default function Platform() {
                 })
                 .catch(err => {
                     enqueueSnackbar('Something bad happend', { variant: 'error' });
-            })
+                })
 
         }
     };
@@ -662,7 +662,7 @@ export default function Platform() {
                         <div>
                             {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&
-                                <Button className={classes.button} style={{ textTransform: 'none' }} aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add a Banner</Button>
+                                <Button className={classes.button} style={{ textTransform: 'none' }} aria-describedby={popup_id} variant="contained" color="primary" onClick={handleClick}>Add Banner</Button>
                             }
                             <Popover
                                 popup_id={popup_id}
@@ -705,7 +705,7 @@ export default function Platform() {
                             {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&
                                 <Button className={classes.button} style={{ textTransform: 'none' }} variant="contained" color="primary" aria-describedby={popup_id} onClick={handleClick}>
-                                    Change the Banner
+                                    Change Photo
                                 </Button>
                             }
                             <Popover
@@ -928,18 +928,18 @@ export default function Platform() {
                                         {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                             &&
                                             <Button className={classes.button} variant="contained" color="secondary" onClick={handleDeletePlatform} startIcon={<HighlightOffOutlinedIcon />} style={{ textTransform: 'none' }}>
-                                                Delete the Platform
+                                                Delete Platform
                                             </Button>
                                         }
 
                                     </Grid>
                                     {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                         &&
-                                        <Button className={classes.button} variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} startIcon={<ExitToAppIcon />} style={{ textTransform: 'none' }}>Exit Edit Mode</Button>
+                                        <Button className={classes.button} variant="contained" color="secondary" onClick={() => setEnableEditMode(false)} startIcon={<ExitToAppIcon />} style={{ textTransform: 'none' }}>Exit Edit</Button>
                                     }
                                     {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === false
                                         &&
-                                        <Button className={classes.button} variant="contained" color="primary" onClick={() => setEnableEditMode(true)} startIcon={<EditOutlinedIcon />} style={{ textTransform: 'none' }}>Enable Edit Mode</Button>
+                                        <Button className={classes.button} variant="contained" color="primary" onClick={() => setEnableEditMode(true)} startIcon={<EditOutlinedIcon />} style={{ textTransform: 'none' }}>Edit</Button>
                                     }
                                 </Container>
                             </Grid>
@@ -952,7 +952,7 @@ export default function Platform() {
 
                             {userData.data._id.toString() === platformData.data.ownerId.toString() && enableEditMode === true
                                 &&
-                                <Button variant="contained" color="secondary" onClick={handleClickOpen} startIcon={<AddCircleOutlineOutlinedIcon />} style={{ textTransform: 'none' }} >Add a game</Button>
+                                <Button variant="contained" color="secondary" onClick={handleClickOpen} startIcon={<AddCircleOutlineOutlinedIcon />} style={{ textTransform: 'none' }} >Add Game</Button>
                             }
 
                             <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title">
