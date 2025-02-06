@@ -4,7 +4,7 @@ module.exports = {
       webpackConfig.resolve.fallback = {
         ...webpackConfig.resolve.fallback,
         stream: require.resolve("stream-browserify"),
-        util: require.resolve("util/")
+        util: require.resolve("util-browserify")
       };
       return webpackConfig;
     }
