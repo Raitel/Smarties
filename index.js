@@ -11,9 +11,9 @@ const port = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;
 app.use(cors());
 
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static('client/build'))
-}
+//if(process.env.NODE_ENV === "production"){
+//    app.use(express.static('client/build'))
+//}
 //mongoose.connect(uri, { 
 //    useNewUrlParser: true, 
 //    useCreateIndex: true, 
