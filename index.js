@@ -58,8 +58,8 @@ app.get('/api/getList', (req,res) => {
 //});
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(process.cwd(), 'client', 'build', 'index.html'));
-	console.log("res.sendFile(" + process.cwd()+'/client/build/index.html)');
+  	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	console.log("res.sendFile(" + __dirname+'/client/build/index.html)');
 });
 
 
