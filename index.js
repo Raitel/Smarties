@@ -19,6 +19,8 @@ mongoose.connect(uri, {
     useCreateIndex: true, 
     useUnifiedTopology: true 
 });
+
+console.log("MongoDB URI:", process.env.ATLAS_URI); // Add this line
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
