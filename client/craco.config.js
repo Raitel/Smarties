@@ -5,7 +5,8 @@ module.exports = {
         ...webpackConfig.resolve.fallback,
         stream: require.resolve("stream-browserify"),
         util: require.resolve("util"),
-        buffer: false
+        buffer: false,
+        crypto: false
       };
       return webpackConfig;
     }
