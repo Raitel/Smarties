@@ -38,7 +38,8 @@ app.use('/cards', require('./routes/cards'));
 app.use('/games', require('./routes/games'));
 
 // Serve the static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
@@ -48,9 +49,15 @@ app.get('/api/getList', (req,res) => {
 });
 
 // Handles any requests that don't match the ones above
-app.get('*', (req,res) =>{
-	res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//app.get('*', (req,res) =>{
+//	res.sendFile(path.join(__dirname+'/client/build/index.html'));
+//});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
