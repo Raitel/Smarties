@@ -14,11 +14,11 @@ app.use(cors());
 if(process.env.NODE_ENV === "production"){
     app.use(express.static('client/build'))
 }
-mongoose.connect(uri, { 
-    useNewUrlParser: true, 
-    useCreateIndex: true, 
-    useUnifiedTopology: true 
-});
+//mongoose.connect(uri, { 
+//    useNewUrlParser: true, 
+//    useCreateIndex: true, 
+//    useUnifiedTopology: true 
+//});
 
 mongoose.connect(uri);
 
