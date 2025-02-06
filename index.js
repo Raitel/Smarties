@@ -22,7 +22,7 @@ if(process.env.NODE_ENV === "production"){
 
 mongoose.connect(uri);
 
-console.log("MongoDB URI:", process.env.ATLAS_URI); // Add this line
+//console.log("MongoDB URI:", process.env.ATLAS_URI); // Add this line
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
@@ -59,7 +59,7 @@ app.get('/api/getList', (req,res) => {
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-	console.log("res.sendFile" + __dirname+'/client/build/index.html');
+	console.log("res.sendFile(" + __dirname+'/client/build/index.html)');
 });
 
 
