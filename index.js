@@ -57,7 +57,7 @@ app.get('/api/getList', (req,res) => {
 //	res.sendFile(path.join(__dirname+'/client/build/index.html'));
 //});
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   	res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 	console.log("res.sendFile(" + __dirname+'/client/build/index.html)');
 });
