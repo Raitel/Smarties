@@ -6,7 +6,8 @@ module.exports = {
         stream: require.resolve("stream-browserify"),
         util: require.resolve("util"),
         buffer: require.resolve("buffer"),
-        crypto: require.resolve("crypto-browserify")
+        crypto: require.resolve("crypto-browserify"),
+        vm: require.resolve("vm-browserify")
       };
       return webpackConfig;
     }
